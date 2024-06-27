@@ -22,15 +22,21 @@ public class ApplicationManager
     
     public ApplicationManager()
     {   
-        driver = new ChromeDriver();
-        baseURL = "http://localhost/addressbook/";
+        driver = new ChromeDriver(); 
+        baseURL = "http://localhost/addressbook"; // второй слеш не нужен, пока работает с ним
         
-        loginHelper = new LoginHelper(driver);
-        navigator = new NavigationHelper(driver, baseURL);
-        groupHelper = new GroupHelper(driver);
-        contactHelper = new ContactHelper(driver);
+        loginHelper = new LoginHelper(this); //передаем ссылку на ApplicationManager
+        navigator = new NavigationHelper(this, baseURL);
+        groupHelper = new GroupHelper(this);
+        contactHelper = new ContactHelper(this);
     }
-
+    public IWebDriver Driver 
+    {
+        get
+        {
+            return driver;
+        } 
+    }
     public void Stop() // метод для остановки внутри ApplicationManager, код для остановки браузера
     {
         try

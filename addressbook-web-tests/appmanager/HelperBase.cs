@@ -10,12 +10,15 @@ using OpenQA.Selenium.Support.UI;
 
 namespace WebAddressbookTests;
 
-public class HelperBase
-{
-    protected IWebDriver driver;
-
-    public HelperBase(IWebDriver driver)
+    public class HelperBase
     {
-        this.driver = driver; // на вход принимает ссылку на driver который управляет браузером и присваивает ее в поле
+        protected IWebDriver driver;
+        protected ApplicationManager manager;
+        
+
+        public HelperBase(ApplicationManager manager)
+        {
+            this.manager = manager;
+            driver = manager.Driver; // на вход принимает ссылку на driver который управляет браузером и присваивает ее в поле
+        }
     }
-}

@@ -5,7 +5,7 @@ public class ContactForm
     private string firstname;
     private string lastname;
 
-    public ContactForm(string firstname, string lastname)
+    public ContactForm(string firstname, string lastname) 
     {
         this.firstname = firstname;
         this.lastname = lastname;

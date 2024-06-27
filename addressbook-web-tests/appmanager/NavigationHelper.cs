@@ -12,16 +12,16 @@ namespace WebAddressbookTests;
 
 public class NavigationHelper : HelperBase
 {   
-    private string baseURL;
-    //создаем конструктор
-    public NavigationHelper(IWebDriver driver, string baseURL) : base(driver)
+    protected string baseURL;
+    public NavigationHelper(ApplicationManager manager, string baseUrl) 
+        : base(manager)
     { 
         this.baseURL = baseURL;//переданное значение объект будет присваиваться в поле baseURL
     }
     
     public void OpenHomePage()
     {
-        driver.Navigate().GoToUrl(baseURL);
+        driver.Navigate().GoToUrl(baseURL + "http://localhost/addressbook");
     }
     
     public void GoToGroupsPage()
