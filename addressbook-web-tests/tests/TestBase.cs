@@ -14,11 +14,13 @@ public class TestBase
     public void SetupTest() //методы для инициализации
     {   
         app = new ApplicationManager(); // ссылка, инициализируем ApplicationManager в методе
+        app.Navigator.OpenHomePage();
+        app.Auth.Login(new AccountData("admin", "secret"));
     }
         
     [TearDown]
     public void TeardownTest() // метод который останавливает драйвер в конце
     {
         app.Stop();
-    }
+    } //app.Auth.LogOut();
 }

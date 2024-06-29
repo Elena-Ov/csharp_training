@@ -12,7 +12,8 @@ namespace WebAddressbookTests;
 
 public class LoginHelper : HelperBase
 {
-    public LoginHelper(IWebDriver driver) : base(driver) // вызов конструктора базового класса
+    public LoginHelper(ApplicationManager manager) 
+        : base(manager) // вызов конструктора базового класса
     {
     }
     public void Login(AccountData account) // параметр типа AccountData
