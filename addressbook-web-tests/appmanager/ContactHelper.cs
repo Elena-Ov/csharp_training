@@ -54,12 +54,10 @@ public class ContactHelper : HelperBase
     }
     public ContactHelper NewContactFillinForm(ContactForm personalData)
     {
-        driver.FindElement(By.Name("firstname")).Click();
-        driver.FindElement(By.Name("firstname")).Clear();
-        driver.FindElement(By.Name("firstname")).SendKeys(personalData.Firstname);
-        driver.FindElement(By.Name("lastname")).Click();
-        driver.FindElement(By.Name("lastname")).Clear();
-        driver.FindElement(By.Name("lastname")).SendKeys(personalData.Lastname);
+        Type(By.Name("firstname"),personalData.Firstname);
+        Type(By.Name("lastname"),personalData.Lastname);
+        //driver.FindElement(By.Name("firstname")).Click();
+       // driver.FindElement(By.Name("lastname")).Click();
         return this;
     }
     public ContactHelper SubmitContactForm()

@@ -12,9 +12,9 @@ namespace WebAddressbookTests;
         [Test]
         public void GroupModificationTest()
         {
-            GroupData newData = new GroupData("zzz");
-            newData.Header = "ttt";
-            newData.Footer = "qqq";
+            GroupData newData = new GroupData("uuu");
+            newData.Header = null;// в поле остается прежнее значение, с ним не выполняется никаких действий
+            newData.Footer = null;
             
             app.Groups.Modify(1, newData);
         }

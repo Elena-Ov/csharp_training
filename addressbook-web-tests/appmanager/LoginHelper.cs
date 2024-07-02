@@ -18,13 +18,12 @@ public class LoginHelper : HelperBase
     }
     public void Login(AccountData account) // параметр типа AccountData
     {
-        driver.FindElement(By.Name("user")).Click();
-        driver.FindElement(By.Name("user")).Clear();
-        driver.FindElement(By.Name("user")).SendKeys(account.Username); // данные которые передаются в этом параметре
-        driver.FindElement(By.Name("pass")).Click();
-        driver.FindElement(By.Name("pass")).Clear();
-        driver.FindElement(By.Name("pass")).SendKeys(account.Password);
+        Type(By.Name("user"), account.Username);
+        Type(By.Name("pass"), account.Password);
+        //driver.FindElement(By.Name("user")).Click();
+        //driver.FindElement(By.Name("pass")).Click();
         driver.FindElement(By.XPath("//input[@value='Login']")).Click();
+        //driver.FindElement(By.CssSelector("input[type=\"submit\"]")).Click();
     }
     public void LogOut()
     {

@@ -14,8 +14,8 @@ public class ContactModificationTests : TestBase
     public void ContactModificationTest()
     {
         ContactForm modifiedPersonalData = new ContactForm("", "");
-        modifiedPersonalData.Firstname = "Igor";
-        modifiedPersonalData.Lastname = "Aaa";
+        modifiedPersonalData.Firstname = "Lion";
+        modifiedPersonalData.Lastname = null;
 
         app.Contact.ModifyContacts(2, modifiedPersonalData);
     }
