@@ -19,8 +19,9 @@ public class ApplicationManager
     protected NavigationHelper navigator;
     protected GroupHelper groupHelper;
     protected ContactHelper contactHelper;
+    private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>(); //единственный экземпляр ApplicationManager
     
-    public ApplicationManager()
+    private ApplicationManager()
     {   
         driver = new ChromeDriver(); 
         baseURL = "http://localhost/addressbook"; // второй слеш не нужен, пока работает с ним
@@ -30,14 +31,8 @@ public class ApplicationManager
         groupHelper = new GroupHelper(this);
         contactHelper = new ContactHelper(this);
     }
-    public IWebDriver Driver 
-    {
-        get
-        {
-            return driver;
-        } 
-    }
-    public void Stop() // метод для остановки внутри ApplicationManager, код для остановки браузера
+
+     ~ApplicationManager()// деструктор, вызывается автоматически, модификатор доступа не нужен
     {
         try
         {
@@ -47,7 +42,24 @@ public class ApplicationManager
         {
             // Ignore errors if unable to close the browser
         }
-    } 
+    }
+    public static ApplicationManager GetInstance() // глобальный метод, который может быть вызван не в конкретном объекте, а по его имени
+    {
+        if (! app.IsValueCreated)
+        {
+            ApplicationManager newInstance = new ApplicationManager();
+            newInstance.Navigator.OpenHomePage();
+            app.Value = newInstance;
+        }
+        return app.Value;
+    }
+    public IWebDriver Driver 
+    {
+        get
+        {
+            return driver;
+        } 
+    }
     // поля не меняем на public, а делаем для них property только с геттером
     public LoginHelper Auth
     {

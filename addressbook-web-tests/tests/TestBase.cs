@@ -11,16 +11,8 @@ public class TestBase
     protected ApplicationManager app;
     
     [SetUp]
-    public void SetupTest() //методы для инициализации
+    public void SetupApplicationManager() // самый верхний уровень в котором инициализируется ApplicationManager
     {   
-        app = new ApplicationManager(); // ссылка, инициализируем ApplicationManager в методе
-        app.Navigator.OpenHomePage();
-        app.Auth.Login(new AccountData("admin", "secret"));
-    }
-        
-    [TearDown]
-    public void TeardownTest() // метод который останавливает драйвер в конце
-    {
-        app.Stop();
+        app = ApplicationManager.GetInstance();
     } //app.Auth.LogOut();
 }

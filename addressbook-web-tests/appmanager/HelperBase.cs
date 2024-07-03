@@ -10,23 +10,38 @@ using OpenQA.Selenium.Support.UI;
 
 namespace WebAddressbookTests;
 
-    public class HelperBase
-    {
-        protected IWebDriver driver;
-        protected ApplicationManager manager;
-        
+public class HelperBase
+{
+    protected IWebDriver driver;
+    protected ApplicationManager manager;
 
-        public HelperBase(ApplicationManager manager)
+
+    public HelperBase(ApplicationManager manager)
+    {
+        this.manager = manager;
+        driver = manager
+            .Driver; // на вход принимает ссылку на driver который управляет браузером и присваивает ее в поле
+    }
+
+    public void Type(By locator, string text) // возможность менять поля по отдельности
+    {
+        if (text != null) // если значение в поле у нас меняется !=null, даже если на пустое, то заполняем новыми данными, иначе не делаем ничего
         {
-            this.manager = manager;
-            driver = manager.Driver; // на вход принимает ссылку на driver который управляет браузером и присваивает ее в поле
+            driver.FindElement(locator).Clear();
+            driver.FindElement(locator).SendKeys(text);
         }
-        public void Type(By locator, string text)// возможность менять поля по отдельности
+    }
+
+    public bool IsElementPresent(By by)
+    {
+        try
         {
-            if (text != null) // если значение в поле у нас меняется !=null, даже если на пустое, то заполняем новыми данными, иначе не делаем ничего
-            {
-                driver.FindElement(locator).Clear();
-                driver.FindElement(locator).SendKeys(text);
-            }
+            driver.FindElement(by);
+            return true;
         }
+        catch (NoSuchElementException)
+        {
+            return false;
+        }
+    }
     }
