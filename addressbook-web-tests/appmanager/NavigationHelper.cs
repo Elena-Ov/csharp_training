@@ -21,11 +21,19 @@ public class NavigationHelper : HelperBase
     
     public void OpenHomePage()
     {
+        if (driver.Url == baseURL + "http://localhost/addressbook" && IsElementPresent(By.Name("new"))) 
+        {
+            return;
+        }
         driver.Navigate().GoToUrl(baseURL + "http://localhost/addressbook");
     }
     
     public void GoToGroupsPage()
     {
+        if (driver.Url == baseURL + "http://localhost/addressbook/group.php" && IsElementPresent(By.Name("new"))) 
+        {
+            return;
+        }
         driver.FindElement(By.LinkText("groups")).Click();
     }
 }

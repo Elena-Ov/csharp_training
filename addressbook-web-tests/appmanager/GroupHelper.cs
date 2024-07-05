@@ -11,20 +11,23 @@ using OpenQA.Selenium.Support.UI;
 namespace WebAddressbookTests;
 
 public class GroupHelper : HelperBase
-{ 
+{
+    protected string baseURL;// добавила
     public GroupHelper(ApplicationManager manager) : base(manager) // в базовый класс передаем тоже ссылку на manager
     {
     }
 
     public GroupHelper Create(GroupData group)
     {
-        manager.Navigator.GoToGroupsPage();// GroupHelper обращается к manager чтобы он выдал navigator и он смог перейти на страницу
+        manager.Navigator
+            .GoToGroupsPage(); // GroupHelper обращается к manager чтобы он выдал navigator и он смог перейти на страницу
         InitGroupCreation();
         FillGroupForm(group);
         SubmitGroupCreation();
         ReturnToGroupsPage();
         return this; // когда вызываем в GroupHelper метод, то возвращается ссылка на него же самого
     }
+
     public GroupHelper Modify(int p, GroupData newData)
     {
         manager.Navigator.GoToGroupsPage();
@@ -35,6 +38,16 @@ public class GroupHelper : HelperBase
         ReturnToGroupsPage();
         return this;
     }
+    public GroupHelper EitherModifyOrCreate(int p, GroupData newData)
+    {
+        if (IsGroupFound(newData, p))
+        {
+            Modify(p, newData); 
+        }
+        else
+            Create(newData);
+        return this;
+    }
     public GroupHelper Remove(int p)
     {
         manager.Navigator.GoToGroupsPage();
@@ -43,19 +56,19 @@ public class GroupHelper : HelperBase
         ReturnToGroupsPage();
         return this;
     }
+
     public GroupHelper InitGroupCreation()
     {
         driver.FindElement(By.Name("new")).Click();
         return this;
     }
+
     public GroupHelper FillGroupForm(GroupData group)
     {
         Type(By.Name("group_name"), group.Name);
         Type(By.Name("group_header"), group.Header);
-        Type(By.Name("group_footer"),group.Footer);
-        //driver.FindElement(By.Name("group_name")).Click(); строчки нет на видео
-        //driver.FindElement(By.Name("group_header")).Click(); строчки нет на видео
-       // driver.FindElement(By.Name("group_footer")).Click(); строчки нет на видео
+        Type(By.Name("group_footer"), group.Footer);
+        
         return this;
     }
 
@@ -64,21 +77,25 @@ public class GroupHelper : HelperBase
         driver.FindElement(By.Name("submit")).Click();
         return this;
     }
+
     public GroupHelper ReturnToGroupsPage()
     {
         driver.FindElement(By.LinkText("group page")).Click();
         return this;
     }
+
     public GroupHelper SelectGroup(int index)
     {
-        driver.FindElement(By.XPath("//div[@id='content']/form/span["+ index +"]/input")).Click();
+        driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index + "]/input")).Click();
         return this;
     }
+
     public GroupHelper RemoveGroup()
     {
         driver.FindElement(By.Name("delete")).Click();
         return this;
     }
+
     public GroupHelper InitGroupModification()
     {
         driver.FindElement(By.Name("edit")).Click();
@@ -90,4 +107,11 @@ public class GroupHelper : HelperBase
         driver.FindElement(By.Name("update")).Click();
         return this;
     }
+
+    public bool IsGroupFound(GroupData group, int index) // проверка есть ли хотя бы одна группа
+    {
+        return driver.Url == baseURL + "/addressbook/group.php" && driver.FindElement(By.Name("selected[" + index + "]")).Text == "(" + group.Name + ")";
+    }
 }
+
+

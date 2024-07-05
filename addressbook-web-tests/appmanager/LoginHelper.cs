@@ -18,36 +18,35 @@ public class LoginHelper : HelperBase
     }
     public void Login(AccountData account) // параметр типа AccountData
     {
-        if (IsLoggedIn())
+        if (IsLoggedIn()) // проверяем залогинены или нет
         {
-            if (IsLoggedIn(account))
+            if (IsLoggedIn(account)) // проверяем залогинены ли мы под учетной записью которая передана в качестве параметра 
             {
-                return;
+                return; // если ок, то ничего не делаем login или logout
             }
-            LogOut();
+            LogOut(); // если залогинены, но не под нужной записью - то loguot
         }
+        // если проверили и выяснилось что не залогинены, то выполняется код для входа в систему
         Type(By.Name("user"), account.Username);
         Type(By.Name("pass"), account.Password);
-        //driver.FindElement(By.Name("user")).Click();
-        //driver.FindElement(By.Name("pass")).Click();
         driver.FindElement(By.XPath("//input[@value='Login']")).Click();
         //driver.FindElement(By.CssSelector("input[type=\"submit\"]")).Click();
     }
     
     public void LogOut()
     {
-        if (IsLoggedIn())
+        if (IsLoggedIn()) 
         {
             driver.FindElement(By.LinkText("Logout")).Click();
         }
     }
-    public bool IsLoggedIn()
+    public bool IsLoggedIn() // проверка находимся ли мы внутри сессии, вошли в приложение
     {
         return IsElementPresent(By.Name("logout"));
     }
-    public bool IsLoggedIn(AccountData account)
+    public bool IsLoggedIn(AccountData account) // проверяем что мы залогинены под нужным пользователем, имя пользователя
     {
-        return IsLoggedIn()
+        return IsLoggedIn() // залогинены и под нужным пользовтелем
                && driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text
                == "(" + account.Username +")";
     }
