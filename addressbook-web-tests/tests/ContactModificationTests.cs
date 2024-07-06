@@ -12,11 +12,14 @@ public class ContactModificationTests : AuthTestBase
 {
     [Test]
     public void ContactModificationTest()
-    {
+    { 
+        // prepare
         ContactForm modifiedPersonalData = new ContactForm("", "");
         modifiedPersonalData.Firstname = "Lion";
         modifiedPersonalData.Lastname = null;
-
-        app.Contact.ModifyContacts(2, modifiedPersonalData);
+        // action 
+        app.Contact.EitherModifyOrCreateContact(2, modifiedPersonalData);
+        // verification
+        Assert.IsTrue(app.Contact.IsContactFound()); 
     }
 }

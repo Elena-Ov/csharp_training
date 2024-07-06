@@ -16,7 +16,7 @@ namespace WebAddressbookTests
             group.Header = "ggg";
             group.Footer = "nnn";
             
-            app.Groups.Create(group);
+            app.Groups.CreateGroup(group);
         }
         [Test]
         public void EmptyGroupCreationTest()
@@ -25,7 +25,7 @@ namespace WebAddressbookTests
             group.Header = "";
             group.Footer = "";
             
-            app.Groups.Create(group);
+            app.Groups.CreateGroup(group);
         }
     }
 }

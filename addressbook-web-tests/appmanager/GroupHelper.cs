@@ -12,12 +12,12 @@ namespace WebAddressbookTests;
 
 public class GroupHelper : HelperBase
 {
-    protected string baseURL;// добавила
+    protected string baseURL = "http://localhost";
     public GroupHelper(ApplicationManager manager) : base(manager) // в базовый класс передаем тоже ссылку на manager
     {
     }
 
-    public GroupHelper Create(GroupData group)
+    public GroupHelper CreateGroup(GroupData group)
     {
         manager.Navigator
             .GoToGroupsPage(); // GroupHelper обращается к manager чтобы он выдал navigator и он смог перейти на страницу
@@ -28,7 +28,7 @@ public class GroupHelper : HelperBase
         return this; // когда вызываем в GroupHelper метод, то возвращается ссылка на него же самого
     }
 
-    public GroupHelper Modify(int p, GroupData newData)
+    public GroupHelper ModifyGroup(int p, GroupData newData)
     {
         manager.Navigator.GoToGroupsPage();
         SelectGroup(p);
@@ -38,17 +38,8 @@ public class GroupHelper : HelperBase
         ReturnToGroupsPage();
         return this;
     }
-    public GroupHelper EitherModifyOrCreate(int p, GroupData newData)
-    {
-        if (IsGroupFound(newData, p))
-        {
-            Modify(p, newData); 
-        }
-        else
-            Create(newData);
-        return this;
-    }
-    public GroupHelper Remove(int p)
+    
+    public GroupHelper RemoveGroup(int p)
     {
         manager.Navigator.GoToGroupsPage();
         SelectGroup(p);
@@ -68,7 +59,6 @@ public class GroupHelper : HelperBase
         Type(By.Name("group_name"), group.Name);
         Type(By.Name("group_header"), group.Header);
         Type(By.Name("group_footer"), group.Footer);
-        
         return this;
     }
 
@@ -108,9 +98,30 @@ public class GroupHelper : HelperBase
         return this;
     }
 
-    public bool IsGroupFound(GroupData group, int index) // проверка есть ли хотя бы одна группа
+    public bool IsGroupFound() // проверка есть ли хотя бы одна группа 
     {
-        return driver.Url == baseURL + "/addressbook/group.php" && driver.FindElement(By.Name("selected[" + index + "]")).Text == "(" + group.Name + ")";
+        return driver.Url == baseURL + "/addressbook/group.php" &&
+               IsElementPresent(By.Name("selected[]"));
+    }
+    public GroupHelper EitherModifyOrCreateGroup(GroupData group, int index) // определяет нужно ли создавать группу перед модификацией
+    {
+        if (IsGroupFound()) 
+        {
+            ModifyGroup(index, group);
+        }
+        else
+            CreateGroup(group);
+        return this;
+    }
+    public GroupHelper EitherCreateOrRemoveGroup(GroupData group) // определяет нужно ли создавать группу перед удалением
+    {
+        if (IsGroupFound()) 
+        {
+            RemoveGroup();
+        }
+        else
+            CreateGroup(group);
+        return this;
     }
 }
 

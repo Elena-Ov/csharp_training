@@ -6,17 +6,20 @@ using NUnit.Framework;
 
 namespace WebAddressbookTests;
 
-    [TestFixture]
-    public class GroupModificationTests : AuthTestBase
+[TestFixture]
+public class GroupModificationTests : AuthTestBase
+{
+    [Test]
+    public void GroupModificationTest()
     {
-        [Test]
-        public void GroupModificationTest()
-        {
-            GroupData newData = new GroupData("uuu");
-            newData.Header = null;// в поле остается прежнее значение, с ним не выполняется никаких действий
-            newData.Footer = null;
-            
-            app.Groups.Modify(1, newData);
-            app.Groups.EitherModifyOrCreate(1, newData); //добавила
-        }
+        // prepare
+        GroupData newData = new GroupData("abc"); // создание объекта типа GroupData
+        newData.Header = null; // в поле остается прежнее значение, с ним не выполняется никаких действий
+        newData.Footer = null;
+        // action 
+        app.Groups.EitherModifyOrCreateGroup(newData, 1);
+        // verification
+        Assert.IsTrue(app.Groups.IsGroupFound()); 
     }
+}
+

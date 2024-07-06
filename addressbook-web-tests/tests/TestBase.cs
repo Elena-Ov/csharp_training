@@ -14,5 +14,5 @@ public class TestBase
     public void SetupApplicationManager() // самый верхний уровень в котором инициализируется ApplicationManager
     {   
         app = ApplicationManager.GetInstance();
-    } //app.Auth.LogOut();
+    } 
 }

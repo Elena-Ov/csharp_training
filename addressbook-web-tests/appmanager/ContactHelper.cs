@@ -12,6 +12,7 @@ namespace WebAddressbookTests;
 
 public class ContactHelper : HelperBase
 {    
+    protected string baseURL = "http://localhost";
     public ContactHelper(ApplicationManager manager): base(manager)
     {
     }
@@ -99,6 +100,31 @@ public class ContactHelper : HelperBase
     public ContactHelper SubmitContactModification()
     {
         driver.FindElement(By.Name("update")).Click();
+        return this;
+    }
+    public bool IsContactFound() // проверка есть ли хотя бы один контакт int index, ContactForm personalData
+    {
+        return driver.Url == baseURL + "/addressbook/index.php" &&
+               IsElementPresent(By.Name("selected[]"));
+    }
+    public ContactHelper EitherModifyOrCreateContact(int index, ContactForm personalData) // определяет нужно ли создавать группу или модифицировать
+    {
+        if (IsContactFound()) 
+        {
+            ModifyContacts(index, personalData); 
+        }
+        else
+            CreateContact(personalData); 
+        return this;
+    }
+    public ContactHelper EitherCreateOrRemoveContact(ContactForm personalData) // определяет нужно ли создавать группу перед удалением
+    {
+        if (IsContactFound()) 
+        {
+            RemovePersonalData(2); 
+        }
+        else
+            CreateContact(personalData); 
         return this;
     }
 }

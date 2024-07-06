@@ -23,8 +23,9 @@ public class ApplicationManager
     
     private ApplicationManager()
     {   
-        driver = new ChromeDriver(); 
-        baseURL = "http://localhost/addressbook"; // второй слеш не нужен, пока работает с ним
+        driver = new ChromeDriver();
+        driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+        baseURL = "http://localhost"; //"/addressbook";
         
         loginHelper = new LoginHelper(this); //передаем ссылку на ApplicationManager
         navigator = new NavigationHelper(this, baseURL);

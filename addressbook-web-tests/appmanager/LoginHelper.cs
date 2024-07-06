@@ -38,6 +38,7 @@ public class LoginHelper : HelperBase
         if (IsLoggedIn()) 
         {
             driver.FindElement(By.LinkText("Logout")).Click();
+            driver.FindElement(By.Name("user")); // добавила
         }
     }
     public bool IsLoggedIn() // проверка находимся ли мы внутри сессии, вошли в приложение

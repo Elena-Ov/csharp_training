@@ -12,12 +12,15 @@ namespace WebAddressbookTests
         [Test]
         public void GroupRemovalTest()
         {
-            app.Groups.Remove(1);
-            /*app.Navigator.GoToGroupsPage();
-            app.Groups
-                .SelectGroup(1)
-                .RemoveGroup()
-                .ReturnToGroupsPage();*/
+            // prepare
+            GroupData oldData = new GroupData("abc"); // создание объекта типа GroupData
+            oldData.Header = "fff"; 
+            oldData.Footer = "ggg";
+            app.Groups.EitherCreateOrRemoveGroup(oldData);
+            // action 
+            app.Groups.RemoveGroup(1);
+            /* verification
+            Assert.IsTrue(app.Groups.IsGroupDeleted());*/
         }
     }
 }
