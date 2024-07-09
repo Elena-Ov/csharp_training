@@ -12,13 +12,19 @@ public class ContactRemovalTests : AuthTestBase
     [Test]
     public void ContactRemovalTest()
     {
-        // prepare
-        ContactForm oldPersonalData = new ContactForm("", "");
-        oldPersonalData.Firstname = "Lion";
-        oldPersonalData.Lastname = null;
-        app.Contact.EitherCreateOrRemoveContact(oldPersonalData);
-        // action 
-        app.Contact.RemovePersonalData(2);
-        //Assert.IsTrue(app.Contact.IsContactDeleted());
+        app.Contact.manager.Navigator.OpenHomePage();
+        if (app.Contact.IsContactFound())
+        {
+            app.Contact.RemovePersonalData(2);
+        }
+        else
+        {
+            ContactForm personalData = new ContactForm("", "");
+            personalData.Firstname = "Lion";
+            personalData.Lastname = null;
+
+            app.Contact.CreateContact(personalData);
+            app.Contact.RemovePersonalData(2);
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace WebAddressbookTests;
 public class GroupHelper : HelperBase
 {
     protected string baseURL = "http://localhost";
+
     public GroupHelper(ApplicationManager manager) : base(manager) // в базовый класс передаем тоже ссылку на manager
     {
     }
@@ -38,12 +39,11 @@ public class GroupHelper : HelperBase
         ReturnToGroupsPage();
         return this;
     }
-    
     public GroupHelper RemoveGroup(int p)
     {
         manager.Navigator.GoToGroupsPage();
         SelectGroup(p);
-        RemoveGroup();
+        RemoveGroupButton();
         ReturnToGroupsPage();
         return this;
     }
@@ -80,7 +80,7 @@ public class GroupHelper : HelperBase
         return this;
     }
 
-    public GroupHelper RemoveGroup()
+    public GroupHelper RemoveGroupButton()
     {
         driver.FindElement(By.Name("delete")).Click();
         return this;
@@ -102,26 +102,6 @@ public class GroupHelper : HelperBase
     {
         return driver.Url == baseURL + "/addressbook/group.php" &&
                IsElementPresent(By.Name("selected[]"));
-    }
-    public GroupHelper EitherModifyOrCreateGroup(GroupData group, int index) // определяет нужно ли создавать группу перед модификацией
-    {
-        if (IsGroupFound()) 
-        {
-            ModifyGroup(index, group);
-        }
-        else
-            CreateGroup(group);
-        return this;
-    }
-    public GroupHelper EitherCreateOrRemoveGroup(GroupData group) // определяет нужно ли создавать группу перед удалением
-    {
-        if (IsGroupFound()) 
-        {
-            RemoveGroup();
-        }
-        else
-            CreateGroup(group);
-        return this;
     }
 }
 

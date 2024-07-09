@@ -13,7 +13,7 @@ namespace WebAddressbookTests;
 public class HelperBase
 {
     protected IWebDriver driver;
-    protected ApplicationManager manager;
+    public ApplicationManager manager;// protected->public
 
 
     public HelperBase(ApplicationManager manager)

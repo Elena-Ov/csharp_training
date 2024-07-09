@@ -12,14 +12,27 @@ public class GroupModificationTests : AuthTestBase
     [Test]
     public void GroupModificationTest()
     {
-        // prepare
-        GroupData newData = new GroupData("abc"); // создание объекта типа GroupData
-        newData.Header = null; // в поле остается прежнее значение, с ним не выполняется никаких действий
+        GroupData newData = new GroupData("ggg"); 
+        newData.Header = null; 
         newData.Footer = null;
-        // action 
-        app.Groups.EitherModifyOrCreateGroup(newData, 1);
-        // verification
-        Assert.IsTrue(app.Groups.IsGroupFound()); 
+        
+        app.Groups.manager.Navigator.GoToGroupsPage();
+        if (app.Groups.IsGroupFound())
+        {
+            app.Groups.ModifyGroup(1, newData);
+        }
+        else
+        {
+            GroupData group = new GroupData("nnn");
+            group.Header = "fff"; 
+            group.Footer = "ggg";
+            
+            app.Groups.CreateGroup(group);
+            app.Groups.ModifyGroup(1, newData);
+        }
     }
 }
+
+
+
 

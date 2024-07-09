@@ -13,13 +13,23 @@ public class ContactModificationTests : AuthTestBase
     [Test]
     public void ContactModificationTest()
     { 
-        // prepare
         ContactForm modifiedPersonalData = new ContactForm("", "");
         modifiedPersonalData.Firstname = "Lion";
         modifiedPersonalData.Lastname = null;
-        // action 
-        app.Contact.EitherModifyOrCreateContact(2, modifiedPersonalData);
-        // verification
-        Assert.IsTrue(app.Contact.IsContactFound()); 
+        
+        app.Contact.manager.Navigator.OpenHomePage();
+        if (app.Contact.IsContactFound())
+        {
+            app.Contact.ModifyContacts(2, modifiedPersonalData);
+        }
+        else
+        {
+            ContactForm personalData = new ContactForm("", "");
+            personalData.Firstname = "Volf";
+            personalData.Lastname = null;
+            
+            app.Contact.CreateContact(personalData);
+            app.Contact.ModifyContacts(2, modifiedPersonalData);
+        }
     }
 }

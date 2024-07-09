@@ -21,7 +21,7 @@ public class ApplicationManager
     protected ContactHelper contactHelper;
     private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>(); //единственный экземпляр ApplicationManager
     
-    private ApplicationManager()
+    private ApplicationManager() 
     {   
         driver = new ChromeDriver();
         driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);

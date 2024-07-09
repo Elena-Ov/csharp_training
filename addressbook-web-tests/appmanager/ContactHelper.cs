@@ -107,24 +107,4 @@ public class ContactHelper : HelperBase
         return driver.Url == baseURL + "/addressbook/index.php" &&
                IsElementPresent(By.Name("selected[]"));
     }
-    public ContactHelper EitherModifyOrCreateContact(int index, ContactForm personalData) // определяет нужно ли создавать группу или модифицировать
-    {
-        if (IsContactFound()) 
-        {
-            ModifyContacts(index, personalData); 
-        }
-        else
-            CreateContact(personalData); 
-        return this;
-    }
-    public ContactHelper EitherCreateOrRemoveContact(ContactForm personalData) // определяет нужно ли создавать группу перед удалением
-    {
-        if (IsContactFound()) 
-        {
-            RemovePersonalData(2); 
-        }
-        else
-            CreateContact(personalData); 
-        return this;
-    }
 }
