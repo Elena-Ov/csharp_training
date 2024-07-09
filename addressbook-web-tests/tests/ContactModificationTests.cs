@@ -14,22 +14,19 @@ public class ContactModificationTests : AuthTestBase
     public void ContactModificationTest()
     { 
         ContactForm modifiedPersonalData = new ContactForm("", "");
-        modifiedPersonalData.Firstname = "Lion";
+        modifiedPersonalData.Firstname = "Bear";
         modifiedPersonalData.Lastname = null;
         
         app.Contact.manager.Navigator.OpenHomePage();
-        if (app.Contact.IsContactFound())
-        {
-            app.Contact.ModifyContacts(2, modifiedPersonalData);
-        }
-        else
+        if (!app.Contact.IsContactFound())
         {
             ContactForm personalData = new ContactForm("", "");
             personalData.Firstname = "Volf";
             personalData.Lastname = null;
             
             app.Contact.CreateContact(personalData);
-            app.Contact.ModifyContacts(2, modifiedPersonalData);
         }
+
+        app.Contact.ModifyContacts(2, modifiedPersonalData);
     }
 }
