@@ -4,7 +4,7 @@ namespace WebAddressbookTests;
 // его можно сравнивать с другими объектами типа GroupData
 // определяем функцию которая реализует это сравнение public bool Equals()
 // добавляем второй стандартный метод GetHashCode()
-public class GroupData : IEquatable<GroupData>
+public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
 {
     private string name;
     private string header = ""; 
@@ -32,11 +32,28 @@ public class GroupData : IEquatable<GroupData>
 
     }
 
-    public int GetHashCode()
+    public override int GetHashCode()
     {
         // согласовываем методы Equals и GetHashCode, вычисляются по именам
         return Name.GetHashCode(); 
     }
+    // метод должен вернуть строковое представление объектов типа GroupData
+    public override string ToString()
+    {
+        return "name = " + Name;
+    }
+
+    public int CompareTo(GroupData other)
+    {
+        //если второй объект с которым мы сравниваем null
+        if (Object.ReferenceEquals(other, null))
+        {
+            return 1; // однозначно текущий объект больше
+        }
+        // если other != null, то сравнивать с ним можно по смыслу, в нашем случае по именам
+        return Name.CompareTo(other.Name);
+    }
+
     public string Name
     {
         get
