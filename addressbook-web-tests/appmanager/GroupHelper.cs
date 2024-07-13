@@ -76,7 +76,8 @@ public class GroupHelper : HelperBase
 
     public GroupHelper SelectGroup(int index)
     {
-        driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index + "]/input")).Click();
+        driver.FindElement(By.XPath("//div[@id='content']/form/span[" + (index+1) + "]/input")).Click();
+        //driver.FindElement(By.XPath("//input[@name='selected[]'])[" + (index+1) + "]")).Click();
         return this;
     }
 

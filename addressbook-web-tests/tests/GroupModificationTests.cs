@@ -26,7 +26,7 @@ public class GroupModificationTests : AuthTestBase
             app.Groups.CreateGroup(group);
         }
         
-        app.Groups.ModifyGroup(1, newData);
+        app.Groups.ModifyGroup(0, newData);
     }
 }
 
