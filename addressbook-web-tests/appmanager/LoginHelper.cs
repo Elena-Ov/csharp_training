@@ -18,16 +18,37 @@ public class LoginHelper : HelperBase
     }
     public void Login(AccountData account) // параметр типа AccountData
     {
-        driver.FindElement(By.Name("user")).Click();
-        driver.FindElement(By.Name("user")).Clear();
-        driver.FindElement(By.Name("user")).SendKeys(account.Username); // данные которые передаются в этом параметре
-        driver.FindElement(By.Name("pass")).Click();
-        driver.FindElement(By.Name("pass")).Clear();
-        driver.FindElement(By.Name("pass")).SendKeys(account.Password);
+        if (IsLoggedIn()) // проверяем залогинены или нет
+        {
+            if (IsLoggedIn(account)) // проверяем залогинены ли мы под учетной записью которая передана в качестве параметра 
+            {
+                return; // если ок, то ничего не делаем login или logout
+            }
+            LogOut(); // если залогинены, но не под нужной записью - то loguot
+        }
+        // если проверили и выяснилось что не залогинены, то выполняется код для входа в систему
+        Type(By.Name("user"), account.Username);
+        Type(By.Name("pass"), account.Password);
         driver.FindElement(By.XPath("//input[@value='Login']")).Click();
+        //driver.FindElement(By.CssSelector("input[type=\"submit\"]")).Click();
     }
+    
     public void LogOut()
     {
-        driver.FindElement(By.LinkText("Logout")).Click();
+        if (IsLoggedIn()) 
+        {
+            driver.FindElement(By.LinkText("Logout")).Click();
+            driver.FindElement(By.Name("user")); // добавила
+        }
+    }
+    public bool IsLoggedIn() // проверка находимся ли мы внутри сессии, вошли в приложение
+    {
+        return IsElementPresent(By.Name("logout"));
+    }
+    public bool IsLoggedIn(AccountData account) // проверяем что мы залогинены под нужным пользователем, имя пользователя
+    {
+        return IsLoggedIn() // залогинены и под нужным пользовтелем
+               && driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text
+               == "(" + account.Username +")";
     }
 }

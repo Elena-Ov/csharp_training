@@ -8,14 +8,24 @@ namespace WebAddressbookTests;
 
 [TestFixture]
 
-public class ContactModificationTests : TestBase
+public class ContactModificationTests : AuthTestBase
 {
     [Test]
     public void ContactModificationTest()
-    {
+    { 
         ContactForm modifiedPersonalData = new ContactForm("", "");
-        modifiedPersonalData.Firstname = "Igor";
-        modifiedPersonalData.Lastname = "Aaa";
+        modifiedPersonalData.Firstname = "Bear";
+        modifiedPersonalData.Lastname = null;
+        
+        app.Contact.manager.Navigator.OpenHomePage();
+        if (!app.Contact.IsContactFound())
+        {
+            ContactForm personalData = new ContactForm("", "");
+            personalData.Firstname = "Volf";
+            personalData.Lastname = null;
+            
+            app.Contact.CreateContact(personalData);
+        }
 
         app.Contact.ModifyContacts(2, modifiedPersonalData);
     }

@@ -6,16 +6,30 @@ using NUnit.Framework;
 
 namespace WebAddressbookTests;
 
-    [TestFixture]
-    public class GroupModificationTests : TestBase
+[TestFixture]
+public class GroupModificationTests : AuthTestBase
+{
+    [Test]
+    public void GroupModificationTest()
     {
-        [Test]
-        public void GroupModificationTest()
+        GroupData newData = new GroupData("jjj"); 
+        newData.Header = null; 
+        newData.Footer = null;
+        
+        app.Groups.manager.Navigator.GoToGroupsPage();
+        if (!app.Groups.IsGroupFound())
         {
-            GroupData newData = new GroupData("zzz");
-            newData.Header = "ttt";
-            newData.Footer = "qqq";
+            GroupData group = new GroupData("nnn");
+            group.Header = "fff"; 
+            group.Footer = "ggg";
             
-            app.Groups.Modify(1, newData);
+            app.Groups.CreateGroup(group);
         }
+        
+        app.Groups.ModifyGroup(1, newData);
     }
+}
+
+
+
+
