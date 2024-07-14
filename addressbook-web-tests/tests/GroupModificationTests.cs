@@ -12,7 +12,7 @@ public class GroupModificationTests : AuthTestBase
     [Test]
     public void GroupModificationTest()
     {
-        GroupData newData = new GroupData("jjj"); 
+        GroupData newData = new GroupData("ok"); 
         newData.Header = null; 
         newData.Footer = null;
         
@@ -33,6 +33,7 @@ public class GroupModificationTests : AuthTestBase
         oldGroups[0].Name = newData.Name;
         oldGroups.Sort();
         newGroups.Sort();
+        // проверяем что ожидаемый и фактический результат совпадают
         Assert.AreEqual(oldGroups, newGroups);
     }
 }

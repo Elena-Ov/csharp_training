@@ -75,7 +75,7 @@ public class ContactHelper : HelperBase
 
     public ContactHelper SelectContact(int index)
     {
-        driver.FindElement(By.XPath("//div[@id='content']/form[2]/table/tbody/tr["+ index +"]/td[1]/input")).Click();
+        driver.FindElement(By.XPath("//div[@id='content']/form[2]/table/tbody/tr["+ (index+1) +"]/td[1]/input")).Click();
         return this;
     }
 
@@ -87,7 +87,7 @@ public class ContactHelper : HelperBase
 
     public ContactHelper SelectDetails(int index)
     {
-        driver.FindElement(By.XPath("//div[@id='content']/form[2]/table/tbody/tr["+ index +"]/td[7]/a/img")).Click();
+        driver.FindElement(By.XPath("//div[@id='content']/form[2]/table/tbody/tr["+ (index+1) +"]/td[7]/a/img")).Click();
         return this;
     }
 
@@ -106,5 +106,30 @@ public class ContactHelper : HelperBase
     {
         return driver.Url == baseURL + "/addressbook/index.php" &&
                IsElementPresent(By.Name("selected[]"));
+    }
+
+    public List<ContactForm> GetContactsList()
+    {
+        List<ContactForm> personalData = new List<ContactForm>();
+        manager.Navigator.OpenHomePage();
+        ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("td.center")); //"td.center.td[]"
+        string firstname = null;
+        string lastname;
+        foreach (IWebElement element in elements)
+        {
+            //выбираем нижележащие дивы
+            var divs = element.FindElements(By.Name("div"));
+            if (divs.Count() > 0)
+            {
+                //первый содержит фамилию
+                lastname = divs[0].Text;
+                if (divs[1] != null) 
+                    //второй - имя
+                    firstname = divs[1].Text;
+                personalData.Add(new ContactForm(lastname, firstname));
+            }
+            
+        }
+        return personalData;
     }
 }
