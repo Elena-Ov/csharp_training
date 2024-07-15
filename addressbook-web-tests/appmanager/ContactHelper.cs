@@ -112,23 +112,25 @@ public class ContactHelper : HelperBase
     {
         List<ContactForm> personalData = new List<ContactForm>();
         manager.Navigator.OpenHomePage();
-        ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("td.center")); //"td.center.td[]"
-        string firstname = null;
+        //выбрали все строки таблицы
+        ICollection<IWebElement> elements = driver.FindElements(By.TagName("tr"));
+        string firstname;
         string lastname;
         foreach (IWebElement element in elements)
         {
-            //выбираем нижележащие дивы
-            var divs = element.FindElements(By.Name("div"));
+            //если у строки таблицы есть аттрибут class, то это служебная, пропускаем
+            if (!string.IsNullOrEmpty(element.GetAttribute("class")))
+                continue;
+            //выбираем ячейки 
+            var divs = element.FindElements(By.TagName("td"));
             if (divs.Count() > 0)
             {
                 //первый содержит фамилию
-                lastname = divs[0].Text;
-                if (divs[1] != null) 
-                    //второй - имя
-                    firstname = divs[1].Text;
+                lastname = divs[1].Text;
+                //второй - имя
+                firstname = divs[2].Text;
                 personalData.Add(new ContactForm(lastname, firstname));
             }
-            
         }
         return personalData;
     }

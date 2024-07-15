@@ -5,10 +5,10 @@ public class ContactForm : IEquatable<ContactForm>, IComparable<ContactForm>
     private string firstname;
     private string lastname;
 
-    public ContactForm(string firstname, string lastname) 
+    public ContactForm(string lastname, string firstname) 
     {
-        this.firstname = firstname;
         this.lastname = lastname;
+        this.firstname = firstname;
     }
 
     public bool Equals(ContactForm other)
@@ -23,15 +23,15 @@ public class ContactForm : IEquatable<ContactForm>, IComparable<ContactForm>
             return true;
         }
 
-        return Firstname == other.Firstname && Lastname == other.Lastname;
+        return Lastname == other.Lastname && Firstname == other.Firstname;
     }
     public override int GetHashCode()
     {
-        return Firstname.GetHashCode() + Lastname.GetHashCode(); 
+        return Lastname.GetHashCode() + Firstname.GetHashCode(); 
     }
     public override string ToString()
     {
-        return "firstname = " + Firstname + "lastname = " + Lastname;
+        return "lastname  = " + Lastname + "\t" + "firstname = " + Firstname;
     }
     public int CompareTo(ContactForm other)
     {
@@ -40,7 +40,18 @@ public class ContactForm : IEquatable<ContactForm>, IComparable<ContactForm>
             return 1; 
         }
         
-        return Firstname.CompareTo(other.Firstname) + Lastname.CompareTo(other.Lastname);
+        return Firstname.CompareTo(other.Lastname) + Lastname.CompareTo(other.Firstname);
+    }
+    public string Lastname
+    {
+        get
+        {
+            return lastname;
+        }
+        set
+        {
+            lastname = value;
+        }
     }
     public string Firstname
     {
@@ -51,18 +62,6 @@ public class ContactForm : IEquatable<ContactForm>, IComparable<ContactForm>
         set
         {
             firstname = value;
-        }
-    }
-
-    public string Lastname
-    {
-        get
-        {
-            return lastname;
-        }
-        set
-        {
-            lastname = value;
         }
     }
 }
