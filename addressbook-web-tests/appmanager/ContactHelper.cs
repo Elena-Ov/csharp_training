@@ -119,7 +119,7 @@ public class ContactHelper : HelperBase
         foreach (IWebElement element in elements)
         {
             //если у строки таблицы есть аттрибут class, то это служебная, пропускаем
-            if (!string.IsNullOrEmpty(element.GetAttribute("class")))
+            if (element.GetAttribute("class") == null)
                 continue;
             //выбираем ячейки 
             var divs = element.FindElements(By.TagName("td"));

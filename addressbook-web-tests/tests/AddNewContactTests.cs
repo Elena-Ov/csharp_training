@@ -12,17 +12,7 @@ namespace WebAddressbookTests
    {
        [Test]
        public void TheAddNewContactTest()
-       {   
-           ContactForm personalData = new ContactForm("", "");
-           personalData.Firstname = "Ivan";
-           personalData.Lastname = "Ivanov";
-           // получаем список контактов до создания новых
-           List<ContactForm> oldContacts = app.Contact.GetContactsList();
-           // создаем новый контакт
-           app.Contact.CreateContact(personalData);
-       }
-       /*public void TheAddNewContactTest()
-       {   
+       {
            ContactForm personalData = new ContactForm("", "");
            personalData.Firstname = "Ivan";
            personalData.Lastname = "Ivanov";
@@ -39,7 +29,8 @@ namespace WebAddressbookTests
            newContacts.Sort();
            // сравниваем старый список контактов с добавленным контактом и новый список контактов
            Assert.AreEqual(oldContacts, newContacts);
-       }*/
+       }
+        
        [Test]
        public void TheEmptyContactTest()
        {   
