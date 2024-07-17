@@ -14,8 +14,8 @@ namespace WebAddressbookTests
        public void TheAddNewContactTest()
        {
            ContactForm personalData = new ContactForm("", "");
-           personalData.Firstname = "Ivan";
-           personalData.Lastname = "Ivanov";
+           personalData.Firstname = "Ron";
+           personalData.Lastname = "Kon";
            // получаем список контактов до создания новых
            List<ContactForm> oldContacts = app.Contact.GetContactsList();
            // создаем новый контакт

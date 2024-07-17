@@ -40,7 +40,10 @@ public class ContactForm : IEquatable<ContactForm>, IComparable<ContactForm>
             return 1; 
         }
         
-        return Firstname.CompareTo(other.Lastname) + Lastname.CompareTo(other.Firstname);
+        var result = Lastname.CompareTo(other.Lastname);
+        if (result == 0)
+            result = Firstname.CompareTo(other.Firstname);
+        return result;
     }
     public string Lastname
     {
