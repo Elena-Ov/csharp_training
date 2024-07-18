@@ -65,6 +65,7 @@ public class GroupHelper : HelperBase
     public GroupHelper SubmitGroupCreation()
     {
         driver.FindElement(By.Name("submit")).Click();
+        groupCache = null; // очистка старого кеша
         return this;
     }
 
@@ -84,6 +85,7 @@ public class GroupHelper : HelperBase
     public GroupHelper RemoveGroupButton()
     {
         driver.FindElement(By.Name("delete")).Click();
+        groupCache = null; //очистка кеша
         return this;
     }
 
@@ -96,6 +98,7 @@ public class GroupHelper : HelperBase
     public GroupHelper SubmitGroupModification()
     {
         driver.FindElement(By.Name("update")).Click();
+        groupCache = null; // очистка кеша
         return this;
     }
 
@@ -105,25 +108,28 @@ public class GroupHelper : HelperBase
                IsElementPresent(By.Name("selected[]"));
     }
 
+    // создаем приватное поле типа List<GroupData>
+    // здесь будет хранится заполненный и сохраненный список групп
+    // в самом начале он пустой
+    private List<GroupData> groupCache = null;
     public List<GroupData> GetGroupList()
     {
-        List<GroupData> groups = new List<GroupData>();
-        manager.Navigator.GoToGroupsPage(); // идем на нужную стр
-        // читаем список на стр
-        // испотльзуем метод который вернет все найденные элементы
-        // сохраняем список в переменную elements
-        // прописываем более общий тип ICollection
-        ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
-        // чтобы превратить полученные элементы в нужные нам элементы типа GroupData используем цикл
-        foreach (IWebElement element in elements)
+        // при !первом обращении когда выполняется метод GetGroupList() мы будем этот список заполнять
+        // при повторном мы будем использовать ранее заполненный список -> проверка
+
+        if (groupCache == null) // заходим в блок, если groupCache != null, то сразу return groupCache;
         {
-            /*создаем новый объект типа GroupData и element.Text используем в качестве параметра
-            GroupData group = new GroupData(element.Text); 
-            после создания помещаем этот объект в 
-            groups.Add(group);*/
-            groups.Add(new GroupData(element.Text));
+            groupCache = new List<GroupData>();
+            manager.Navigator.GoToGroupsPage(); 
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+            foreach (IWebElement element in elements)
+            {
+                groupCache.Add(new GroupData(element.Text));
+            }
         }
-        return groups;
+        // кеш вернуть прямой ссылкой нельзя, возвращаем копию
+        // новый список построенный из старого
+        return new List<GroupData>(groupCache);
     }
 }
 
