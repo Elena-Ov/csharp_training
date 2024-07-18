@@ -28,12 +28,13 @@ public class GroupModificationTests : AuthTestBase
         
         List<GroupData> oldGroups = app.Groups.GetGroupList();
         app.Groups.ModifyGroup(0, newData);
+        // размер старого и нового списка совпадает
+        Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
         
         List<GroupData> newGroups = app.Groups.GetGroupList();
         oldGroups[0].Name = newData.Name;
         oldGroups.Sort();
         newGroups.Sort();
-        // проверяем что ожидаемый и фактический результат совпадают
         Assert.AreEqual(oldGroups, newGroups);
     }
 }

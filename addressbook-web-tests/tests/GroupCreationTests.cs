@@ -16,21 +16,21 @@ namespace WebAddressbookTests
             GroupData group = new GroupData("mmm");
             group.Header = "ggg";
             group.Footer = "nnn";
-            //List - контейнер или коллекция, объект, который хранит набор других объектов
             
-            // получаем список групп до создания новой
             List<GroupData> oldGroups = app.Groups.GetGroupList();
-            // создаем
+            
             app.Groups.CreateGroup(group);
-           // получаем список после создания
+            
+            // операция которая быстро вернет количество групп не читая их названия
+            // тк переменная локальная, то подставляем сразу в проверку обращение к методу
+            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
+           
             List<GroupData> newGroups = app.Groups.GetGroupList(); 
             
-            // к старому списку добавляем группу которую мы только что создали в нашей адресной книге
             oldGroups.Add(group);
-            // перед сравнением упорядочиваем списки одинаково
             oldGroups.Sort();
             newGroups.Sort();
-            // сравниваем старый список с этой добавленной группой и новый список прочитанный из приложения 
+            
             Assert.AreEqual(oldGroups, newGroups);
         }
         [Test]
@@ -43,7 +43,9 @@ namespace WebAddressbookTests
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             
             app.Groups.CreateGroup(group);
-           
+            
+            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
+            
             List<GroupData> newGroups = app.Groups.GetGroupList(); 
             oldGroups.Add(group);
             oldGroups.Sort();
@@ -61,6 +63,8 @@ namespace WebAddressbookTests
             
             app.Groups.CreateGroup(group);
            
+            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
+
             List<GroupData> newGroups = app.Groups.GetGroupList(); 
            oldGroups.Add(group);
            oldGroups.Sort();

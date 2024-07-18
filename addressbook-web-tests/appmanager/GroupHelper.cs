@@ -131,6 +131,11 @@ public class GroupHelper : HelperBase
         // новый список построенный из старого
         return new List<GroupData>(groupCache);
     }
+
+    public int GetGroupCount()
+    {
+        return driver.FindElements(By.CssSelector("span.group")).Count;
+    }
 }
 
 
