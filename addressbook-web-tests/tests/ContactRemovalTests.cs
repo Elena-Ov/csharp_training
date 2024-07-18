@@ -16,13 +16,17 @@ public class ContactRemovalTests : AuthTestBase
         if (!app.Contact.IsContactFound())
         {
             ContactForm personalData = new ContactForm("", "");
-            personalData.Firstname = "Lion";
+            personalData.Firstname = "Leo";
             personalData.Lastname = null;
 
             app.Contact.CreateContact(personalData);
         }
+        List<ContactForm> oldContacts = app.Contact.GetContactsList();
+        app.Contact.RemovePersonalData(1);
         
-        app.Contact.RemovePersonalData(2);
+        List<ContactForm> newContacts = app.Contact.GetContactsList();
+        oldContacts.RemoveAt(0);
+        Assert.AreEqual(oldContacts, newContacts);
         
     }
 }

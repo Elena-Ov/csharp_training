@@ -1,28 +1,50 @@
 namespace WebAddressbookTests;
 
-public class ContactForm
+public class ContactForm : IEquatable<ContactForm>, IComparable<ContactForm>
 {
     private string firstname;
     private string lastname;
 
-    public ContactForm(string firstname, string lastname) 
+    public ContactForm(string lastname, string firstname) 
     {
-        this.firstname = firstname;
         this.lastname = lastname;
+        this.firstname = firstname;
     }
 
-    public string Firstname
+    public bool Equals(ContactForm other)
     {
-        get
+        if (Object.ReferenceEquals(other, null))
         {
-            return firstname;
+            return false;
         }
-        set
-        {
-            firstname = value;
-        }
-    }
 
+        if (Object.ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        return Lastname == other.Lastname && Firstname == other.Firstname;
+    }
+    public override int GetHashCode()
+    {
+        return Lastname.GetHashCode() + Firstname.GetHashCode(); 
+    }
+    public override string ToString()
+    {
+        return "lastname  = " + Lastname + "\t" + "firstname = " + Firstname;
+    }
+    public int CompareTo(ContactForm other)
+    {
+        if (Object.ReferenceEquals(other, null))
+        {
+            return 1; 
+        }
+        
+        var result = Lastname.CompareTo(other.Lastname);
+        if (result == 0)
+            result = Firstname.CompareTo(other.Firstname);
+        return result;
+    }
     public string Lastname
     {
         get
@@ -32,6 +54,17 @@ public class ContactForm
         set
         {
             lastname = value;
+        }
+    }
+    public string Firstname
+    {
+        get
+        {
+            return firstname;
+        }
+        set
+        {
+            firstname = value;
         }
     }
 }

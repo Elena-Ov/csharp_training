@@ -76,7 +76,8 @@ public class GroupHelper : HelperBase
 
     public GroupHelper SelectGroup(int index)
     {
-        driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index + "]/input")).Click();
+        driver.FindElement(By.XPath("//div[@id='content']/form/span[" + (index+1) + "]/input")).Click();
+        //driver.FindElement(By.XPath("//input[@name='selected[]'])[" + (index+1) + "]")).Click();
         return this;
     }
 
@@ -102,6 +103,27 @@ public class GroupHelper : HelperBase
     {
         return driver.Url == baseURL + "/addressbook/group.php" &&
                IsElementPresent(By.Name("selected[]"));
+    }
+
+    public List<GroupData> GetGroupList()
+    {
+        List<GroupData> groups = new List<GroupData>();
+        manager.Navigator.GoToGroupsPage(); // идем на нужную стр
+        // читаем список на стр
+        // испотльзуем метод который вернет все найденные элементы
+        // сохраняем список в переменную elements
+        // прописываем более общий тип ICollection
+        ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+        // чтобы превратить полученные элементы в нужные нам элементы типа GroupData используем цикл
+        foreach (IWebElement element in elements)
+        {
+            /*создаем новый объект типа GroupData и element.Text используем в качестве параметра
+            GroupData group = new GroupData(element.Text); 
+            после создания помещаем этот объект в 
+            groups.Add(group);*/
+            groups.Add(new GroupData(element.Text));
+        }
+        return groups;
     }
 }
 
