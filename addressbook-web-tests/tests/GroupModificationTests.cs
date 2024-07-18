@@ -27,6 +27,9 @@ public class GroupModificationTests : AuthTestBase
         }
         
         List<GroupData> oldGroups = app.Groups.GetGroupList();
+        // запоминаем инфу для сравнения идентификаторов заранее
+        // тк список после модификации сортируется, имена по индексу не совпадут
+        GroupData oldData = oldGroups[0]; 
         app.Groups.ModifyGroup(0, newData);
         // размер старого и нового списка совпадает
         Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
@@ -36,6 +39,16 @@ public class GroupModificationTests : AuthTestBase
         oldGroups.Sort();
         newGroups.Sort();
         Assert.AreEqual(oldGroups, newGroups);
+        // проверяем что модифицировался нужный элемент (в списке был на первом месте)
+        // пробегаемся по всем элементам и находим тот у которого нужный id
+        // проверяем что его имя стало таким каким должно
+        foreach (GroupData group in newGroups)
+        {
+            if (group.Id == oldData.Id)
+            {
+                Assert.AreEqual(newData.Name, group.Name); 
+            }
+        }
     }
 }
 

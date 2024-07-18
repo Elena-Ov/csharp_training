@@ -124,7 +124,30 @@ public class GroupHelper : HelperBase
             ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
             foreach (IWebElement element in elements)
             {
-                groupCache.Add(new GroupData(element.Text));
+                /* чтобы присвоить полученное значение в качестве свойства id в объект GroupData
+                создаем локальную переменную и сохраняем ссылку на объект
+                GroupData group = new GroupData(element.Text);
+                внутри одного элемента ищем другой, извлекаем из браузера нужное нам значение
+                присваиваем свойство
+                group.Id =  element.FindElement(By.TagName("input")).GetAttribute("value");
+                полученную группу с таким идентифекатором добавляем в список
+                groupCache.Add(group);*/
+                
+                /* С# позволяет сократить запись
+                при конструировании объекта можно сразу указать ему дополнительное свойство
+                часть инфы мы передаем через конструктор
+                а потом в {} прописываем код который простовляет значения остальных нужных нам свойств
+                GroupData group = new GroupData(element.Text)
+                {
+                    Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                };
+                groupCache.Add(group);*/
+                
+                // далее получившееся значение простовляем внутри обращения к методу Add
+                groupCache.Add(new GroupData(element.Text)
+                {
+                    Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                });
             }
         }
         // кеш вернуть прямой ссылкой нельзя, возвращаем копию

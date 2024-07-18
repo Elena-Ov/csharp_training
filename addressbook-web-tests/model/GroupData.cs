@@ -1,3 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace WebAddressbookTests;
 
 // указываем что этот класс наследует IEquatable
@@ -6,12 +12,9 @@ namespace WebAddressbookTests;
 // добавляем второй стандартный метод GetHashCode()
 public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
 {
-    private string name;
-    private string header = ""; 
-    private string footer = ""; 
     public GroupData(string name)
     {
-        this.name = name;
+        Name = name; // присваивание в свойство, тк поле создается автоматически
     }
     // в качестве параметра принимает второй объект типа GroupData other
     public bool Equals(GroupData other)
@@ -54,37 +57,9 @@ public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
         return Name.CompareTo(other.Name);
     }
 
-    public string Name
-    {
-        get
-        {
-            return name;
-        }
-        set
-        {
-            name = value;
-        }
-    }
-    public string Header
-    {
-        get
-        {
-            return header;
-        }
-        set
-        {
-            header = value;
-        }
-    }
-    public string Footer
-    {
-        get
-        {
-            return footer;
-        }
-        set
-        {
-            footer = value;
-        }
-    }
+    public string Name { get; set; }
+    public string Header { get; set; }
+    public string Footer { get; set; }
+    // добавляем новое свойство
+    public string Id { get; set; }
 }
