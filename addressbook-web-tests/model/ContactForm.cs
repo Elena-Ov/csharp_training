@@ -1,14 +1,17 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace WebAddressbookTests;
 
 public class ContactForm : IEquatable<ContactForm>, IComparable<ContactForm>
 {
-    private string firstname;
-    private string lastname;
-
     public ContactForm(string lastname, string firstname) 
     {
-        this.lastname = lastname;
-        this.firstname = firstname;
+        Lastname = lastname;
+        Firstname = firstname;
     }
 
     public bool Equals(ContactForm other)
@@ -45,26 +48,7 @@ public class ContactForm : IEquatable<ContactForm>, IComparable<ContactForm>
             result = Firstname.CompareTo(other.Firstname);
         return result;
     }
-    public string Lastname
-    {
-        get
-        {
-            return lastname;
-        }
-        set
-        {
-            lastname = value;
-        }
-    }
-    public string Firstname
-    {
-        get
-        {
-            return firstname;
-        }
-        set
-        {
-            firstname = value;
-        }
-    }
+    public string Lastname { get; set; }
+    public string Firstname { get; set; }
+    public string Id { get; set; }
 }
