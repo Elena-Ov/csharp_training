@@ -64,7 +64,7 @@ public class ContactHelper : HelperBase
     public ContactHelper SubmitContactForm()
     {
         driver.FindElement(By.Name("submit")).Click();
-        contactCache = null;
+        contactCache = null;// очистка кеша
         return this;
     }
     public ContactHelper ReturnToHomePage()
@@ -111,11 +111,15 @@ public class ContactHelper : HelperBase
                IsElementPresent(By.Name("selected[]"));
     }
 
+    // сохраняем заполленный список контактов
+    // вначала он пустой
     private List<ContactForm> contactCache = null;
 
     public List<ContactForm> GetContactsList()
     {
-        if (contactCache == null)
+        //при первом обращении, когда выполняется GetContactsList() мы список заполняем
+        //при втором используем ранее заполненный
+        if (contactCache == null) //заполняем
         {
             contactCache = new List<ContactForm>();
             manager.Navigator.OpenHomePage();
@@ -133,19 +137,19 @@ public class ContactHelper : HelperBase
                     firstname = divs[2].Text;
                     contactCache.Add(new ContactForm(lastname, firstname)
                     {
-                        Id = element.FindElement(By.TagName("td")).GetAttribute("id")
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
                     });
                 }
             }
         }
-        return new List<ContactForm>(contactCache);
+        return new List<ContactForm>(contactCache);// возвращаем копию
     }
     public int GetContactCount()
     {
-       // чтобы считал со 2-го tr
-        //int index = 0;
-        //return driver.FindElements(By.TagName("tr[" + (index+1) + "]")).Count;
-        // -1 так как у нас первый tr заголовок
-        return driver.FindElements(By.TagName("tr")).Count -1;
+       /* 
+        int index = 0;
+        return driver.FindElements(By.TagName("tr[" + (index+1) + "]")).Count;*/
+        // размер списка -1
+        return driver.FindElements(By.TagName("tr")).Count - 1;
     }
 }

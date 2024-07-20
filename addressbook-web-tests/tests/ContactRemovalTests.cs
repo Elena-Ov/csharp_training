@@ -23,12 +23,13 @@ public class ContactRemovalTests : AuthTestBase
         }
         List<ContactForm> oldContacts = app.Contact.GetContactsList();
         app.Contact.RemovePersonalData(1);
+        //убеждаемся что размер уменьшился на 1 по сравнению со старым
         Assert.AreEqual(oldContacts.Count - 1, app.Contact.GetContactCount());
 
         
         List<ContactForm> newContacts = app.Contact.GetContactsList();
-        ContactForm toBeRemoved = oldContacts[1];
-        oldContacts.RemoveAt(1);
+        ContactForm toBeRemoved = oldContacts[0];
+        oldContacts.RemoveAt(0);
         Assert.AreEqual(oldContacts, newContacts);
         
         foreach (ContactForm contact in newContacts)

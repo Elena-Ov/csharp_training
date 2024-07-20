@@ -21,6 +21,7 @@ namespace WebAddressbookTests
            // создаем новый контакт
            app.Contact.CreateContact(personalData);
            // операция которая быстро вернет количество контактов не читая их названия
+           // если кол-во совпало переходим к проверке содержимого
            Assert.AreEqual(oldContacts.Count + 1, app.Contact.GetContactCount());
 
            // получаем список контактов после создания

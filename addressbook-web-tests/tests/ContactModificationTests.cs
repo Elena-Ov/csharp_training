@@ -29,6 +29,7 @@ public class ContactModificationTests : AuthTestBase
 
         List<ContactForm> oldContacts = app.Contact.GetContactsList();
         app.Contact.ModifyContacts(1, modifiedPersonalData);
+        //убеждаемся что размер старого и нового списков совпадают
         Assert.AreEqual(oldContacts.Count, app.Contact.GetContactCount());
 
         

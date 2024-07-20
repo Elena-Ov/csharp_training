@@ -48,6 +48,7 @@ public class ContactForm : IEquatable<ContactForm>, IComparable<ContactForm>
             result = Firstname.CompareTo(other.Firstname);
         return result;
     }
+    //поле создаются автоматически
     public string Lastname { get; set; }
     public string Firstname { get; set; }
     public string Id { get; set; }
