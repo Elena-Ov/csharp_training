@@ -64,6 +64,7 @@ public class ContactHelper : HelperBase
     public ContactHelper SubmitContactForm()
     {
         driver.FindElement(By.Name("submit")).Click();
+        contactCache = null;// очистка кеша
         return this;
     }
     public ContactHelper ReturnToHomePage()
@@ -82,6 +83,7 @@ public class ContactHelper : HelperBase
     public ContactHelper RemoveContact()
     {
         driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+        contactCache = null;
         return this;
     }
 
@@ -100,6 +102,7 @@ public class ContactHelper : HelperBase
     public ContactHelper SubmitContactModification()
     {
         driver.FindElement(By.Name("update")).Click();
+        contactCache = null;
         return this;
     }
     public bool IsContactFound() // проверка есть ли хотя бы один контакт int index, ContactForm personalData
@@ -108,30 +111,45 @@ public class ContactHelper : HelperBase
                IsElementPresent(By.Name("selected[]"));
     }
 
+    // сохраняем заполленный список контактов
+    // вначала он пустой
+    private List<ContactForm> contactCache = null;
+
     public List<ContactForm> GetContactsList()
     {
-        List<ContactForm> personalData = new List<ContactForm>();
-        manager.Navigator.OpenHomePage();
-        //выбрали все строки таблицы
-        ICollection<IWebElement> elements = driver.FindElements(By.TagName("tr"));
-        string firstname;
-        string lastname;
-        foreach (IWebElement element in elements)
+        //при первом обращении, когда выполняется GetContactsList() мы список заполняем
+        //при втором используем ранее заполненный
+        if (contactCache == null) //заполняем
         {
-            //если у строки таблицы есть аттрибут class, то это служебная, пропускаем
-            if (element.GetAttribute("class") == null)
-                continue;
-            //выбираем ячейки 
-            var divs = element.FindElements(By.TagName("td"));
-            if (divs.Count() > 0)
+            contactCache = new List<ContactForm>();
+            manager.Navigator.OpenHomePage();
+            ICollection<IWebElement> elements = driver.FindElements(By.TagName("tr"));
+            string firstname;
+            string lastname;
+            foreach (IWebElement element in elements)
             {
-                //первый содержит фамилию
-                lastname = divs[1].Text;
-                //второй - имя
-                firstname = divs[2].Text;
-                personalData.Add(new ContactForm(lastname, firstname));
+                if (element.GetAttribute("class") == null)
+                    continue;
+                var divs = element.FindElements(By.TagName("td"));
+                if (divs.Count() > 0)
+                {
+                    lastname = divs[1].Text;
+                    firstname = divs[2].Text;
+                    contactCache.Add(new ContactForm(lastname, firstname)
+                    {
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                    });
+                }
             }
         }
-        return personalData;
+        return new List<ContactForm>(contactCache);// возвращаем копию
+    }
+    public int GetContactCount()
+    {
+       /* 
+        int index = 0;
+        return driver.FindElements(By.TagName("tr[" + (index+1) + "]")).Count;*/
+        // размер списка -1
+        return driver.FindElements(By.TagName("tr")).Count - 1;
     }
 }

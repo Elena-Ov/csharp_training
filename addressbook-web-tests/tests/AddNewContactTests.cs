@@ -20,6 +20,10 @@ namespace WebAddressbookTests
            List<ContactForm> oldContacts = app.Contact.GetContactsList();
            // создаем новый контакт
            app.Contact.CreateContact(personalData);
+           // операция которая быстро вернет количество контактов не читая их названия
+           // если кол-во совпало переходим к проверке содержимого
+           Assert.AreEqual(oldContacts.Count + 1, app.Contact.GetContactCount());
+
            // получаем список контактов после создания
            List<ContactForm> newContacts = app.Contact.GetContactsList();
            // к старому списку добавляем новый контакт
@@ -40,6 +44,7 @@ namespace WebAddressbookTests
            
            List<ContactForm> oldContacts = app.Contact.GetContactsList();
            app.Contact.CreateContact(personalData);
+           Assert.AreEqual(oldContacts.Count + 1, app.Contact.GetContactCount());
            List<ContactForm> newContacts = app.Contact.GetContactsList();
            oldContacts.Add(personalData);
            oldContacts.Sort();
