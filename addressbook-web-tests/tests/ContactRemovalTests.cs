@@ -23,6 +23,7 @@ public class ContactRemovalTests : AuthTestBase
         }
         List<ContactForm> oldContacts = app.Contact.GetContactsList();
         app.Contact.RemovePersonalData(1);
+        app.Contact.manager.Navigator.OpenHomePage();
         //убеждаемся что размер уменьшился на 1 по сравнению со старым
         Assert.AreEqual(oldContacts.Count - 1, app.Contact.GetContactCount());
 
