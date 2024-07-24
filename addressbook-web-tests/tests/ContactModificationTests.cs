@@ -13,27 +13,27 @@ public class ContactModificationTests : AuthTestBase
     [Test]
     public void ContactModificationTest()
     { 
-        ContactForm modifiedPersonalData = new ContactForm("", "");
+        ContactFormData modifiedPersonalData = new ContactFormData("", "");
         modifiedPersonalData.Firstname = "Jin";
         modifiedPersonalData.Lastname = "Jinov";
         
         app.Contact.manager.Navigator.OpenHomePage();
         if (!app.Contact.IsContactFound())
         {
-            ContactForm personalData = new ContactForm("", "");
+            ContactFormData personalData = new ContactFormData("", "");
             personalData.Firstname = "Test";
             personalData.Lastname = "Testov";
             
             app.Contact.CreateContact(personalData);
         }
 
-        List<ContactForm> oldContacts = app.Contact.GetContactsList();
+        List<ContactFormData> oldContacts = app.Contact.GetContactsList();
         app.Contact.ModifyContacts(1, modifiedPersonalData);
         //убеждаемся что размер старого и нового списков совпадают
         Assert.AreEqual(oldContacts.Count, app.Contact.GetContactCount());
 
         
-        List<ContactForm> newContacts = app.Contact.GetContactsList();
+        List<ContactFormData> newContacts = app.Contact.GetContactsList();
         oldContacts[0].Lastname = modifiedPersonalData.Lastname;
         oldContacts[0].Firstname = modifiedPersonalData.Firstname;
         oldContacts.Sort();

@@ -39,6 +39,7 @@ public class GroupHelper : HelperBase
         ReturnToGroupsPage();
         return this;
     }
+
     public GroupHelper RemoveGroup(int p)
     {
         manager.Navigator.GoToGroupsPage();
@@ -77,7 +78,7 @@ public class GroupHelper : HelperBase
 
     public GroupHelper SelectGroup(int index)
     {
-        driver.FindElement(By.XPath("//div[@id='content']/form/span[" + (index+1) + "]/input")).Click();
+        driver.FindElement(By.XPath("//div[@id='content']/form/span[" + (index + 1) + "]/input")).Click();
         //driver.FindElement(By.XPath("//input[@name='selected[]'])[" + (index+1) + "]")).Click();
         return this;
     }
@@ -112,6 +113,7 @@ public class GroupHelper : HelperBase
     // здесь будет хранится заполненный и сохраненный список групп
     // в самом начале он пустой
     private List<GroupData> groupCache = null;
+
     public List<GroupData> GetGroupList()
     {
         // при !первом обращении когда выполняется метод GetGroupList() мы будем этот список заполнять
@@ -120,42 +122,43 @@ public class GroupHelper : HelperBase
         if (groupCache == null) // заходим в блок, если groupCache != null, то сразу return groupCache;
         {
             groupCache = new List<GroupData>();
-            manager.Navigator.GoToGroupsPage(); 
+            manager.Navigator.GoToGroupsPage();
             ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
             foreach (IWebElement element in elements)
             {
-                /* чтобы присвоить полученное значение в качестве свойства id в объект GroupData
-                создаем локальную переменную и сохраняем ссылку на объект
-                GroupData group = new GroupData(element.Text);
-                внутри одного элемента ищем другой, извлекаем из браузера нужное нам значение
-                присваиваем свойство
-                group.Id =  element.FindElement(By.TagName("input")).GetAttribute("value");
-                полученную группу с таким идентифекатором добавляем в список
-                groupCache.Add(group);*/
-                
-                /* С# позволяет сократить запись
-                при конструировании объекта можно сразу указать ему дополнительное свойство
-                часть инфы мы передаем через конструктор
-                а потом в {} прописываем код который простовляет значения остальных нужных нам свойств
-                GroupData group = new GroupData(element.Text)
-                {
-                    Id = element.FindElement(By.TagName("input")).GetAttribute("value")
-                };
-                groupCache.Add(group);*/
-                
-                // далее получившееся значение простовляем внутри обращения к методу Add
-                groupCache.Add(new GroupData(element.Text)
+                // на первом проходе заполняем только идентификаторы
+                groupCache.Add(new GroupData(null)
                 {
                     Id = element.FindElement(By.TagName("input")).GetAttribute("value")
                 });
             }
+
+            // далее
+            string allGroupNames = driver.FindElement(By.CssSelector("div#content form")).Text;
+            // режем строку на много кусочков, в качестве параметра передаем разделитель
+            string[] parts = allGroupNames.Split('\n');
+            // определяем величину сдвига
+            // на сколько в кеше правильных групп больше чем мы смогли получить
+            int shift = groupCache.Count - parts.Length;
+            // прописваем полученные имена в ранее созданные группы
+            // перебираем элементы по индексу
+            for (int i = 0; i < groupCache.Count; i++)
+            {
+                if (i < shift)
+                {
+                    // прописываем пустое имя
+                    groupCache[i].Name = "";
+                }
+                else //прописываем имя которое нам нужно, но со сдвигом
+                {
+                    groupCache[i].Name = parts[i - shift].Trim(); // Trim() удаляем лишние пробелы в начале и конце имени группы}
+                }
+            }
         }
-        // кеш вернуть прямой ссылкой нельзя, возвращаем копию
-        // новый список построенный из старого
         return new List<GroupData>(groupCache);
     }
-
-    public int GetGroupCount()
+    
+public int GetGroupCount()        
     {
         return driver.FindElements(By.CssSelector("span.group")).Count;
     }

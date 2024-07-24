@@ -45,10 +45,16 @@ public class LoginHelper : HelperBase
     {
         return IsElementPresent(By.Name("logout"));
     }
-    public bool IsLoggedIn(AccountData account) // проверяем что мы залогинены под нужным пользователем, имя пользователя
+    // проверяем что мы залогинены под нужным пользователем, имя пользователя
+    public bool IsLoggedIn(AccountData account) 
     {
-        return IsLoggedIn() // залогинены и под нужным пользовтелем
-               && driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text
-               == "(" + account.Username +")";
+        return IsLoggedIn() 
+               && GetLoggedUserName() == account.Username; 
+    }
+    // метод вернет имя пользователя который сейчас залогинен
+    public string GetLoggedUserName()
+    {
+        string text = driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text;
+        return text.Substring(1, text.Length - 2); // отрезаем первый и последний символ
     }
 }

@@ -1,0 +1,96 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using OpenQA.Selenium.DevTools.V85.CSS;
+
+namespace WebAddressbookTests;
+
+public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactFormData>
+{
+    public string allPhones;
+    public ContactFormData(string lastname, string firstname) 
+    {
+        Lastname = lastname;
+        Firstname = firstname;
+    }
+
+    public bool Equals(ContactFormData other)
+    {
+        if (Object.ReferenceEquals(other, null))
+        {
+            return false;
+        }
+
+        if (Object.ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        return Lastname == other.Lastname && Firstname == other.Firstname;
+    }
+    public override int GetHashCode()
+    {
+        return Lastname.GetHashCode() + Firstname.GetHashCode(); 
+    }
+    public override string ToString()
+    {
+        return "lastname  = " + Lastname + "\t" + "firstname = " + Firstname;
+    }
+    public int CompareTo(ContactFormData other)
+    {
+        if (Object.ReferenceEquals(other, null))
+        {
+            return 1; 
+        }
+        
+        var result = Lastname.CompareTo(other.Lastname);
+        if (result == 0)
+            result = Firstname.CompareTo(other.Firstname);
+        return result;
+    }
+    //поле создаются автоматически
+    public string Lastname { get; set; }
+    public string Firstname { get; set; }
+    public string Id { get; set; }
+    
+    public string Address { get; set; }
+    
+    public string HomePhone { get; set; }
+    
+    public string MobilePhone { get; set; }
+    
+    public string WorkPhone { get; set; }
+    // расписываем полностью так как будем клеить строки - обратная проверка
+    public string AllPhones
+    
+    {
+        get
+        {
+            if (allPhones != null)
+            {
+                return allPhones;
+            }
+            else
+            {
+                return (CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone)).Trim();
+            }
+        }
+        set
+        {
+            allPhones = value;
+        } 
+    }
+    //метод очищающий от ненужных символов
+    private string CleanUp(string phone)
+    {
+        if (phone == null || phone =="")
+        {
+            return "";
+        }
+
+        return phone.Replace(" ", "").Replace("-", "")
+            .Replace("(", "").Replace(")", "") + "\n";
+    }
+}

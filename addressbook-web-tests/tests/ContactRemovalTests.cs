@@ -15,25 +15,25 @@ public class ContactRemovalTests : AuthTestBase
         app.Contact.manager.Navigator.OpenHomePage();
         if (!app.Contact.IsContactFound())
         {
-            ContactForm personalData = new ContactForm("", "");
+            ContactFormData personalData = new ContactFormData("", "");
             personalData.Firstname = "Gigi";
             personalData.Lastname = "Ban";
 
             app.Contact.CreateContact(personalData);
         }
-        List<ContactForm> oldContacts = app.Contact.GetContactsList();
+        List<ContactFormData> oldContacts = app.Contact.GetContactsList();
         app.Contact.RemovePersonalData(1);
         app.Contact.manager.Navigator.OpenHomePage();
         //убеждаемся что размер уменьшился на 1 по сравнению со старым
         Assert.AreEqual(oldContacts.Count - 1, app.Contact.GetContactCount());
 
         
-        List<ContactForm> newContacts = app.Contact.GetContactsList();
-        ContactForm toBeRemoved = oldContacts[0];
+        List<ContactFormData> newContacts = app.Contact.GetContactsList();
+        ContactFormData toBeRemoved = oldContacts[0];
         oldContacts.RemoveAt(0);
         Assert.AreEqual(oldContacts, newContacts);
         
-        foreach (ContactForm contact in newContacts)
+        foreach (ContactFormData contact in newContacts)
         {
             Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
         }

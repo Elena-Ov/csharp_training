@@ -11,23 +11,24 @@ using OpenQA.Selenium.Support.UI;
 namespace WebAddressbookTests;
 
 public class ContactHelper : HelperBase
-{    
+{
     protected string baseURL = "http://localhost";
-    public ContactHelper(ApplicationManager manager): base(manager)
+
+    public ContactHelper(ApplicationManager manager) : base(manager)
     {
     }
 
-    public ContactHelper CreateContact(ContactForm personalData)
-    { 
+    public ContactHelper CreateContact(ContactFormData personalData)
+    {
         manager.Navigator.OpenHomePage();
-        AddNewPage(); 
-        NewContactFillinForm(personalData); 
-        SubmitContactForm(); 
+        AddNewPage();
+        NewContactFillinForm(personalData);
+        SubmitContactForm();
         ReturnToHomePage();
         return this;
     }
 
-    public ContactHelper ModifyContacts(int p, ContactForm modifiedPersonalData)
+    public ContactHelper ModifyContacts(int p, ContactFormData modifiedPersonalData)
     {
         manager.Navigator.OpenHomePage();
         SelectContact(p);
@@ -38,35 +39,38 @@ public class ContactHelper : HelperBase
         ReturnToHomePage();
         return this;
     }
-    
+
     public ContactHelper RemovePersonalData(int p)
-    { 
+    {
         manager.Navigator.OpenHomePage();
         SelectContact(p);
         RemoveContact();
         return this;
     }
-    
+
     public ContactHelper AddNewPage()
     {
         driver.FindElement(By.LinkText("add new")).Click();
         driver.Navigate().GoToUrl("http://localhost/addressbook/edit.php");
         return this;
     }
-    public ContactHelper NewContactFillinForm(ContactForm personalData)
+
+    public ContactHelper NewContactFillinForm(ContactFormData personalData)
     {
-        Type(By.Name("firstname"),personalData.Firstname);
-        Type(By.Name("lastname"),personalData.Lastname);
+        Type(By.Name("firstname"), personalData.Firstname);
+        Type(By.Name("lastname"), personalData.Lastname);
         //driver.FindElement(By.Name("firstname")).Click();
-       // driver.FindElement(By.Name("lastname")).Click();
+        // driver.FindElement(By.Name("lastname")).Click();
         return this;
     }
+
     public ContactHelper SubmitContactForm()
     {
         driver.FindElement(By.Name("submit")).Click();
-        contactCache = null;// очистка кеша
+        contactCache = null; // очистка кеша
         return this;
     }
+
     public ContactHelper ReturnToHomePage()
     {
         driver.FindElement(By.LinkText("home page")).Click();
@@ -76,7 +80,8 @@ public class ContactHelper : HelperBase
 
     public ContactHelper SelectContact(int index)
     {
-        driver.FindElement(By.XPath("//div[@id='content']/form[2]/table/tbody/tr["+ (index+1) +"]/td[1]/input")).Click();
+        driver.FindElement(By.XPath("//div[@id='content']/form[2]/table/tbody/tr[" + (index + 1) + "]/td[1]/input"))
+            .Click();
         return this;
     }
 
@@ -89,7 +94,8 @@ public class ContactHelper : HelperBase
 
     public ContactHelper SelectDetails(int index)
     {
-        driver.FindElement(By.XPath("//div[@id='content']/form[2]/table/tbody/tr["+ (index+1) +"]/td[7]/a/img")).Click();
+        driver.FindElement(By.XPath("//div[@id='content']/form[2]/table/tbody/tr[" + (index + 1) + "]/td[7]/a/img"))
+            .Click();
         return this;
     }
 
@@ -105,6 +111,7 @@ public class ContactHelper : HelperBase
         contactCache = null;
         return this;
     }
+
     public bool IsContactFound() // проверка есть ли хотя бы один контакт int index, ContactForm personalData
     {
         return driver.Url == baseURL + "/addressbook/index.php" &&
@@ -113,15 +120,15 @@ public class ContactHelper : HelperBase
 
     // сохраняем заполленный список контактов
     // вначала он пустой
-    private List<ContactForm> contactCache = null;
+    private List<ContactFormData> contactCache = null;
 
-    public List<ContactForm> GetContactsList()
+    public List<ContactFormData> GetContactsList()
     {
         //при первом обращении, когда выполняется GetContactsList() мы список заполняем
         //при втором используем ранее заполненный
         if (contactCache == null) //заполняем
         {
-            contactCache = new List<ContactForm>();
+            contactCache = new List<ContactFormData>();
             manager.Navigator.OpenHomePage();
             ICollection<IWebElement> elements = driver.FindElements(By.TagName("tr"));
             string firstname;
@@ -135,21 +142,70 @@ public class ContactHelper : HelperBase
                 {
                     lastname = divs[1].Text;
                     firstname = divs[2].Text;
-                    contactCache.Add(new ContactForm(lastname, firstname)
+                    contactCache.Add(new ContactFormData(lastname, firstname)
                     {
                         Id = element.FindElement(By.TagName("input")).GetAttribute("value")
                     });
                 }
             }
         }
-        return new List<ContactForm>(contactCache);// возвращаем копию
+
+        return new List<ContactFormData>(contactCache); // возвращаем копию
     }
+
     public int GetContactCount()
     {
-       /* 
-        int index = 0;
-        return driver.FindElements(By.TagName("tr[" + (index+1) + "]")).Count;*/
+        /*
+         int index = 0;
+         return driver.FindElements(By.TagName("tr[" + (index+1) + "]")).Count;*/
         // размер списка -1
         return driver.FindElements(By.TagName("tr")).Count - 1;
+    }
+
+    public ContactFormData GetContactInformationFromTable(int index)
+    {
+        manager.Navigator.OpenHomePage();
+        //берем ячейки, сохраняем в переменную
+        IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index]
+            .FindElements(By.TagName("td"));
+        //извлекаем из ячеек текст который нас интересует
+        string lastName = cells[1].Text;
+        string firstName = cells[2].Text;
+        string address = cells[3].Text;
+        // сохраняем номера телефонов целиком, потом делаем property
+        string allPhones = cells[5].Text;
+        return new ContactFormData(firstName, lastName)
+        {
+            Address = address,
+            AllPhones = allPhones
+        };
+    }
+    public ContactFormData GetContactInformationFromEditForm(int index)
+    {
+        manager.Navigator.OpenHomePage();
+        InitContactModification(0);
+        string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+        string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+        string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+        string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
+        string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
+        string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+        // полученные данные заносим в объект типа ContactFormData
+        return new ContactFormData(firstName, lastName)
+        {
+            Address = address,
+            HomePhone = homePhone,
+            MobilePhone = mobilePhone,
+            WorkPhone = workPhone
+        };
+    }
+
+public void InitContactModification(int index)
+    {
+       driver.FindElements(By.Name("entry"))[index] // взяли все строки, потом по индексу
+           // внутри строки взяли все ячейки, нашли ту в которой кнопка редактирования
+           .FindElements(By.TagName("td"))[7]
+           // внутри нее находим ссылку
+           .FindElement(By.TagName("a")).Click();
     }
 }
