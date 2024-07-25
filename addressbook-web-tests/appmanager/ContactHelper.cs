@@ -7,6 +7,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using System.Text.RegularExpressions;
 
 namespace WebAddressbookTests;
 
@@ -174,10 +175,12 @@ public class ContactHelper : HelperBase
         string address = cells[3].Text;
         // сохраняем номера телефонов целиком, потом делаем property
         string allPhones = cells[5].Text;
+        string allEmails = cells[4].Text;
         return new ContactFormData(firstName, lastName)
         {
             Address = address,
-            AllPhones = allPhones
+            AllPhones = allPhones,
+            AllEmails = allEmails
         };
     }
     public ContactFormData GetContactInformationFromEditForm(int index)
@@ -190,13 +193,20 @@ public class ContactHelper : HelperBase
         string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
         string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
         string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+        // проверить
+        string email = driver.FindElement(By.Name("email")).GetAttribute("value");
+        string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
+        string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
         // полученные данные заносим в объект типа ContactFormData
         return new ContactFormData(firstName, lastName)
         {
             Address = address,
             HomePhone = homePhone,
             MobilePhone = mobilePhone,
-            WorkPhone = workPhone
+            WorkPhone = workPhone,
+            Email = email,
+            Email2 = email2,
+            Email3 = email3
         };
     }
 
@@ -207,5 +217,16 @@ public void InitContactModification(int index)
            .FindElements(By.TagName("td"))[7]
            // внутри нее находим ссылку
            .FindElement(By.TagName("a")).Click();
+    }
+
+    public int GetNumberOfSearchResults()
+    {
+        manager.Navigator.OpenHomePage();
+        string text = driver.FindElement(By.TagName("label")).Text;
+        // создаем регулярное выражение, применяем его к строке и забираем ту часть строки, которая удовлетворяет этому рег выражению
+        // в качестве результата получаем объект специального типа Match
+        // выполняем некоторые проверки с этим объектом
+        Match m = new Regex(@"\d+").Match(text);
+        return Int32.Parse(m.Value);
     }
 }

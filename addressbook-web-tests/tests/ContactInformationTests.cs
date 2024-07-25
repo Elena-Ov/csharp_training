@@ -19,10 +19,11 @@ public class ContactInformationTests : AuthTestBase
         ContactFormData fromTable = app.Contact.GetContactInformationFromTable(0);
         // получаем информацию об отдельно взятом контакте из формы
         ContactFormData fromForm = app.Contact.GetContactInformationFromEditForm(0);
-        //verification, сравниваем имя и фамилию
+        //verification, сравниваем имя и фамилию и т.д.
         Assert.AreEqual(fromTable, fromForm);
         Assert.AreEqual(fromTable.Address, fromForm.Address);
         Assert.AreEqual(fromTable.AllPhones, fromForm.AllPhones);
+        Assert.AreEqual(fromTable.AllEmails, fromForm.AllEmails);
 
     }
 }

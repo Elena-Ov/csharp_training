@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium.DevTools.V85.CSS;
+using System.Text.RegularExpressions;
 
 namespace WebAddressbookTests;
 
 public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactFormData>
 {
-    public string allPhones;
+    private string allPhones;
+    private string allEmails;
     public ContactFormData(string lastname, string firstname) 
     {
         Lastname = lastname;
@@ -62,6 +64,9 @@ public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactF
     public string MobilePhone { get; set; }
     
     public string WorkPhone { get; set; }
+    public string Email { get; set; }
+    public string Email2 { get; set; }
+    public string Email3 { get; set; }
     // расписываем полностью так как будем клеить строки - обратная проверка
     public string AllPhones
     
@@ -90,7 +95,34 @@ public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactF
             return "";
         }
 
-        return phone.Replace(" ", "").Replace("-", "")
-            .Replace("(", "").Replace(")", "") + "\n";
+        return Regex.Replace(phone, "[ -()]", "") + "\n";
+    }
+    
+    public string AllEmails
+    {
+        get
+        {
+            if (allEmails != null)
+            {
+                return allEmails;
+            }
+            else
+            {
+                return (CleanUpEmail(Email) + CleanUpEmail(Email2) + CleanUpEmail(Email3)).Trim();
+            }
+        }
+        set
+        {
+            allEmails = value;
+        } 
+    }
+    private string CleanUpEmail(string mail)
+    {
+        if (mail == null || mail == "")
+        {
+            return "";
+        }
+
+        return Regex.Replace(mail,"[ ]", "") + "\n";
     }
 }
