@@ -98,7 +98,7 @@ public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactF
         return Regex.Replace(phone, "[ -()]", "") + "\n";
     }
     
-    public string AllEmails
+    /*public string AllEmails
     {
         get
         {
@@ -124,5 +124,49 @@ public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactF
         }
 
         return Regex.Replace(mail,"[ ]", "") + "\n";
+    }*/
+    public string AllEmails
+    {
+        get
+        {
+            if (allEmails != null)
+            {
+                return allEmails;
+            }
+            else
+            {
+                return GetAllEmails();
+            }
+        }
+        set
+        {
+            allEmails = value;
+        } 
+    }
+    
+    private string GetAllEmails()
+    {
+        string allEmails = "";
+        var tempemail = CleanUpEmail(Email);
+        if (!string.IsNullOrEmpty(tempemail))
+            allEmails = tempemail;
+        tempemail = CleanUpEmail(Email2);
+        if (!string.IsNullOrEmpty(tempemail))
+            allEmails += "\n"+tempemail;
+        tempemail = CleanUpEmail(Email3);
+        if (!string.IsNullOrEmpty(tempemail))
+            allEmails += "\n"+tempemail;
+        
+        return allEmails.Trim('\n');
+    }
+    
+    private string CleanUpEmail(string mail)
+    {
+        if (mail == null || mail == "")
+        {
+            return "";
+        }
+
+        return Regex.Replace(mail,"[ ]", "");
     }
 }
