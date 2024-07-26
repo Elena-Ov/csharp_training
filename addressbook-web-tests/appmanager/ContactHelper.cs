@@ -188,25 +188,36 @@ public class ContactHelper : HelperBase
         manager.Navigator.OpenHomePage();
         InitContactModification(0);
         string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+        string middleName = driver.FindElement(By.Name("middlename")).GetAttribute("value");
         string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+        string nickName = driver.FindElement(By.Name("nickname")).GetAttribute("value");
+        string company = driver.FindElement(By.Name("company")).GetAttribute("value");
+        string title = driver.FindElement(By.Name("title")).GetAttribute("value");
         string address = driver.FindElement(By.Name("address")).GetAttribute("value");
         string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
         string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
         string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
-        // проверить
+        string fax = driver.FindElement(By.Name("fax")).GetAttribute("value");
         string email = driver.FindElement(By.Name("email")).GetAttribute("value");
         string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
         string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
+        string homePage = driver.FindElement(By.Name("homepage")).GetAttribute("value");
         // полученные данные заносим в объект типа ContactFormData
         return new ContactFormData(firstName, lastName)
         {
+            MiddleName = middleName,
+            NickName = nickName,
+            Company = company,
+            Title = title,
             Address = address,
             HomePhone = homePhone,
             MobilePhone = mobilePhone,
             WorkPhone = workPhone,
+            Fax = fax,
             Email = email,
             Email2 = email2,
-            Email3 = email3
+            Email3 = email3,
+            HomePage = homePage
         };
     }
 

@@ -26,4 +26,19 @@ public class ContactInformationTests : AuthTestBase
         Assert.AreEqual(fromTable.AllEmails, fromForm.AllEmails);
 
     }
+    // новое для проверки детальной информации о контакте
+    [Test]
+    public void TestDetailedContactInformation()
+    {
+        //получаем информацию об отдельно взятом контакте на странице просмотра свойств контакта
+        ContactFormData fromIdPage = app.Contact.GetContactInformationfromIdPage(0);
+        // получаем информацию об отдельно взятом контакте из формы
+        ContactFormData fromForm = app.Contact.GetContactInformationFromEditForm(0);
+        //verification, сравниваем имя и фамилию и т.д.
+        Assert.AreEqual(fromIdPage, fromForm);
+        Assert.AreEqual(fromIdPage.Address, fromForm.Address);
+        Assert.AreEqual(fromIdPage.AllPhones, fromForm.AllPhones);
+        Assert.AreEqual(fromIdPage.AllEmails, fromForm.AllEmails);
+
+    }
 }

@@ -54,19 +54,25 @@ public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactF
     }
     //поле создаются автоматически
     public string Lastname { get; set; }
+    public string MiddleName { get; set; }
     public string Firstname { get; set; }
+    public string NickName { get; set; }
     public string Id { get; set; }
+    public string Company { get; set; }
+    public string Title { get; set; }
     
     public string Address { get; set; }
     
     public string HomePhone { get; set; }
     
     public string MobilePhone { get; set; }
-    
+    public string Fax { get; set; }
     public string WorkPhone { get; set; }
     public string Email { get; set; }
     public string Email2 { get; set; }
     public string Email3 { get; set; }
+    public string HomePage { get; set; }
+    
     // расписываем полностью так как будем клеить строки - обратная проверка
     public string AllPhones
     
