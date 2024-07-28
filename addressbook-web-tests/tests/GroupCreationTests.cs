@@ -10,13 +10,30 @@ namespace WebAddressbookTests
     [TestFixture]
     public class GroupCreationTests : AuthTestBase
     {
-        [Test]
-        public void GroupCreationTest()
+        // реализуем метод генерации тестовых данных
+        public static IEnumerable<GroupData> RandomGroupDataProvider()
+        {
+            // создаем список
+            List<GroupData> groups = new List<GroupData>();
+            //заполняем его данными, которые будем генерировать
+            // 5 разных тестовых наборов
+            for (int i = 0; i < 5; i++)
+            {
+                //максимальная длина строки, которую мы хотим сгенерировать
+                groups.Add(new GroupData(GenerateRandomString(30))
+                {
+                    Header = GenerateRandomString(100),
+                    Footer = GenerateRandomString(100)
+                });
+            }
+            return groups;
+        }
+        
+        //привязываем тест к генератору
+        [Test, TestCaseSource("RandomGroupDataProvider")]
+        // информация о группе будет передаваться из вне
+        public void GroupCreationTest(GroupData group)
         {   
-            GroupData group = new GroupData("mmm");
-            group.Header = "ggg";
-            group.Footer = "nnn";
-            
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             
             app.Groups.CreateGroup(group);
@@ -33,25 +50,7 @@ namespace WebAddressbookTests
             
             Assert.AreEqual(oldGroups, newGroups);
         }
-        [Test]
-        public void EmptyGroupCreationTest()
-        {   
-            GroupData group = new GroupData("");
-            group.Header = "";
-            group.Footer = "";
-            
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
-            
-            app.Groups.CreateGroup(group);
-            
-            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
-            
-            List<GroupData> newGroups = app.Groups.GetGroupList(); 
-            oldGroups.Add(group);
-            oldGroups.Sort();
-            newGroups.Sort();
-            Assert.AreEqual(oldGroups, newGroups);
-        }
+        
         /*[Test] 
         public void BadNameGroupCreationTest()
         {   

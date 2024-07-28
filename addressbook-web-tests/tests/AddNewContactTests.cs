@@ -10,12 +10,27 @@ namespace WebAddressbookTests
    [TestFixture]
    public class AddNewContactTests : AuthTestBase
    {
-       [Test]
-       public void TheAddNewContactTest()
+       public static IEnumerable<ContactFormData> RandomContactDataProvider()
        {
-           ContactFormData personalData = new ContactFormData("", "");
-           personalData.Firstname = "Ron";
-           personalData.Lastname = "Kon";
+           // создаем список
+           List<ContactFormData> contactsPersonalData = new List<ContactFormData>();
+           //заполняем его данными, которые будем генерировать
+           // 5 разных тестовых наборов
+           for (int i = 0; i < 5; i++)
+           {
+               //максимальная длина строки, которую мы хотим сгенерировать
+               contactsPersonalData.Add(new ContactFormData(GenerateRandomString(30))
+               {
+                   Firstname = GenerateRandomString(100),
+                   Lastname = GenerateRandomString(100)
+               });
+           }
+           return contactsPersonalData;
+       }
+       
+       [Test, TestCaseSource("RandomContactDataProvider")]
+       public void TheAddNewContactTest(ContactFormData personalData)
+       {
            // получаем список контактов до создания новых
            List<ContactFormData> oldContacts = app.Contact.GetContactsList();
            // создаем новый контакт
@@ -32,23 +47,6 @@ namespace WebAddressbookTests
            oldContacts.Sort();
            newContacts.Sort();
            // сравниваем старый список контактов с добавленным контактом и новый список контактов
-           Assert.AreEqual(oldContacts, newContacts);
-       }
-        
-       [Test]
-       public void TheEmptyContactTest()
-       {   
-           ContactFormData personalData = new ContactFormData("", "");
-           personalData.Firstname = "";
-           personalData.Lastname = "";
-           
-           List<ContactFormData> oldContacts = app.Contact.GetContactsList();
-           app.Contact.CreateContact(personalData);
-           Assert.AreEqual(oldContacts.Count + 1, app.Contact.GetContactCount());
-           List<ContactFormData> newContacts = app.Contact.GetContactsList();
-           oldContacts.Add(personalData);
-           oldContacts.Sort();
-           newContacts.Sort();
            Assert.AreEqual(oldContacts, newContacts);
        }
    }

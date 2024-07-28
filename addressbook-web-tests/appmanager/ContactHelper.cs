@@ -242,24 +242,23 @@ public class ContactHelper : HelperBase
         // переход на страницу id
         manager.Navigator.OpenHomePage();
         SelectDetails(0);
-        // извлекаем из строк текст ????
-        IList<IWebElement> lines = driver.FindElements(By.Id("content"))[index]
-            .FindElements(By.TagName("br"));
-        string fullname = lines[0].Text;
-        string nickname = lines[1].Text;
-        string title = lines[2].Text;
-        string company = lines[3].Text;
-        string address = lines[4].Text;
-        string homePhone = lines[5].Text;
-        string mobilePhone = lines[6].Text;
-        string workPhone = lines[7].Text;
-        string fax = lines[8].Text;
-        string email = lines[9].Text;
-        string email2 = lines[10].Text;
-        string email3 = lines[11].Text;
-        string homePage = lines[12].Text;
-        string birthDay = lines[13].Text;
-        string anniversary = lines[14].Text;
+        // извлекаем из строк текст 
+        var lines = driver.FindElements(By.Id("content"))[index].Text.Split('\n');
+        string fullname = lines[0];
+        string nickname = lines[1];
+        string title = lines[2];
+        string company = lines[3];
+        string address = lines[4];
+        string homePhone = lines[5];
+        string mobilePhone = lines[6];
+        string workPhone = lines[7];
+        string fax = lines[8];
+        string email = lines[9];
+        string email2 = lines[10];
+        string email3 = lines[11];
+        string homePage = lines[12];
+        string birthDay = lines[13];
+        string anniversary = lines[14];
 
         return new ContactFormData("", "")
         {

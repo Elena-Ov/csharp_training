@@ -43,7 +43,7 @@ public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
     // метод должен вернуть строковое представление объектов типа GroupData
     public override string ToString()
     {
-        return "name = " + Name;
+        return "name = " + Name + "\nheader = " + Header + "\nfooter = " + Footer;
     }
 
     public int CompareTo(GroupData other)
