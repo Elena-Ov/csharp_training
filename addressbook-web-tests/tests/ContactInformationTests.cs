@@ -31,14 +31,24 @@ public class ContactInformationTests : AuthTestBase
     public void TestDetailedContactInformation()
     {
         //получаем информацию об отдельно взятом контакте на странице просмотра свойств контакта
-        ContactFormData fromIdPage = app.Contact.GetContactInformationfromIdPage(0);
+        ContactFormData fromIdPage = app.Contact.GetContactInformationFromIdPage(0);
         // получаем информацию об отдельно взятом контакте из формы
         ContactFormData fromForm = app.Contact.GetContactInformationFromEditForm(0);
         //verification, сравниваем имя и фамилию и т.д.
-        Assert.AreEqual(fromIdPage, fromForm);
+        Assert.AreEqual(fromIdPage.Fullname, fromForm.Fullname);
+        Assert.AreEqual(fromIdPage.Nickname, fromForm.Nickname);
+        Assert.AreEqual(fromIdPage.Company, fromForm.Company);
+        Assert.AreEqual(fromIdPage.Title, fromForm.Title);
         Assert.AreEqual(fromIdPage.Address, fromForm.Address);
-        Assert.AreEqual(fromIdPage.AllPhones, fromForm.AllPhones);
-        Assert.AreEqual(fromIdPage.AllEmails, fromForm.AllEmails);
-
+        Assert.AreEqual(fromIdPage.HomePhone, fromForm.HomePhone);
+        Assert.AreEqual(fromIdPage.MobilePhone, fromForm.MobilePhone);
+        Assert.AreEqual(fromIdPage.WorkPhone, fromForm.WorkPhone);
+        Assert.AreEqual(fromIdPage.Fax, fromForm.Fax);
+        Assert.AreEqual(fromIdPage.Email, fromForm.Email);
+        Assert.AreEqual(fromIdPage.Email2, fromForm.Email2);
+        Assert.AreEqual(fromIdPage.Email3, fromForm.Email3);
+        Assert.AreEqual(fromIdPage.HomePage, fromForm.HomePage);
+        Assert.AreEqual(fromIdPage.BirthDay, fromForm.BirthDay);
+        Assert.AreEqual(fromIdPage.Anniversary, fromForm.Anniversary);
     }
 }

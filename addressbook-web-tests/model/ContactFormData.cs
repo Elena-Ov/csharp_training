@@ -10,8 +10,11 @@ namespace WebAddressbookTests;
 
 public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactFormData>
 {
-    private string allPhones;
-    private string allEmails;
+    public string allPhones;
+    public string allEmails;
+    public string birthDay;
+    public string anniversary;
+    
     public ContactFormData(string lastname, string firstname) 
     {
         Lastname = lastname;
@@ -54,9 +57,9 @@ public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactF
     }
     //поле создаются автоматически
     public string Lastname { get; set; }
-    public string MiddleName { get; set; }
+    public string Middlename { get; set; }
     public string Firstname { get; set; }
-    public string NickName { get; set; }
+    public string Nickname { get; set; }
     public string Id { get; set; }
     public string Company { get; set; }
     public string Title { get; set; }
@@ -72,6 +75,12 @@ public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactF
     public string Email2 { get; set; }
     public string Email3 { get; set; }
     public string HomePage { get; set; }
+    public string Bday { get; set; }
+    public string Bmonth { get; set; }
+    public string Byear { get; set; }
+    public string Aday { get; set; }
+    public string Amonth { get; set; }
+    public string Ayear { get; set; }
     
     // расписываем полностью так как будем клеить строки - обратная проверка
     public string AllPhones
@@ -104,33 +113,6 @@ public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactF
         return Regex.Replace(phone, "[ -()]", "") + "\n";
     }
     
-    /*public string AllEmails
-    {
-        get
-        {
-            if (allEmails != null)
-            {
-                return allEmails;
-            }
-            else
-            {
-                return (CleanUpEmail(Email) + CleanUpEmail(Email2) + CleanUpEmail(Email3)).Trim();
-            }
-        }
-        set
-        {
-            allEmails = value;
-        } 
-    }
-    private string CleanUpEmail(string mail)
-    {
-        if (mail == null || mail == "")
-        {
-            return "";
-        }
-
-        return Regex.Replace(mail,"[ ]", "") + "\n";
-    }*/
     public string AllEmails
     {
         get
@@ -150,7 +132,7 @@ public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactF
         } 
     }
     
-    private string GetAllEmails()
+    public string GetAllEmails()
     {
         string allEmails = "";
         var tempemail = CleanUpEmail(Email);
@@ -174,5 +156,77 @@ public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactF
         }
 
         return Regex.Replace(mail,"[ ]", "");
+    }
+    // склеиваем полное имя - обратная проверка
+    public string Fullname
+    
+    {
+        get
+        {
+            if (Fullname != null)
+            {
+                return Fullname;
+            }
+            else
+            {
+                return (CleanUpName(Firstname) + CleanUpName(Middlename) + CleanUpName(Lastname)).Trim();
+            }
+        }
+        set
+        {
+            Fullname = value;
+        } 
+    }
+    private string CleanUpName(string name)
+    {
+        if (name == null || name =="")
+        {
+            return "";
+        }
+
+        return Regex.Replace(name, "[ ]", "") + "\n";
+    }
+    // если год не указан ???
+    public string BirthDay
+
+    {
+        get
+        {
+            if (birthDay != null)
+            {
+                return birthDay;
+            }
+            else
+            {
+                return Bday + Bmonth + CleanUpYear(Byear);
+            }
+        }
+        set { birthDay = value; }
+    }
+
+    public string Anniversary
+
+    {
+        get
+        {
+            if (anniversary != null)
+            {
+                return anniversary;
+            }
+            else
+            {
+                return Aday + Amonth + CleanUpYear(Ayear);
+            }
+        }
+        set { anniversary = value; }
+    } 
+    private string CleanUpYear(string year)
+    {
+        if (year == null || year =="")
+        {
+            return "";
+        }
+
+        return Regex.Replace(year, "[ ]", "") + "\n";
     }
 }
