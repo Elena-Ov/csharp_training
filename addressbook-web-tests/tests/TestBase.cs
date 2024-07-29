@@ -34,7 +34,7 @@ public class TestBase
         {
             // коды символов в соответсвиии с таблицей ASCII
             // полученное число конвертируем в целое число, а его в символ
-            builder.Append(Convert.ToChar(32 + Convert.ToInt32(rnd.NextDouble() * 223)));
+            builder.Append(Convert.ToChar(32 + Convert.ToInt32(rnd.NextDouble() * 65)));
         }
 
         // извлекаем из билдера полученную строку
