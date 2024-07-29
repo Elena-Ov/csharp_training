@@ -19,10 +19,10 @@ namespace WebAddressbookTests
            for (int i = 0; i < 5; i++)
            {
                //максимальная длина строки, которую мы хотим сгенерировать
-               contactsPersonalData.Add(new ContactFormData(GenerateRandomString(30))
+               contactsPersonalData.Add(new ContactFormData(GenerateRandomString(30), GenerateRandomString(50))
                {
-                   Firstname = GenerateRandomString(100),
-                   Lastname = GenerateRandomString(100)
+                   //Firstname = GenerateRandomString(100),
+                   //Lastname = GenerateRandomString(100)
                });
            }
            return contactsPersonalData;
