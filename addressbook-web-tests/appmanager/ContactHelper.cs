@@ -83,6 +83,7 @@ public class ContactHelper : HelperBase
     {
         driver.FindElement(By.XPath("//div[@id='content']/form[2]/table/tbody/tr[" + (index + 1) + "]/td[1]/input"))
             .Click();
+        //driver.FindElement(By.Id(contactId)).Click();
         return this;
     }
 
