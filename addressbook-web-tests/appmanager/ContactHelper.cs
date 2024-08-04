@@ -242,6 +242,10 @@ public class ContactHelper : HelperBase
         // переход на страницу id
         manager.Navigator.OpenHomePage();
         SelectDetails(0);
+        // вторая часть - переход на стр формы
+        ModifyData();
+        // читаем данные на стр формы
+        // ??? как переделать если в методе переход по другому на стр формы - GetContactInformationFromEditForm(int index)
         // извлекаем из строк текст 
         var lines = driver.FindElements(By.Id("content"))[index].Text.Split('\n');
         string fullname = lines[0];
