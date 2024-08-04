@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 using WebAddressbookTests;
 
 
@@ -13,29 +15,40 @@ namespace addressbook_test_data_generators
     {
         static void Main(string[] args)
         {
-            // передаем количество тестовых данных которые хотим сгенерировать
+            // программа принимает три параметра
             int count = Convert.ToInt32(args[0]);
-            
-            // лекция 6.2 - добавляем 3-й параметр - формат
-            //StreamWriter writer = new StreamWriter(args[1]);
-            //string format = args[3];
-            
-            // создаем новый объект
             StreamWriter writer = new StreamWriter(args[1]);
+            string format = args[3];
+
+            // формируем список
+            List<GroupData> groups = new List<GroupData>();
             for (int i = 0; i < count; i++)
-            {
-                // записываем три значения разделенные запятыми
-                // для этого используем форматирование
-                writer.WriteLine(String.Format("${0},${1},${2}",
-                    TestBase.GenerateRandomString(10),
-                    TestBase.GenerateRandomString(10),
-                    TestBase.GenerateRandomString(10)));
+            { 
+                // создаем объекты и добавляем в список
+                groups.Add(new GroupData(TestBase.GenerateRandomString(10))
+                {
+                    Header = TestBase.GenerateRandomString(10),
+                    Footer = TestBase.GenerateRandomString(10)
+                });
             }
-            //writeGroupsToCsvFile(groups, writer);
+
+            if (format == "csv")
+            {
+                writeGroupsToCsvFile(groups, writer);
+            }
+            else if (format == "xml")
+            {
+                writeGroupsToXmlFile(groups, writer);
+            }
+            else
+            {
+                System.Console.Out.Write("Unrecognized format " + format);
+            }
             writer.Close();
         }
         // чтобы писать данные в разных форматах определяем функции которые это будут делать
-       /* static void writeGroupsToCsvFile(List<GroupData> groups, StreamWriter writer)
+        // comma-separated file - CSV
+        static void writeGroupsToCsvFile(List<GroupData> groups, StreamWriter writer)
         {
             foreach (GroupData group in groups)
             {
@@ -43,7 +56,30 @@ namespace addressbook_test_data_generators
                     group.Name, group.Header, group.Footer));
             }
         }
-        static void writeGroupsToXmlFile(List<GroupData> groups, StreamWriter writer){}*/
+
+        // первый параметр - список элементов типа GroupData, второй куда будем записывать
+        static void writeGroupsToXmlFile(List<GroupData> groups, StreamWriter writer)
+        {
+            //первый параметр - куда, второй - что
+           new XmlSerializer(typeof(List<GroupData>)).Serialize(writer, groups);
+        }
+
+        /*{
+            // запись текстовых файлов, передаем количество тестовых данных которые хотим сгенерировать
+            int count = Convert.ToInt32(args[0]);
+
+            // создаем новый объект
+            StreamWriter writer = new StreamWriter(args[1]);
+            for (int i = 0; i < count; i++)
+            {
+                // цикл для записи строчек в файл
+                writer.WriteLine(String.Format("${0},${1},${2}",
+                    TestBase.GenerateRandomString(10),
+                    TestBase.GenerateRandomString(10),
+                    TestBase.GenerateRandomString(10)));
+            }
+            writer.Close();
+        }*/
     }
 }
 

@@ -12,6 +12,9 @@ namespace WebAddressbookTests;
 // добавляем второй стандартный метод GetHashCode()
 public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
 {
+    public GroupData()
+    {
+    }
     public GroupData(string name)
     {
         Name = name; // присваивание в свойство, тк поле создается автоматически
