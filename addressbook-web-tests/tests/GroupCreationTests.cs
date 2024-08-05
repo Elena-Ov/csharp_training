@@ -6,6 +6,7 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace WebAddressbookTests
@@ -14,7 +15,7 @@ namespace WebAddressbookTests
     public class GroupCreationTests : AuthTestBase
     {
         // реализуем метод генерации тестовых данных
-        /*public static IEnumerable<GroupData> RandomGroupDataProvider()
+        public static IEnumerable<GroupData> RandomGroupDataProvider()
         {
             // создаем список
             List<GroupData> groups = new List<GroupData>();
@@ -31,10 +32,10 @@ namespace WebAddressbookTests
             }
 
             return groups;
-        }*/
+        }
 
         // занятие 6.1
-        /*public static IEnumerable<GroupData> GroupDataFromCsvFile()
+        public static IEnumerable<GroupData> GroupDataFromCsvFile()
     {
         //создаем список, который в конце возвращаем
         List<GroupData> groups = new List<GroupData>();
@@ -53,7 +54,7 @@ namespace WebAddressbookTests
         }
 
         return groups;
-    }*/
+    }
         // занятие 6.2
         public static IEnumerable<GroupData> GroupDataFromXmlFile()
         {
@@ -64,29 +65,22 @@ namespace WebAddressbookTests
                 new XmlSerializer(typeof(List<GroupData>))
                     .Deserialize(new StreamReader(@"groups1.xml"));
         }
+        // занятие 6.3
+        public static IEnumerable<GroupData> GroupDataFromJsonFile()
+        { 
+            // указываем какого типа должен быть объект - <List<GroupData>
+            // в качестве параметра передаем текст прочитанный из файла
+            return JsonConvert.DeserializeObject<List<GroupData>>(
+                File.ReadAllText(@"groups1.json"));
+        }
 
         //привязываем тест к генератору
         // первый генератор
         //[Test, TestCaseSource("RandomGroupDataProvider")]
-        // генератор Csv
-        /*[Test, TestCaseSource("GroupDataFromCsvFile")]
-        public void GroupCreationTest(GroupData group)
-        {
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
-
-            app.Groups.CreateGroup(group);
-
-            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
-
-            List<GroupData> newGroups = app.Groups.GetGroupList();
-
-            oldGroups.Add(group);
-            oldGroups.Sort();
-            newGroups.Sort();
-
-            Assert.AreEqual(oldGroups, newGroups);
-        }*/
-        [Test, TestCaseSource("GroupDataFromXmlFile")]
+        // генераторы csv, xml, json
+        [Test, TestCaseSource("GroupDataFromCsvFile")]
+        //[Test, TestCaseSource("GroupDataFromXmlFile")]
+        //[Test, TestCaseSource("GroupDataFromJsonFile")]
         public void GroupCreationTest(GroupData group)
         {
             List<GroupData> oldGroups = app.Groups.GetGroupList();
