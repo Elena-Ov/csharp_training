@@ -18,7 +18,7 @@ namespace addressbook_test_data_generators
             // программа принимает три параметра
             int count = Convert.ToInt32(args[0]);
             StreamWriter writer = new StreamWriter(args[1]);
-            string format = args[3];
+            string format = args[2];
 
             // формируем список
             List<GroupData> groups = new List<GroupData>();
@@ -60,6 +60,7 @@ namespace addressbook_test_data_generators
         // первый параметр - список элементов типа GroupData, второй куда будем записывать
         static void writeGroupsToXmlFile(List<GroupData> groups, StreamWriter writer)
         {
+            //указываем какого типа данные он будет сериализовывать
             //первый параметр - куда, второй - что
            new XmlSerializer(typeof(List<GroupData>)).Serialize(writer, groups);
         }
