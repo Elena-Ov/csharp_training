@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
+using Microsoft.CSharp;
+using Excel = Microsoft.Office.Interop.Excel;
 using NUnit.Framework;
 
 namespace WebAddressbookTests
@@ -73,14 +75,44 @@ namespace WebAddressbookTests
             return JsonConvert.DeserializeObject<List<GroupData>>(
                 File.ReadAllText(@"groups1.json"));
         }
+        // занятие 6.4
+        public static IEnumerable<GroupData> GroupDataFromExcelFile()
+        {
+            //создаем новый список, в который будем читать данные
+            List<GroupData> groups = new List<GroupData>();
+            //создаем приложение
+            Excel.Application app = new Excel.Application();
+            Excel.Workbook wb = app.Workbooks.Open(Path.Combine(Directory.GetCurrentDirectory(), @"groups1.xlsx"));
+            Excel.Worksheet sheet = (Excel.Worksheet)wb.ActiveSheet;
+            // прямоугольник к-й содержит данные
+            Excel.Range range = sheet.UsedRange;
+            // значение номеров строк меняется от 1 до полного совпадения с количеством строк
+            for (int i = 1; i <= range.Rows.Count; i++)
+            {
+                groups.Add(new GroupData()
+                {
+                    // добавляем объекты, к-е заполняются значениями из таблицы
+                    // 1,2,3 - ячейки
+                    Name = range.Cells[i, 1].Value2,
+                    Header = range.Cells[i, 2].Value2,
+                    Footer = range.Cells[i, 3].Value2
+
+                });
+            }
+            wb.Close();
+            app.Visible = false;
+            app.Quit();
+            return groups;
+        }
 
         //привязываем тест к генератору
         // первый генератор
         //[Test, TestCaseSource("RandomGroupDataProvider")]
-        // генераторы csv, xml, json
+        // генераторы csv, xml, json, excel
         [Test, TestCaseSource("GroupDataFromCsvFile")]
         //[Test, TestCaseSource("GroupDataFromXmlFile")]
         //[Test, TestCaseSource("GroupDataFromJsonFile")]
+        //[Test, TestCaseSource("GroupDataFromExcelFile")]
         public void GroupCreationTest(GroupData group)
         {
             List<GroupData> oldGroups = app.Groups.GetGroupList();
