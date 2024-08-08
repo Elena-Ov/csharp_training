@@ -76,7 +76,7 @@ namespace WebAddressbookTests
                 File.ReadAllText(@"groups1.json"));
         }
         // занятие 6.4
-        public static IEnumerable<GroupData> GroupDataFromExcelFile()
+       /* public static IEnumerable<GroupData> GroupDataFromExcelFile()
         {
             //создаем новый список, в который будем читать данные
             List<GroupData> groups = new List<GroupData>();
@@ -103,7 +103,7 @@ namespace WebAddressbookTests
             app.Visible = false;
             app.Quit();
             return groups;
-        }
+        }*/
 
         //привязываем тест к генератору
         // первый генератор

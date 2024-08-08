@@ -13,18 +13,18 @@ using WebAddressbookTests;
 using Formatting = Newtonsoft.Json.Formatting;
 
 
-namespace addressbook_test_data_generators
+namespace AddressbookTestDataGenerators
 {
-    class Program
+    public class ProgramForTestDataGeneration
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             // программа принимает три параметра
             int count = Convert.ToInt32(args[0]);
             string filename = args[1];
             string format = args[2];
 
-            // формируем список
+            // формируем список для групп
             List<GroupData> groups = new List<GroupData>();
             for (int i = 0; i < count; i++)
             {
@@ -35,11 +35,23 @@ namespace addressbook_test_data_generators
                     Footer = TestBase.GenerateRandomString(10)
                 });
             }
+            
+            // формируем список для контактов
+            List<ContactFormData> contactsPersonalData = new List<ContactFormData>();
+            for (int i = 0; i < count; i++)
+            {
+                // создаем объекты и добавляем в список
+                contactsPersonalData
+                    .Add(new ContactFormData(TestBase.GenerateRandomString(10),
+                        TestBase.GenerateRandomString(10))
+                    { });
+            }
 
             if (format == "excel")
             {
                 // в качестве параметра передаем название файла который мы получили как параметр при запуске
                 writeGroupsToExcelFile(groups, filename);
+                writeContactsToExcelFile(contactsPersonalData, filename);
             }
             else
             {
@@ -47,14 +59,17 @@ namespace addressbook_test_data_generators
                 if (format == "csv")
                 {
                     writeGroupsToCsvFile(groups, writer);
+                    writeContactsToCsvFile(contactsPersonalData, writer);
                 }
                 else if (format == "xml")
                 {
                     writeGroupsToXmlFile(groups, writer);
+                    writeContactsToXmlFile(contactsPersonalData, writer);
                 }
                 else if (format == "json")
                 {
                     writeGroupsToJsonFile(groups, writer);
+                    writeContactsToJsonFile(contactsPersonalData, writer);
                 }
                 else
                 {
@@ -116,23 +131,57 @@ namespace addressbook_test_data_generators
             {
                 writer.Write(JsonConvert.SerializeObject(groups, Formatting.Indented));
             }
+            
+            // чтобы писать данные для контактов в разных форматах определяем функции которые это будут делать
+            static void writeContactsToCsvFile(List<ContactFormData> contactsPersonalData, StreamWriter writer)
+        {
+            foreach (ContactFormData contact in contactsPersonalData)
+            {
+                writer.WriteLine(String.Format("${0},${1}",
+                    contact.Lastname, contact.Firstname));
+            }
+        }
 
-            /*{
-                // запись текстовых файлов, передаем количество тестовых данных которые хотим сгенерировать
-                int count = Convert.ToInt32(args[0]);
+        static void writeContactsToExcelFile(List<ContactFormData> contactsPersonalData, string filename)
+        {
+            //запуск excel через com interface
+            Excel.Application app = new Excel.Application();
+            app.Visible = true;
+            Excel.Workbook wb = app.Workbooks.Add();
+            Excel.Worksheet sheet = (Excel.Worksheet)wb.ActiveSheet;
+            sheet.Cells[1, 1] = "test";
+            // чтобы записать инфу о контактах -> цикл
+            //номер строки
+            int row = 1;
+            foreach (ContactFormData contact in contactsPersonalData)
+            {
+                sheet.Cells[row, 1] = contact.Lastname;
+                sheet.Cells[row, 2] = contact.Firstname;
+                row++;
+            }
 
-                // создаем новый объект
-                StreamWriter writer = new StreamWriter(args[1]);
-                for (int i = 0; i < count; i++)
-                {
-                    // цикл для записи строчек в файл
-                    writer.WriteLine(String.Format("${0},${1},${2}",
-                        TestBase.GenerateRandomString(10),
-                        TestBase.GenerateRandomString(10),
-                        TestBase.GenerateRandomString(10)));
-                }
-                writer.Close();
-            }*/
+            // полный путь к файлу чтобы excel сохранил куда нужно
+            // придварительно удаляем файл, чтобы при повторном создании он сохранил в тоже место
+            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), filename);
+            File.Delete(fullPath);
+            wb.SaveAs(fullPath);
+            wb.Close();
+            app.Visible = false;
+            app.Quit();
+        }
+
+        // первый параметр - список элементов типа GroupData, второй куда будем записывать
+        static void writeContactsToXmlFile(List<ContactFormData> contactsPersonalData, StreamWriter writer)
+        {
+            //указываем какого типа данные он будет сериализовывать
+            //первый параметр - куда, второй - что
+            new XmlSerializer(typeof(List<ContactFormData>)).Serialize(writer, contactsPersonalData);
+        }
+
+        static void writeContactsToJsonFile(List<ContactFormData> contactsPersonalData, StreamWriter writer)
+        {
+            writer.Write(JsonConvert.SerializeObject(contactsPersonalData, Formatting.Indented));
+        }
         }
     }
 

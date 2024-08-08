@@ -3,6 +3,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
+using Microsoft.CSharp;
+using Excel = Microsoft.Office.Interop.Excel;
 using NUnit.Framework;
 
 namespace WebAddressbookTests
@@ -20,15 +25,21 @@ namespace WebAddressbookTests
            {
                //максимальная длина строки, которую мы хотим сгенерировать
                contactsPersonalData.Add(new ContactFormData(GenerateRandomString(30), GenerateRandomString(50))
-               {
-                   //Firstname = GenerateRandomString(100),
-                   //Lastname = GenerateRandomString(100)
-               });
+               { });
            }
            return contactsPersonalData;
        }
        
-       [Test, TestCaseSource("RandomContactDataProvider")]
+       // чтение xml файла
+       public static IEnumerable<ContactFormData> ContactDataFromXmlFile()
+       {
+           return (List<ContactFormData>)
+               new XmlSerializer(typeof(List<ContactFormData>))
+                   .Deserialize(new StreamReader(@"contacts.xml"));
+       }
+       
+       //[Test, TestCaseSource("RandomContactDataProvider")]
+       [Test, TestCaseSource("ContactDataFromXmlFile")]
        public void TheAddNewContactTest(ContactFormData personalData)
        {
            // получаем список контактов до создания новых

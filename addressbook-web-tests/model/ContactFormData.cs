@@ -15,6 +15,9 @@ public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactF
     public string birthDay;
     public string anniversary;
     
+    public ContactFormData() 
+    {
+    }
     public ContactFormData(string lastname, string firstname) 
     {
         Lastname = lastname;
@@ -158,7 +161,7 @@ public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactF
         return Regex.Replace(mail,"[ ]", "");
     }
     // склеиваем полное имя - обратная проверка
-    public string Fullname
+    /*public string Fullname
     
     {
         get
@@ -185,7 +188,7 @@ public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactF
         }
 
         return Regex.Replace(name, "[ ]", "") + "\n";
-    }
+    }*/
     // если год не указан ???
     public string BirthDay
 

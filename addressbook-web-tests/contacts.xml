@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfGroupData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GroupData>
+    <Name>(2"M:CT</Name>
+    <Header />
+    <Footer>,W7'[[:I</Footer>
+  </GroupData>
+  <GroupData>
+    <Name>_^</Name>
+    <Header>H</Header>
+    <Footer>![</Footer>
+  </GroupData>
+</ArrayOfGroupData><?xml version="1.0" encoding="utf-8"?>
+<ArrayOfContactFormData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ContactFormData>
+    <Lastname>1\</Lastname>
+    <Firstname>KB-\</Firstname>
+    <AllPhones />
+    <AllEmails />
+    <BirthDay />
+    <Anniversary />
+  </ContactFormData>
+  <ContactFormData>
+    <Lastname>WVPZ@4C</Lastname>
+    <Firstname>9R08D`ID</Firstname>
+    <AllPhones />
+    <AllEmails />
+    <BirthDay />
+    <Anniversary />
+  </ContactFormData>
+</ArrayOfContactFormData>

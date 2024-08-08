@@ -249,7 +249,7 @@ public class ContactHelper : HelperBase
         // ??? как переделать если в методе переход по другому на стр формы - GetContactInformationFromEditForm(int index)
         // извлекаем из строк текст 
         var lines = driver.FindElements(By.Id("content"))[index].Text.Split('\n');
-        string fullname = lines[0];
+        //string fullname = lines[0];
         string nickname = lines[1];
         string title = lines[2];
         string company = lines[3];
@@ -267,7 +267,7 @@ public class ContactHelper : HelperBase
 
         return new ContactFormData("", "")
         {
-            Fullname = fullname,
+            //Fullname = fullname,
             Nickname = nickname,
             Title = title,
             Company = company,
