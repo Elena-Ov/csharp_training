@@ -109,8 +109,8 @@ namespace WebAddressbookTests
         // первый генератор
         //[Test, TestCaseSource("RandomGroupDataProvider")]
         // генераторы csv, xml, json, excel
-        [Test, TestCaseSource("GroupDataFromCsvFile")]
-        //[Test, TestCaseSource("GroupDataFromXmlFile")]
+        //[Test, TestCaseSource("GroupDataFromCsvFile")]
+        [Test, TestCaseSource("GroupDataFromXmlFile")]
         //[Test, TestCaseSource("GroupDataFromJsonFile")]
         //[Test, TestCaseSource("GroupDataFromExcelFile")]
         public void GroupCreationTest(GroupData group)

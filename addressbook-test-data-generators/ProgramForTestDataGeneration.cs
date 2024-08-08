@@ -19,10 +19,11 @@ namespace AddressbookTestDataGenerators
     {
         public static void Main(string[] args)
         {
-            // программа принимает три параметра
-            int count = Convert.ToInt32(args[0]);
-            string filename = args[1];
-            string format = args[2];
+            // программа принимает 4 параметра
+            string testData = args[0];
+            int count = Convert.ToInt32(args[1]);
+            string filename = args[2];
+            string format = args[3];
 
             // формируем список для групп
             List<GroupData> groups = new List<GroupData>();
@@ -49,27 +50,51 @@ namespace AddressbookTestDataGenerators
 
             if (format == "excel")
             {
-                // в качестве параметра передаем название файла который мы получили как параметр при запуске
-                writeGroupsToExcelFile(groups, filename);
-                writeContactsToExcelFile(contactsPersonalData, filename);
+                if (testData == "GroupData")
+                {
+                    writeGroupsToExcelFile(groups, filename);
+                }
+                else
+                {
+                    writeContactsToExcelFile(contactsPersonalData, filename);
+                }
+               
             }
-            else
+            else 
             {
                 StreamWriter writer = new StreamWriter(filename);
                 if (format == "csv")
                 {
-                    writeGroupsToCsvFile(groups, writer);
-                    writeContactsToCsvFile(contactsPersonalData, writer);
+                    if (testData == "GroupData")
+                    {
+                        writeGroupsToCsvFile(groups, writer);
+                    }
+                    else
+                    {
+                        writeContactsToCsvFile(contactsPersonalData, writer);
+                    }
                 }
                 else if (format == "xml")
                 {
-                    writeGroupsToXmlFile(groups, writer);
-                    writeContactsToXmlFile(contactsPersonalData, writer);
+                    if (testData == "GroupData")
+                    {
+                        writeGroupsToXmlFile(groups, writer);
+                    }
+                    else
+                    {
+                        writeContactsToXmlFile(contactsPersonalData, writer);
+                    }
                 }
                 else if (format == "json")
                 {
-                    writeGroupsToJsonFile(groups, writer);
-                    writeContactsToJsonFile(contactsPersonalData, writer);
+                    if (testData == "GroupData")
+                    {
+                        writeGroupsToJsonFile(groups, writer);
+                    }
+                    else
+                    {
+                        writeContactsToJsonFile(contactsPersonalData, writer);
+                    }
                 }
                 else
                 {

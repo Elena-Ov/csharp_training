@@ -37,9 +37,38 @@ namespace WebAddressbookTests
                new XmlSerializer(typeof(List<ContactFormData>))
                    .Deserialize(new StreamReader(@"contacts.xml"));
        }
+       // чтение json файла
+       public static IEnumerable<ContactFormData> ContactDataFromJsonFile()
+       { 
+           // указываем какого типа должен быть объект - <List<ContactFormData>
+           // в качестве параметра передаем текст прочитанный из файла
+           return JsonConvert.DeserializeObject<List<ContactFormData>>(
+               File.ReadAllText(@"contacts.json"));
+       }
+       // чтение csv файла
+       public static IEnumerable<ContactFormData> ContactDataFromCsvFile()
+       {
+           //создаем список, который в конце возвращаем
+           List<ContactFormData> contactsPersonalData = new List<ContactFormData>();
+           // читаем данные из файла, возвращаемое значение это массив строк, по которому мы устраиваем цикл
+           string[] lines = File.ReadAllLines(@"contacts.csv");
+           foreach (string l in lines)
+           {
+               // разбиваем строку на кусочки, разделитель по желанию
+               string[] parts = l.Split(',');
+               // создаем новый объект и добавляем его в список ContactFormData
+               contactsPersonalData.Add(new ContactFormData(parts[0], parts[1])
+               {
+               });
+           }
+
+           return contactsPersonalData;
+       }
        
        //[Test, TestCaseSource("RandomContactDataProvider")]
        [Test, TestCaseSource("ContactDataFromXmlFile")]
+       //[Test, TestCaseSource("ContactDataFromJsonFile")]
+       //[Test, TestCaseSource("ContactDataFromCsvFile")]
        public void TheAddNewContactTest(ContactFormData personalData)
        {
            // получаем список контактов до создания новых
