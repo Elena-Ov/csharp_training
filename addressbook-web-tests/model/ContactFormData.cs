@@ -12,8 +12,8 @@ public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactF
 {
     public string allPhones;
     public string allEmails;
-    public string birthDay;
-    public string anniversary;
+    //public string birthDay;
+    //public string anniversary;
     
     public ContactFormData() 
     {
@@ -59,9 +59,9 @@ public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactF
         return result;
     }
     //поле создаются автоматически
-    public string Lastname { get; set; }
-    public string Middlename { get; set; }
     public string Firstname { get; set; }
+    public string Middlename { get; set; }
+    public string Lastname { get; set; }
     public string Nickname { get; set; }
     public string Id { get; set; }
     public string Company { get; set; }
@@ -188,7 +188,7 @@ public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactF
         }
 
         return Regex.Replace(name, "[ ]", "") + "\n";
-    }*/
+    }
     // если год не указан ???
     public string BirthDay
 
@@ -231,5 +231,5 @@ public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactF
         }
 
         return Regex.Replace(year, "[ ]", "") + "\n";
-    }
+    }*/
 }

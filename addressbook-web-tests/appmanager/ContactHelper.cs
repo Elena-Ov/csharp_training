@@ -180,7 +180,7 @@ public class ContactHelper : HelperBase
         // сохраняем номера телефонов целиком, потом делаем property
         string allPhones = cells[5].Text;
         string allEmails = cells[4].Text;
-        return new ContactFormData(firstname, lastname)
+        return new ContactFormData(lastname, firstname)
         {
             Address = address,
             AllPhones = allPhones,
@@ -190,7 +190,7 @@ public class ContactHelper : HelperBase
     public ContactFormData GetContactInformationFromEditForm(int index)
     {
         manager.Navigator.OpenHomePage();
-        InitContactModification(0);
+        InitContactModification(0); //карандаш
         string firstname = driver.FindElement(By.Name("firstname")).GetAttribute("value");
         string middlename = driver.FindElement(By.Name("middlename")).GetAttribute("value");
         string lastname = driver.FindElement(By.Name("lastname")).GetAttribute("value");
@@ -213,7 +213,7 @@ public class ContactHelper : HelperBase
         string amonth = driver.FindElement(By.Name("amonth")).GetAttribute("value");
         string ayear = driver.FindElement(By.Name("ayear")).GetAttribute("value");
         // полученные данные заносим в объект типа ContactFormData
-        return new ContactFormData(firstname, lastname)
+        return new ContactFormData(lastname, firstname)
         {
             Middlename = middlename,
             Nickname = nickName,
@@ -246,31 +246,34 @@ public class ContactHelper : HelperBase
         // вторая часть - переход на стр формы
         ModifyData();
         // читаем данные на стр формы
-        // ??? как переделать если в методе переход по другому на стр формы - GetContactInformationFromEditForm(int index)
-        // извлекаем из строк текст 
-        var lines = driver.FindElements(By.Id("content"))[index].Text.Split('\n');
-        //string fullname = lines[0];
-        string nickname = lines[1];
-        string title = lines[2];
-        string company = lines[3];
-        string address = lines[4];
-        string homePhone = lines[5];
-        string mobilePhone = lines[6];
-        string workPhone = lines[7];
-        string fax = lines[8];
-        string email = lines[9];
-        string email2 = lines[10];
-        string email3 = lines[11];
-        string homePage = lines[12];
-        string birthDay = lines[13];
-        string anniversary = lines[14];
-
-        return new ContactFormData("", "")
+        string firstname = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+        string middlename = driver.FindElement(By.Name("middlename")).GetAttribute("value");
+        string lastname = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+        string nickName = driver.FindElement(By.Name("nickname")).GetAttribute("value");
+        string company = driver.FindElement(By.Name("company")).GetAttribute("value");
+        string title = driver.FindElement(By.Name("title")).GetAttribute("value");
+        string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+        string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
+        string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
+        string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+        string fax = driver.FindElement(By.Name("fax")).GetAttribute("value");
+        string email = driver.FindElement(By.Name("email")).GetAttribute("value");
+        string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
+        string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
+        string homePage = driver.FindElement(By.Name("homepage")).GetAttribute("value");
+        string bday = driver.FindElement(By.Name("bday")).GetAttribute("value");
+        string bmonth = driver.FindElement(By.Name("bmonth")).GetAttribute("value");
+        string byear = driver.FindElement(By.Name("byear")).GetAttribute("value");
+        string aday = driver.FindElement(By.Name("aday")).GetAttribute("value");
+        string amonth = driver.FindElement(By.Name("amonth")).GetAttribute("value");
+        string ayear = driver.FindElement(By.Name("ayear")).GetAttribute("value");
+        // полученные данные заносим в объект типа ContactFormData
+        return new ContactFormData(lastname, firstname)
         {
-            //Fullname = fullname,
-            Nickname = nickname,
-            Title = title,
+            Middlename = middlename,
+            Nickname = nickName,
             Company = company,
+            Title = title,
             Address = address,
             HomePhone = homePhone,
             MobilePhone = mobilePhone,
@@ -280,11 +283,55 @@ public class ContactHelper : HelperBase
             Email2 = email2,
             Email3 = email3,
             HomePage = homePage,
-            BirthDay = birthDay,
-            Anniversary = anniversary
+            Bday = bday,
+            Bmonth = bmonth,
+            Byear = byear,
+            Aday = aday,
+            Amonth = amonth,
+            Ayear = ayear
         };
     }
-    public void InitContactModification(int index)
+
+    
+    /*// Это не нужно!!!
+    // извлекаем из строк текст
+    var lines = driver.FindElements(By.Id("content"))[index].Text.Split('\n');
+    //string fullname = lines[0];
+    string nickname = lines[1];
+    string title = lines[2];
+    string company = lines[3];
+    string address = lines[4];
+    string homePhone = lines[5];
+    string mobilePhone = lines[6];
+    string workPhone = lines[7];
+    string fax = lines[8];
+    string email = lines[9];
+    string email2 = lines[10];
+    string email3 = lines[11];
+    string homePage = lines[12];
+    string birthDay = lines[13];
+    string anniversary = lines[14];
+
+    return new ContactFormData("", "")
+    {
+        //Fullname = fullname,
+        Nickname = nickname,
+        Title = title,
+        Company = company,
+        Address = address,
+        HomePhone = homePhone,
+        MobilePhone = mobilePhone,
+        WorkPhone = workPhone,
+        Fax = fax,
+        Email = email,
+        Email2 = email2,
+        Email3 = email3,
+        HomePage = homePage,
+        //BirthDay = birthDay,
+        //Anniversary = anniversary
+    };
+}*/
+    public void InitContactModification(int index) // карандаш
     {
        driver.FindElements(By.Name("entry"))[index] // взяли все строки, потом по индексу
            // внутри строки взяли все ячейки, нашли ту в которой кнопка редактирования
