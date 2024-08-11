@@ -40,10 +40,21 @@ public class GroupHelper : HelperBase
         return this;
     }
 
+    //метод удаляющий группу по порядковому номеру
     public GroupHelper RemoveGroup(int p)
     {
         manager.Navigator.GoToGroupsPage();
         SelectGroup(p);
+        RemoveGroupButton();
+        ReturnToGroupsPage();
+        return this;
+    }
+    
+    //метод удаляющий группу по уникальному идентификатору
+    public GroupHelper RemoveGroup(GroupData group)
+    {
+        manager.Navigator.GoToGroupsPage();
+        SelectGroup(group.Id);
         RemoveGroupButton();
         ReturnToGroupsPage();
         return this;
@@ -76,10 +87,18 @@ public class GroupHelper : HelperBase
         return this;
     }
 
+    // выбираем по индексу
     public GroupHelper SelectGroup(int index)
     {
         driver.FindElement(By.XPath("//div[@id='content']/form/span[" + (index + 1) + "]/input")).Click();
         //driver.FindElement(By.XPath("//input[@name='selected[]'])[" + (index+1) + "]")).Click();
+        return this;
+    }
+    
+    // выбираем по идентификатору
+    public GroupHelper SelectGroup(string id)
+    {
+        driver.FindElement(By.XPath("//input[@name='selected[]' and @value='"+id+"']")).Click();
         return this;
     }
 

@@ -4,11 +4,14 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
 using System.Runtime;
+using NUnit.Framework.Constraints;
 
 namespace WebAddressbookTests;
 
 public class TestBase
 {
+    // если нужно отключить проверку -> PERFORM_LONG_UI_CHECKS = false;
+    public static bool PERFORM_LONG_UI_CHECKS = true;
     protected ApplicationManager app;
 
     [SetUp]

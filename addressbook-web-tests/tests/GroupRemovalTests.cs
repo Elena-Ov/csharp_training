@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class GroupRemovalTests : AuthTestBase
+    public class GroupRemovalTests : GroupTestBase
     {
         [Test]
         public void GroupRemovalTest()
@@ -24,16 +24,20 @@ namespace WebAddressbookTests
                 app.Groups.CreateGroup(group);
             }
 
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
-            app.Groups.RemoveGroup(0);
+        
+            List<GroupData> oldGroups = GroupData.GetAll();
+            //сохраняем объект который должен быть удален
+            
+            GroupData toBeRemoved = oldGroups[0];
+            app.Groups.RemoveGroup(toBeRemoved);
             // убеждаемся что количество уменьшилось по сравнению со старым списком
             Assert.AreEqual(oldGroups.Count - 1, app.Groups.GetGroupCount());
 
             //к моменту проверки группа уже удалена из списка oldGroups, поэтому в нулевой позиции находится другая группа
             //чтобы сравнение работало правильно, нужно ещё до удаления сохранить сравниваемую группу в переменную
             //потом использовать это сохранённое значение
-            List<GroupData> newGroups = app.Groups.GetGroupList();
-            GroupData toBeRemoved = oldGroups[0];
+            List<GroupData> newGroups = GroupData.GetAll();
+            
             oldGroups.RemoveAt(0);
             Assert.AreEqual(oldGroups, newGroups);
 
