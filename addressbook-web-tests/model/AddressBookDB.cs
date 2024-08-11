@@ -12,16 +12,17 @@ namespace WebAddressbookTests
     {
         // конструктор задача которого обращаться к конструктору базового класса
         // и передавать в качестве параметра название БД
+        // указываем connection stream для связи с бд
         public AddressBookDB() : base(ProviderName.MySql, 
-            @"server=localhost; database=addressbook; port=3306; Uid=root; Pwd=; charset=utf8; Allow Zero Datetime=true") {}
+            @"server=localhost; database=addressbook; port=3306; Uid=root; Pwd=; charset=utf8; Allow Zero Datetime=true") {}        
         // для каждой таблицы специальный метод который возвращает таблицу данных
         public ITable<GroupData> Groups
         {
-            get { return GetTable<GroupData>(); }
+            get { return this.GetTable<GroupData>(); }
         }
         public ITable<ContactFormData> Contacts
         {
-            get { return GetTable<ContactFormData>(); }
+            get { return this.GetTable<ContactFormData>(); }
         }
         
     }
