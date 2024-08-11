@@ -29,10 +29,22 @@ public class GroupHelper : HelperBase
         return this; // когда вызываем в GroupHelper метод, то возвращается ссылка на него же самого
     }
 
+    //метод изменяющий группу по порядковому номеру
     public GroupHelper ModifyGroup(int p, GroupData newData)
     {
         manager.Navigator.GoToGroupsPage();
         SelectGroup(p);
+        InitGroupModification();
+        FillGroupForm(newData);
+        SubmitGroupModification();
+        ReturnToGroupsPage();
+        return this;
+    }
+    //метод изменяющий группу по уникальному идентификатору
+    public GroupHelper ModifyGroup(GroupData group, GroupData newData)
+    {
+        manager.Navigator.GoToGroupsPage();
+        SelectGroup(group.Id);
         InitGroupModification();
         FillGroupForm(newData);
         SubmitGroupModification();
