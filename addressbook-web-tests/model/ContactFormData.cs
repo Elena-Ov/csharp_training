@@ -113,7 +113,7 @@ public class ContactFormData : IEquatable<ContactFormData>, IComparable<ContactF
             return "";
         }
 
-        return Regex.Replace(phone, "[ -()]", "") + "\n";
+        return Regex.Replace(phone, "[()-]", "") + "\n";
     }
     
     public string AllEmails
