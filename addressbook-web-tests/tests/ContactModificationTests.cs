@@ -8,7 +8,7 @@ namespace WebAddressbookTests;
 
 [TestFixture]
 
-public class ContactModificationTests : AuthTestBase
+public class ContactModificationTests : ContactTestBase
 {
     [Test]
     public void ContactModificationTest()
@@ -27,17 +27,26 @@ public class ContactModificationTests : AuthTestBase
             app.Contact.CreateContact(personalData);
         }
 
-        List<ContactFormData> oldContacts = app.Contact.GetContactsList();
-        app.Contact.ModifyContacts(1, modifiedPersonalData);
+        List<ContactFormData> oldContacts = ContactFormData.GetAllContacts();
+        ContactFormData contactToBeModified = oldContacts[0];
+        app.Contact.ModifyContacts(contactToBeModified, modifiedPersonalData);
         //убеждаемся что размер старого и нового списков совпадают
         Assert.AreEqual(oldContacts.Count, app.Contact.GetContactCount());
 
         
-        List<ContactFormData> newContacts = app.Contact.GetContactsList();
+        List<ContactFormData> newContacts = ContactFormData.GetAllContacts();
         oldContacts[0].Lastname = modifiedPersonalData.Lastname;
         oldContacts[0].Firstname = modifiedPersonalData.Firstname;
         oldContacts.Sort();
         newContacts.Sort();
         Assert.AreEqual(oldContacts, newContacts);
+        foreach (ContactFormData contact in newContacts)
+        {
+            if (contact.Id == contactToBeModified.Id)
+            {
+                Assert.AreEqual(modifiedPersonalData.Lastname, contact.Lastname); 
+                Assert.AreEqual(modifiedPersonalData.Firstname, contact.Firstname);
+            }
+        }
     }
 }

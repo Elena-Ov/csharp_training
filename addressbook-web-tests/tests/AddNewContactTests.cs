@@ -13,7 +13,7 @@ using NUnit.Framework;
 namespace WebAddressbookTests
 {
    [TestFixture]
-   public class AddNewContactTests : AuthTestBase
+   public class AddNewContactTests : ContactTestBase
    {
        public static IEnumerable<ContactFormData> RandomContactDataProvider()
        {
@@ -66,13 +66,13 @@ namespace WebAddressbookTests
        }
        
        //[Test, TestCaseSource("RandomContactDataProvider")]
-       [Test, TestCaseSource("ContactDataFromXmlFile")]
-       //[Test, TestCaseSource("ContactDataFromJsonFile")]
+       //[Test, TestCaseSource("ContactDataFromXmlFile")]
+       [Test, TestCaseSource("ContactDataFromJsonFile")]
        //[Test, TestCaseSource("ContactDataFromCsvFile")]
        public void TheAddNewContactTest(ContactFormData personalData)
        {
            // получаем список контактов до создания новых
-           List<ContactFormData> oldContacts = app.Contact.GetContactsList();
+           List<ContactFormData> oldContacts = ContactFormData.GetAllContacts();
            // создаем новый контакт
            app.Contact.CreateContact(personalData);
            // операция которая быстро вернет количество контактов не читая их названия
@@ -80,7 +80,7 @@ namespace WebAddressbookTests
            Assert.AreEqual(oldContacts.Count + 1, app.Contact.GetContactCount());
 
            // получаем список контактов после создания
-           List<ContactFormData> newContacts = app.Contact.GetContactsList();
+           List<ContactFormData> newContacts = ContactFormData.GetAllContacts();
            // к старому списку добавляем новый контакт
            oldContacts.Add(personalData);
            // упорядочиваем списки

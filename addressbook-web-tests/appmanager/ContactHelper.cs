@@ -29,6 +29,7 @@ public class ContactHelper : HelperBase
         return this;
     }
 
+    //модификация по индексу
     public ContactHelper ModifyContacts(int p, ContactFormData modifiedPersonalData)
     {
         manager.Navigator.OpenHomePage();
@@ -40,11 +41,33 @@ public class ContactHelper : HelperBase
         ReturnToHomePage();
         return this;
     }
+    //модификация по уникальному идентификатору
+    public ContactHelper ModifyContacts(ContactFormData contact, ContactFormData modifiedPersonalData)
+    {
+        manager.Navigator.OpenHomePage();
+        SelectContact(contact.Id);
+        SelectDetails(contact.Id);
+        ModifyData();
+        NewContactFillinForm(modifiedPersonalData);
+        SubmitContactModification();
+        ReturnToHomePage();
+        return this;
+    }
 
+    // удаление по индексу
     public ContactHelper RemovePersonalData(int p)
     {
         manager.Navigator.OpenHomePage();
         SelectContact(p);
+        RemoveContact();
+        return this;
+    }
+    
+    // удаление по уникальному идентификатору
+    public ContactHelper RemovePersonalData(ContactFormData contact)
+    {
+        manager.Navigator.OpenHomePage();
+        SelectContact(contact.Id);
         RemoveContact();
         return this;
     }
@@ -78,12 +101,21 @@ public class ContactHelper : HelperBase
         driver.Navigate().GoToUrl("http://localhost/addressbook/index.php");
         return this;
     }
-
+    
+    //выбираем по индексу
     public ContactHelper SelectContact(int index)
     {
         driver.FindElement(By.XPath("//div[@id='content']/form[2]/table/tbody/tr[" + (index + 1) + "]/td[1]/input"))
             .Click();
         //driver.FindElement(By.Id(contactId)).Click();
+        return this;
+    }
+    
+    //выбираем по идентификатору
+    public ContactHelper SelectContact(string id)
+    {
+        driver.FindElement(By.XPath("//input[@name='selected[]' and @value='"+id+"']"))
+            .Click();
         return this;
     }
 
@@ -94,6 +126,7 @@ public class ContactHelper : HelperBase
         return this;
     }
 
+    // по индексу
     public ContactHelper SelectDetails(int index)
     {
         driver.FindElements(By.Name("entry"))[index] // взяли все строки, потом по индексу
@@ -101,6 +134,13 @@ public class ContactHelper : HelperBase
             .FindElements(By.TagName("td"))[6]
                 // внутри нее находим ссылку
                 .FindElement(By.TagName("a")).Click();
+        return this;
+    }
+    
+    // по идентификатору
+    public ContactHelper SelectDetails(string id)
+    {
+        driver.FindElement(By.XPath("//a[contains(@href,'view.php?id="+id+"')]")).Click();
         return this;
     }
 
