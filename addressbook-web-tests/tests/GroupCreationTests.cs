@@ -132,7 +132,16 @@ namespace WebAddressbookTests
 
         [Test]
         public void TestDBConnectivity()
-        {
+        { 
+            // проверяем работоспособность методов
+            //извлекаем все группы, потом 0-ю, у нее получаем список контактов
+            // выводим на консоль
+            foreach (ContactFormData contact in GroupData.GetAll()[0].GetContactsByGroup())
+            {
+                System.Console.Out.WriteLine();
+            }
+
+            /*
             // сравним скорость извлечения из UI и БД
             DateTime start = DateTime.Now;
             //через web интерфейс
@@ -140,12 +149,12 @@ namespace WebAddressbookTests
             DateTime end = DateTime.Now;
             // из временной ветки которая соответствует концу вычитаем начала
             System.Console.Out.WriteLine(end.Subtract(start));
-            
+
             // из БД
             start = DateTime.Now;
             List<GroupData> fromDb = GroupData.GetAll();
             end = DateTime.Now;
-            System.Console.Out.WriteLine(end.Subtract(start));
+            System.Console.Out.WriteLine(end.Subtract(start)); */
         }
     }
 }

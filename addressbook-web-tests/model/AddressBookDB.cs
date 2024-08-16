@@ -14,16 +14,12 @@ namespace WebAddressbookTests
         // и передавать в качестве параметра название БД
         // указываем connection stream для связи с бд
         public AddressBookDB() : base(ProviderName.MySql, 
-            @"server=localhost; database=addressbook; port=3306; Uid=root; Pwd=; charset=utf8; Allow Zero Datetime=true") {}        
-        // для каждой таблицы специальный метод который возвращает таблицу данных
-        public ITable<GroupData> Groups
-        {
-            get { return this.GetTable<GroupData>(); }
-        }
-        public ITable<ContactFormData> Contacts
-        {
-            get { return this.GetTable<ContactFormData>(); }
-        }
+            @"server=localhost; 
+database=addressbook; port=3306; Uid=root; Pwd=; charset=utf8; Allow Zero Datetime=true") {}        
+        // для каждой таблицы специальный метод который извлекает данные из нужной таблицы
+        public ITable<GroupData> Groups { get { return this.GetTable<GroupData>(); } }
+        public ITable<ContactFormData> Contacts { get { return this.GetTable<ContactFormData>(); } }
+        public ITable<GroupContactRelation> GCR { get { return this.GetTable<GroupContactRelation>(); } }
         
     }
 }

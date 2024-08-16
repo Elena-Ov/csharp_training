@@ -112,10 +112,10 @@ public class ContactHelper : HelperBase
     }
     
     //выбираем по идентификатору
-    public ContactHelper SelectContact(string id)
+    public ContactHelper SelectContact(string contactId)
     {
-        driver.FindElement(By.XPath("//input[@name='selected[]' and @value='"+id+"']"))
-            .Click();
+        driver.FindElement(By.XPath("//input[@name='selected[]' and @value='"+contactId+"']")).Click();
+        //driver.FindElement(By.Id(contactId)).Click();
         return this;
     }
 
@@ -349,5 +349,32 @@ public class ContactHelper : HelperBase
         // выполняем некоторые проверки с этим объектом
         Match m = new Regex(@"\d+").Match(text);
         return Int32.Parse(m.Value);
+    }
+
+    public void AddContactToGroup(ContactFormData contact, GroupData group)
+    {
+        manager.Navigator.OpenHomePage();
+        ClearGroupFilter();
+        SelectContact(contact.Id);
+        SelectGroupToAdd(group.Name);
+        CommitAddingContactToGroup();
+        // драйвер будет проверять загрузился ли элемент
+        new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+            .Until(d=> d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+    }
+
+    public void ClearGroupFilter()
+    {
+        new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
+    }
+
+    public void SelectGroupToAdd(string name)
+    {
+        new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
+    }
+
+    public void CommitAddingContactToGroup()
+    {
+        driver.FindElement(By.Name("add")).Click();
     }
 }
