@@ -377,4 +377,24 @@ public class ContactHelper : HelperBase
     {
         driver.FindElement(By.Name("add")).Click();
     }
+
+    public void RemoveContactFromGroup(ContactFormData contact, GroupData group)
+    {
+        manager.Navigator.OpenHomePage();
+        SelectGroupByFilter(group.Id);
+        SelectContact(contact.Id);
+        CommitRemovalFromGroup();
+        new WebDriverWait (driver, TimeSpan.FromSeconds(10))
+            .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+    }
+
+    public void SelectGroupByFilter(string id)
+    {
+        new SelectElement(driver.FindElement(By.Name("group"))).SelectByValue(id);
+    }
+
+    public void CommitRemovalFromGroup()
+    {
+        driver.FindElement(By.Name("remove")).Click();
+    }
 }
