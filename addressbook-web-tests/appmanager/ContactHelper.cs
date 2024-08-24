@@ -227,9 +227,11 @@ public class ContactHelper : HelperBase
             AllEmails = allEmails
         };
     }
-    
-    private ContactFormData GetContactInformation()
+    public ContactFormData GetContactInformationFromEditForm(int index)
     {
+        manager.Navigator.OpenHomePage();
+        InitContactModification(0); //карандаш
+        
         string firstname = driver.FindElement(By.Name("firstname")).GetAttribute("value");
         string middlename = driver.FindElement(By.Name("middlename")).GetAttribute("value");
         string lastname = driver.FindElement(By.Name("lastname")).GetAttribute("value");
@@ -275,28 +277,16 @@ public class ContactHelper : HelperBase
             Ayear = ayear
         };
     }
-    public ContactFormData GetContactInformationFromEditForm(int index)
-    {
-        manager.Navigator.OpenHomePage();
-        InitContactModification(0); //карандаш
-        return GetContactInformation();
-    }
 
     // метод для 12 задания
-    public ContactFormData GetContactInformationFromIdPage(int index)
+    public ContactFormData GetContactInformationFromIdPage()
     {
         // переход на страницу id
         manager.Navigator.OpenHomePage();
         SelectDetails(0);
-        // вторая часть - переход на стр формы
-        ModifyData();
-        return GetContactInformation();
-    }
-    
-    /*// Это не нужно!!!
-    // извлекаем из строк текст
-    var lines = driver.FindElements(By.Id("content"))[index].Text.Split('\n');
-    //string fullname = lines[0];
+    // извлекаем текст
+    var lines = driver.FindElement(By.Id("content")).Text.Split('\n');// индекс - есть в url
+    string fullname = lines[0];
     string nickname = lines[1];
     string title = lines[2];
     string company = lines[3];
@@ -309,12 +299,12 @@ public class ContactHelper : HelperBase
     string email2 = lines[10];
     string email3 = lines[11];
     string homePage = lines[12];
-    string birthDay = lines[13];
-    string anniversary = lines[14];
+    //string birthDay = lines[13];
+    //string anniversary = lines[14];
 
-    return new ContactFormData("", "")
+    return new ContactFormData() //??? 
     {
-        //Fullname = fullname,
+        Fullname = fullname,
         Nickname = nickname,
         Title = title,
         Company = company,
@@ -330,7 +320,7 @@ public class ContactHelper : HelperBase
         //BirthDay = birthDay,
         //Anniversary = anniversary
     };
-}*/
+}
     public void InitContactModification(int index) // карандаш
     {
        driver.FindElements(By.Name("entry"))[index] // взяли все строки, потом по индексу

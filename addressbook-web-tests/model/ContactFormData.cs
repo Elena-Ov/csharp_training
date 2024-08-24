@@ -17,6 +17,8 @@ namespace WebAddressbookTests
         public string allPhones;
 
         public string allEmails;
+        
+        
         //public string birthDay;
         //public string anniversary;
 
@@ -172,7 +174,7 @@ namespace WebAddressbookTests
                 return "";
             }
 
-            return Regex.Replace(phone, "[()-]", "") + "\n";
+            return Regex.Replace(phone, "[ ()-]", "") + "\n";
         }
 
         public string AllEmails
@@ -217,8 +219,7 @@ namespace WebAddressbookTests
             return Regex.Replace(mail, "[ ]", "");
         }
         // склеиваем полное имя - обратная проверка
-        /*public string Fullname
-
+        public string Fullname
         {
             get
             {
@@ -228,7 +229,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return (CleanUpName(Firstname) + CleanUpName(Middlename) + CleanUpName(Lastname)).Trim();
+                    return (CleanUpFullname(Firstname) + CleanUpFullname(Middlename) + CleanUpFullname(Lastname)).Trim();
                 }
             }
             set
@@ -236,16 +237,16 @@ namespace WebAddressbookTests
                 Fullname = value;
             }
         }
-        private string CleanUpName(string name)
+        private string CleanUpFullname(string fullname)
         {
-            if (name == null || name =="")
+            if (fullname == null || fullname =="")
             {
                 return "";
             }
 
-            return Regex.Replace(name, "[ ]", "") + "\n";
+            return Regex.Replace(fullname, "[ ]", "") + "\n";
         }
-        // если год не указан ???
+        /* если год не указан ???
         public string BirthDay
 
         {
