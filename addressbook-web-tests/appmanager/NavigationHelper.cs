@@ -8,32 +8,57 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 
-namespace WebAddressbookTests;
-
-public class NavigationHelper : HelperBase
+namespace WebAddressbookTests 
+{
+    public class NavigationHelper : HelperBase
 {   
-    protected string baseURL;
-    public NavigationHelper(ApplicationManager manager, string baseUrl) 
+    public string baseURL;
+    public NavigationHelper(ApplicationManager manager) 
         : base(manager)
     { 
-        this.baseURL = baseURL;//переданное значение объект будет присваиваться в поле baseURL
+        baseURL = manager.baseURL;//переданное значение объект будет присваиваться в поле baseURL
     }
     
-    public void OpenHomePage()
+    public NavigationHelper OpenHomePage()
     {
-        if (driver.Url == baseURL + "http://localhost/addressbook" && IsElementPresent(By.Name("new"))) 
+        if (driver.Url == baseURL) // + "http://localhost/addressbook" && IsElementPresent(By.Name("new"))) 
         {
-            return;
+            return this;
         }
-        driver.Navigate().GoToUrl(baseURL + "http://localhost/addressbook");
+
+        driver.Navigate().GoToUrl(baseURL);  // + "http://localhost/addressbook");
+        return this;
     }
     
-    public void GoToGroupsPage()
+    public NavigationHelper GoToGroupsPage()
     {
-        if (driver.Url == baseURL + "http://localhost/addressbook/group.php" && IsElementPresent(By.Name("new"))) 
+        if (driver.Url == baseURL + "group.php" && IsElementPresent(By.Name("new"))) 
         {
-            return;
+            return this;
         }
         driver.FindElement(By.LinkText("groups")).Click();
+        return this;
+    }
+
+    public NavigationHelper GoToContactsPage()
+    {
+        if (driver.Url == baseURL)
+        {
+            return this;
+        }
+        driver.FindElement(By.LinkText("home")).Click();
+        manager.Contact.ClearGroupFilter();
+        return this;
+    }
+
+    public NavigationHelper GoToContactInformationFromIdPage(int index)
+    {
+        manager.Navigator.GoToContactsPage();
+        driver.FindElements(By.Name("entry"))[index]
+            .FindElement(By.XPath("(//img[@alt='Details'])[" + (index + 1) + "]")).Click();
+        return this;
     }
 }
+    
+}
+

@@ -15,10 +15,13 @@ public class ContactInformationTests : AuthTestBase
     [Test]
     public void TestContactInformation()
     {
+        int NumberOfContacts = 0;
+        app.Contact.FindOrCreateContact(NumberOfContacts);
+        
         //получаем информацию об отдельно взятом контакте из таблицы
-        ContactFormData fromTable = app.Contact.GetContactInformationFromTable(0);
+        ContactFormData fromTable = app.Contact.GetContactInformationFromTable(NumberOfContacts);
         // получаем информацию об отдельно взятом контакте из формы
-        ContactFormData fromForm = app.Contact.GetContactInformationFromEditForm(0);
+        ContactFormData fromForm = app.Contact.GetContactInformationFromEditForm(NumberOfContacts);
         //verification, сравниваем имя и фамилию и т.д.
         Assert.AreEqual(fromTable, fromForm);
         Assert.AreEqual(fromTable.Address, fromForm.Address);
@@ -30,32 +33,23 @@ public class ContactInformationTests : AuthTestBase
     [Test]
     public void TestDetailedContactInformation()
     {
-        // получаем информацию об отдельно взятом контакте из формы
-        ContactFormData fromForm = app.Contact.GetContactInformationFromEditForm(0);
-        //получаем информацию об отдельно взятом контакте на странице просмотра свойств контакта
-        ContactFormData fromIdPage = app.Contact.GetContactInformationFromIdPage();
+        int NumberOfContacts = 0;
+        app.Contact.FindOrCreateContact(NumberOfContacts);
         
-        //verification, сравниваем имя и фамилию и т.д.
-        Assert.AreEqual(fromForm.Fullname, fromIdPage.Fullname);
-        //Assert.AreEqual(fromIdPage.Nickname, fromForm.Nickname);
-        //Assert.AreEqual(fromIdPage.Company, fromForm.Company);
-        //Assert.AreEqual(fromIdPage.Title, fromForm.Title);
-        //Assert.AreEqual(fromIdPage.Address, fromForm.Address);
-        //Assert.AreEqual(fromIdPage.AllPhones, fromForm.AllPhones);
-        //Assert.AreEqual(fromIdPage.HomePhone, fromForm.HomePhone);
-        //Assert.AreEqual(fromIdPage.MobilePhone, fromForm.MobilePhone);
-        //Assert.AreEqual(fromIdPage.WorkPhone, fromForm.WorkPhone);
-       //Assert.AreEqual(fromIdPage.Fax, fromForm.Fax);
-        //Assert.AreEqual(fromIdPage.AllEmails, fromForm.AllEmails);
-        //Assert.AreEqual(fromIdPage.Email, fromForm.Email);
-        //Assert.AreEqual(fromIdPage.Email2, fromForm.Email2);
-        //Assert.AreEqual(fromIdPage.Email3, fromForm.Email3);
-        //Assert.AreEqual(fromIdPage.HomePage, fromForm.HomePage);
-        //Assert.AreEqual(fromIdPage.Bday, fromForm.Bday);
-        //Assert.AreEqual(fromIdPage.Bmonth, fromForm.Bmonth);
-        //Assert.AreEqual(fromIdPage.Byear, fromForm.Byear);
-        //Assert.AreEqual(fromIdPage.Aday, fromForm.Aday);
-        //Assert.AreEqual(fromIdPage.Amonth, fromForm.Amonth);
-        //Assert.AreEqual(fromIdPage.Ayear, fromForm.Ayear);
+        ContactFormData fromForm = app.Contact.GetContactInformationFromEditForm(NumberOfContacts);
+       
+        string lineFromEditForm = fromForm.GetInformationFromIdPage();
+        
+        string linefromIdPage = app.Contact.GetContactInformationFromIdPage(NumberOfContacts);
+        
+        if (linefromIdPage.IndexOf("Member of: ") >= 0)
+        {
+            linefromIdPage = linefromIdPage.Substring(0, linefromIdPage.IndexOf("Member of: "));
+            while (linefromIdPage.Substring(linefromIdPage.Length - 2) == "\n")
+            {
+                linefromIdPage = linefromIdPage.Substring(linefromIdPage.Length - 2);
+            }
+        }
+        Assert.AreEqual(lineFromEditForm, linefromIdPage);
     }
 }

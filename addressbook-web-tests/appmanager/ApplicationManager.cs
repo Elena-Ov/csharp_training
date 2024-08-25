@@ -13,7 +13,7 @@ namespace WebAddressbookTests;
 public class ApplicationManager
 {   
     protected IWebDriver driver;
-    protected string baseURL;
+    public string baseURL;
     //ссылки на помощники
     protected LoginHelper loginHelper;
     protected NavigationHelper navigator;
@@ -25,10 +25,10 @@ public class ApplicationManager
     {   
         driver = new ChromeDriver();
         driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-        baseURL = "http://localhost"; //"/addressbook";
+        baseURL = "http://localhost/addressbook/"; 
         
         loginHelper = new LoginHelper(this); //передаем ссылку на ApplicationManager
-        navigator = new NavigationHelper(this, baseURL);
+        navigator = new NavigationHelper(this);
         groupHelper = new GroupHelper(this);
         contactHelper = new ContactHelper(this);
     }
@@ -91,6 +91,14 @@ public class ApplicationManager
         get
         {
             return contactHelper;
+        }
+    }
+
+    public string BaseUrl
+    {
+        get
+        {
+            return baseURL;
         }
     }
 }

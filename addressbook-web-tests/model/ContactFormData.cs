@@ -18,13 +18,8 @@ namespace WebAddressbookTests
 
         public string allEmails;
         
-        
-        //public string birthDay;
-        //public string anniversary;
 
-        public ContactFormData()
-        {
-        }
+        public ContactFormData() {}
 
         public ContactFormData(string lastname, string firstname)
         {
@@ -68,6 +63,67 @@ namespace WebAddressbookTests
             if (result == 0)
                 result = Firstname.CompareTo(other.Firstname);
             return result;
+        }
+
+        private string GetInfoLine(string line1, string line2, string line3, string line4 = null, string line5 = null)
+        {
+            string readyLine = null;
+            if (line1 != null && line1 != "") { readyLine += line1 + "\n"; }
+            if (line2 != null && line2 != "") { readyLine += line2 + "\n"; }
+            if (line3 != null && line3 != "") { readyLine += line3 + "\n"; }
+            if (line4 != null && line4 != "") { readyLine += line4 + "\n"; }
+            if (line5 != null && line5 != "") { readyLine += line4 + "\n"; }
+            if (readyLine != null && readyLine != "") { readyLine += "\n"; }
+
+            return readyLine;
+        }
+
+        public string GetInformationFromIdPage()
+        {
+            string infoLine = "";
+            string fullname = null;
+            string addHomePhone = null;
+            string addMobilePhone = null;
+            string addWorkPhone = null;
+
+            if (this.Firstname != null && this.Firstname != "")
+            {
+                fullname += this.Firstname;
+            }
+            if (this.Middlename != null && this.Middlename != "")
+            {
+                if (fullname != null && fullname != "")
+                {
+                    fullname += " ";
+                }
+                fullname += this.Middlename;
+            }
+            if (this.Lastname != null && this.Lastname != "")
+            {
+                if (fullname != null && fullname != "")
+                {
+                    fullname += " ";
+                }
+                fullname += this.Lastname;
+            }
+
+            if (this.HomePhone != null && this.HomePhone != "") { addHomePhone = "H: " + this.HomePhone; }
+            if (this.MobilePhone != null && this.MobilePhone != "") { addMobilePhone = "M: " + this.MobilePhone; }
+            if (this.WorkPhone != null && this.WorkPhone != "") { addWorkPhone = "W: " + this.WorkPhone; }
+
+            infoLine += GetInfoLine(fullname, this.Nickname, this.Address);
+            infoLine += GetInfoLine(addHomePhone, addMobilePhone, addWorkPhone);
+            infoLine += GetInfoLine(this.Email, this.Email2, this.Email3);
+
+            if (infoLine.Length > 1)
+            {
+                while (infoLine.Substring(infoLine.Length - 2) == "\n")
+                {
+                    infoLine = infoLine.Substring(0, infoLine.Length - 2);
+                }
+            }
+
+            return infoLine;
         }
 
         //поле создаются автоматически
@@ -219,7 +275,7 @@ namespace WebAddressbookTests
             return Regex.Replace(mail, "[ ]", "");
         }
         // склеиваем полное имя - обратная проверка
-        public string Fullname
+        /*public string Fullname
         {
             get
             {
@@ -245,49 +301,6 @@ namespace WebAddressbookTests
             }
 
             return Regex.Replace(fullname, "[ ]", "") + "\n";
-        }
-        /* если год не указан ???
-        public string BirthDay
-
-        {
-            get
-            {
-                if (birthDay != null)
-                {
-                    return birthDay;
-                }
-                else
-                {
-                    return Bday + Bmonth + CleanUpYear(Byear);
-                }
-            }
-            set { birthDay = value; }
-        }
-
-        public string Anniversary
-
-        {
-            get
-            {
-                if (anniversary != null)
-                {
-                    return anniversary;
-                }
-                else
-                {
-                    return Aday + Amonth + CleanUpYear(Ayear);
-                }
-            }
-            set { anniversary = value; }
-        }
-        private string CleanUpYear(string year)
-        {
-            if (year == null || year =="")
-            {
-                return "";
-            }
-
-            return Regex.Replace(year, "[ ]", "") + "\n";
         }*/
     }
 }
