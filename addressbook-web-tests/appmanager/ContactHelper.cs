@@ -226,7 +226,7 @@ public class ContactHelper : HelperBase
         // размер списка -1
         return driver.FindElements(By.TagName("tr")).Count - 1;
     }
-
+    // для ContactInformationTests
     public ContactFormData GetContactInformationFromTable(int index)
     {
         manager.Navigator.GoToContactsPage();
@@ -243,12 +243,14 @@ public class ContactHelper : HelperBase
             AllPhones = cells[5].Text
         };
     }
+    // для ContactInformationTests
     public ContactFormData GetContactInformationFromEditForm(int index)
     {
         manager.Navigator.GoToContactsPage();
         InitContactModification(index); //карандаш
         return ReadContactFromEditForm();
     }
+    // для ContactInformationTests
 
     public ContactFormData ReadContactFromEditForm()
     {
@@ -267,8 +269,8 @@ public class ContactHelper : HelperBase
             Email3 = driver.FindElement(By.Name("email3")).GetAttribute("value")
         };
     }
-
-    // метод для 12 задания
+    // для ContactInformationTests
+    
     public string GetContactInformationFromIdPage(int index)
     {
         // переход на страницу id

@@ -65,7 +65,9 @@ namespace WebAddressbookTests
             return result;
         }
 
-        private string GetInfoLine(string line1, string line2, string line3, string line4 = null, string line5 = null)
+        // для ContactInformationTests
+        private string GetInfoLine(string line1, string line2, string line3, 
+            string line4 = null, string line5 = null)
         {
             string readyLine = null;
             if (line1 != null && line1 != "") { readyLine += line1 + "\n"; }
@@ -77,6 +79,7 @@ namespace WebAddressbookTests
 
             return readyLine;
         }
+        // для ContactInformationTests
 
         public string GetInformationFromIdPage()
         {

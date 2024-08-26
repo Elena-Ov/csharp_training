@@ -40,6 +40,7 @@ namespace WebAddressbookTests
         return this;
     }
 
+    // для ContactInformationTests
     public NavigationHelper GoToContactsPage()
     {
         if (driver.Url == baseURL)
@@ -50,6 +51,7 @@ namespace WebAddressbookTests
         manager.Contact.ClearGroupFilter();
         return this;
     }
+    // для ContactInformationTests
 
     public NavigationHelper GoToContactInformationFromIdPage(int index)
     {
