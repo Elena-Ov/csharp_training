@@ -14,12 +14,11 @@ namespace WebAddressbookTests
     public void TestAddingContactToGroup()
     {
         // выбираем группу
-        GroupData group = GroupData.GetAll()[0];
+        GroupData group = app.Groups.GetGroup();
+        //выбираем контакт
+        ContactFormData contact = app.Contact.GetContact(group);
         // запоминаем старый список контактов
         List<ContactFormData> oldList = group.GetContactsByGroup();
-        // полный список всех контактов, кроме входящего в группу
-        // выбираем первый контакт
-        ContactFormData contact = ContactFormData.GetAllContacts().Except(oldList).FirstOrDefault();
         // actions
         app.Contact.AddContactToGroup(contact, group);
 

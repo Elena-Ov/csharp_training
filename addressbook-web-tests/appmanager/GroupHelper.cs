@@ -193,6 +193,28 @@ public int GetGroupCount()
     {
         return driver.FindElements(By.CssSelector("span.group")).Count;
     }
+    
+    //поиск или создание группы
+    public GroupData GetGroup()
+    {
+        //получаем список всех групп из базы
+        List<GroupData> groups = GroupData.GetAll();
+        GroupData group;
+        //если есть хоть одна группа - возвращаем первую попавшуюся
+        if (groups.Any())
+            group = groups[0];
+        else //иначе создаём новую
+        {
+            group = new GroupData(TestBase.GenerateRandomString(50));
+            //создаём группу и возвращаемся на страничку групп
+            CreateGroup(group);
+            //выбираем первую
+            SelectGroup(0);
+            group.Id = driver.FindElement(By.XPath("//div[@id='content']/form/span[1]/input")).GetAttribute("id");
+        }
+    
+        return group;
+    }
 }
 
 

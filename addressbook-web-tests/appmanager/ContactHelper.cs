@@ -329,6 +329,12 @@ public class ContactHelper : HelperBase
     public void RemoveContactFromGroup(ContactFormData contact, GroupData group)
     {
         manager.Navigator.OpenHomePage();
+        
+        //Проверим, состоит ли контакт в группе, если нет, сперва добавим.
+        AddContactToGroupEx(contact, group);
+        
+        //После добавления опять возвращаемся на стартовую страницу контактов
+        manager.Navigator.OpenHomePage();
         SelectGroupByFilter(group.Id);
         SelectContact(contact.Id);
         CommitRemovalFromGroup();
@@ -344,5 +350,48 @@ public class ContactHelper : HelperBase
     public void CommitRemovalFromGroup()
     {
         driver.FindElement(By.Name("remove")).Click();
+    }
+    //поиск контакта
+    public ContactFormData GetContact(GroupData group)
+    { 
+        //список контактов из базы
+        List<ContactFormData> contacts = ContactFormData.GetAllContacts();
+        ContactFormData contact = null;
+        //если контакты есть, ищем первый, не состоящий в группе
+        if (contacts.Any())
+        {
+            foreach (ContactFormData c in contacts)
+            {
+                //получаем список всех контактов группы, если контакт есть в списке, ищем дальше
+                if (group.GetContactsByGroup().Contains(c))
+                    continue;
+                else //нашли контакт, не входящий в список
+                {
+                    contact = c;
+                    break;
+                }
+            }
+        }
+        if (contact == null) //контактов нет или нет контакта, не входящего в группу, создаём новый контакт
+        { 
+            contact = new ContactFormData(TestBase.GenerateRandomString(50),TestBase.GenerateRandomString(30));
+            //создаём контакт
+            CreateContact(contact);
+            //получаем список контактов из базы, сортируем по ИД. Новый контакт будет иметь максимальный ИД и находиться в верху списка
+            contact = ContactFormData.GetAllContacts().OrderByDescending(c => Convert.ToInt32(c.Id)).First();
+        }
+        return contact;
+    }
+    //проверяем, состоит ли контакт в группе
+    public bool IsContactInGroup(ContactFormData contact, GroupData group)
+    {
+        List<ContactFormData> contacts = group.GetContactsByGroup();
+        return contacts.Contains(contact);
+    }
+    //проверим, состоит ли контакт в группе и добавим его туда, если нет
+    private void AddContactToGroupEx(ContactFormData contact, GroupData group)
+    { 
+        if (!IsContactInGroup(contact,group))
+            AddContactToGroup(contact,group);
     }
 }
