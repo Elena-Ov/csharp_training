@@ -275,7 +275,7 @@ public class ContactHelper : HelperBase
     {
         // переход на страницу id
         manager.Navigator.GoToContactInformationFromIdPage(index);
-        string infoFromIdPage = driver.FindElement(By.Id("content")).Text;
+        string infoFromIdPage = driver.FindElement(By.Id("content")).Text.Trim('\n');
         
         return infoFromIdPage;
     }

@@ -118,15 +118,7 @@ namespace WebAddressbookTests
             infoLine += GetInfoLine(addHomePhone, addMobilePhone, addWorkPhone);
             infoLine += GetInfoLine(this.Email, this.Email2, this.Email3);
 
-            if (infoLine.Length > 1)
-            {
-                while (infoLine.Substring(infoLine.Length - 2) == "\n")
-                {
-                    infoLine = infoLine.Substring(0, infoLine.Length - 2);
-                }
-            }
-
-            return infoLine;
+            return infoLine.Trim('\n');
         }
 
         //поле создаются автоматически
