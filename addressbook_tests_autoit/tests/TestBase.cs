@@ -11,9 +11,9 @@ namespace AddressbookTestsAutoit
 {
     public class TestBase
     {
-         ApplicationManager app;
+         public ApplicationManager app;
 
-         [SetUpFixture]
+         [TestFixtureSetUp]
          public void InitApplication()
          {
              app = new ApplicationManager();
