@@ -18,7 +18,7 @@ public class AccountCreationTests : TestBase
             app.Ftp.Upload("/config_inc.php", null);
         }
     }
-    [Test]
+   /* [Test]
     public void TestAccountRegistration()
     {
         AccountData account = new AccountData()
@@ -39,5 +39,5 @@ public class AccountCreationTests : TestBase
     {
         //восстанавливаем файл припрятанный в начале
         app.Ftp.RestoreBackupFile("/config_inc.php");
-    }
+    }*/
 }

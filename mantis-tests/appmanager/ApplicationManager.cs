@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using mantis_tests.appmanager;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -14,6 +15,10 @@ public class ApplicationManager
 {   
     protected IWebDriver driver;
     public string baseURL;
+    ////ссылки на помощники
+    protected LoginHelper loginHelper;
+    protected NavigationHelper navigator;
+    protected ProjectManagementHelper projectHelper;
     
     private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>(); //единственный экземпляр ApplicationManager
     
@@ -21,8 +26,13 @@ public class ApplicationManager
     private ApplicationManager() 
     {   
         driver = new ChromeDriver();
+        baseURL = "http://localhost/mantisbt-2.26.3/";
+        //передаем ссылку на ApplicationManager
+        loginHelper = new LoginHelper(this);
+        navigator = new NavigationHelper(this);
+        projectHelper = new ProjectManagementHelper(this);
+        
         driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-        baseURL = "http://localhost/addressbook/";
         //registrationHelper = new RegistrationHelper(this);
         Registration = new RegistrationHelper(this);
         Ftp = new FtpHelper(this);
@@ -52,6 +62,12 @@ public class ApplicationManager
         }
         return app.Value;
     }
+    public LoginHelper Auth { get { return loginHelper; } }
+
+    public NavigationHelper Navigator { get { return navigator; } }
+    
+    public ProjectManagementHelper ProjectHelper { get { return projectHelper; } }
+    
     public IWebDriver Driver { get { return driver; } }
 
     public string BaseUrl { get { return baseURL; } }
