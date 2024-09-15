@@ -5,10 +5,7 @@ namespace MantisTests;
 public class LoginHelper : HelperBase
 {
     private string baseURL;
-    public LoginHelper(ApplicationManager manager) 
-        : base(manager) // вызов конструктора базового класса
-    {
-    }
+    public LoginHelper(ApplicationManager manager) : base(manager) {} // вызов конструктора базового класса
     public void Login(AccountData account) // параметр типа AccountData
     {
         if (IsLoggedIn()) // проверяем залогинены или нет

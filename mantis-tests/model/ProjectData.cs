@@ -58,7 +58,7 @@ namespace MantisTests
             return ProjectName.CompareTo(other.ProjectName);
         }
         [Column (Name = "id")] 
-        public string ProjectId { get; set; }
+        public string Id { get; set; }
         
         [Column (Name = "name")] 
         public string ProjectName { get; set; }
@@ -77,6 +77,14 @@ namespace MantisTests
         
         [Column (Name = "inherit_global")] 
         public string ProjectInherit { get; set; }
+        
+        public static List<ProjectData> GetAll()
+        {
+            using (BugTrackerDB db = new BugTrackerDB())
+            {
+                return (from p in db.Projects select p).ToList();
+            }
+        }
     }
 }
 

@@ -2,11 +2,10 @@ using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using mantis_tests.appmanager;
+//using mantis_tests.appmanager;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 
 namespace MantisTests;
@@ -34,10 +33,10 @@ public class ApplicationManager
         
         driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
         //registrationHelper = new RegistrationHelper(this);
-        Registration = new RegistrationHelper(this);
-        Ftp = new FtpHelper(this);
-        James = new JamesHelper(this);
-        Mail = new MailHelper(this);
+        //Registration = new RegistrationHelper(this);
+        //Ftp = new FtpHelper(this);
+        //James = new JamesHelper(this);
+        //Mail = new MailHelper(this);
 
     }
 
@@ -78,5 +77,9 @@ public class ApplicationManager
     public FtpHelper Ftp { get; set; }
     public JamesHelper James { get; set; }
     public MailHelper Mail { get; set; }
+    public ProjectManagementHelper Projects
+    {
+        get { return projectHelper; }
+    }
     
 }
