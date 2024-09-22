@@ -13,7 +13,7 @@ public class JamesHelper : HelperBase
             return;
         }
         TelnetConnection telnet = LoginToJames();
-        telnet.WriteLine("adduser" + account.Name + " " + account.Password);
+        telnet.WriteLine("adduser" + account.UserName + " " + account.Password);
         System.Console.Out.WriteLine(telnet.Read());
     }
 
@@ -24,14 +24,14 @@ public class JamesHelper : HelperBase
             return;
         }
         TelnetConnection telnet = LoginToJames();
-        telnet.WriteLine("deluser" + account.Name);
+        telnet.WriteLine("deluser" + account.UserName);
         System.Console.Out.WriteLine(telnet.Read());
     }
 
     public bool Verify(AccountData account)
     {
         TelnetConnection telnet = LoginToJames();
-        telnet.WriteLine("verify" + account.Name + " " + account.Password);
+        telnet.WriteLine("verify" + account.UserName + " " + account.Password);
         String s = telnet.Read();
         System.Console.Out.WriteLine(s);
         return ! s.Contains("does not exist");

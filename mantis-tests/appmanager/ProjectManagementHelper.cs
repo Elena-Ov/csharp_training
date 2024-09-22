@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using LinqToDB.DataProvider.SqlServer;
 using NUnit.Framework;
 using OpenQA.Selenium;
 
@@ -11,6 +12,7 @@ namespace MantisTests
     {
         //protected string baseURL = "http://localhost/mantisbt-2.26.3/";
         // в базовый класс передаем тоже ссылку на manager
+        public AccountData account = new AccountData("administrator", "root");
         public ProjectManagementHelper(ApplicationManager manager) : base(manager)
         {
             //добавила
@@ -19,6 +21,8 @@ namespace MantisTests
         }
         public ProjectManagementHelper CreateProject(ProjectData project)
         {
+            //manager.Navigator.OpenLoginPage();
+            //manager.Auth.Login(account);
             manager.Navigator.GoToManagementPage();
             manager.Navigator.GoToProjectManagementPage();
             manager.Navigator.GoToProjectCreationPage();
@@ -31,7 +35,8 @@ namespace MantisTests
 
         public ProjectManagementHelper FillProjectName(ProjectData project)
         {
-            Type(By.Id("project-name"), project.ProjectName);
+            //Type(By.Id("project-name"), project.ProjectName);
+            Type(By.Name("name"), project.ProjectName);
             return this;
         }
 

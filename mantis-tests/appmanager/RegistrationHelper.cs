@@ -53,7 +53,7 @@ public class RegistrationHelper : HelperBase
 
     public void FillRegistrationForm(AccountData account)
     {
-        driver.FindElement(By.Name("username")).SendKeys(account.Name);
+        driver.FindElement(By.Name("username")).SendKeys(account.UserName);
         driver.FindElement(By.Name("email")).SendKeys(account.Email);
     }
 

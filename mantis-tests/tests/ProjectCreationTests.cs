@@ -5,13 +5,32 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace MantisTests;
 
    [TestFixture]
 public class ProjectCreationTests : TestBase
 {
-    // реализуем метод генерации тестовых данных
+    [Test]
+    public void ProjectCreationTest()
+    {
+        app.Auth.Login(new AccountData("administrator", "root"));
+        List<ProjectData> oldProjects = ProjectData.GetAll();
+        var project = new ProjectData { ProjectName = GenerateRandomString(30) };
+        app.Projects.CreateProject(project);
+        Assert.AreEqual(oldProjects.Count + 1, app.Projects.GetProjectsCount(1));
+
+        List<ProjectData> newProjects = ProjectData.GetAll();
+
+        oldProjects.Add(project);
+        oldProjects.Sort();
+        newProjects.Sort();
+
+        Assert.AreEqual(oldProjects, newProjects);
+    }
+    
+    /*// реализуем метод генерации тестовых данных
     public static IEnumerable<ProjectData> RandomProjectDataProvider()
     {
         // создаем список
@@ -27,9 +46,12 @@ public class ProjectCreationTests : TestBase
 
         return projects;
     }
+    
     [Test, TestCaseSource("RandomProjectDataProvider")]
+    
     public void ProjectCreationTest(ProjectData project)
     {
+        app.Auth.Login(new AccountData("administrator", "root"));
         List<ProjectData> oldProjects = ProjectData.GetAll();
 
         app.Projects.CreateProject(project);
@@ -42,5 +64,5 @@ public class ProjectCreationTests : TestBase
         newProjects.Sort();
 
         Assert.AreEqual(oldProjects, newProjects);
-    }
+    }*/
 }

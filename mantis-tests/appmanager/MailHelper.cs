@@ -12,7 +12,7 @@ public class MailHelper : HelperBase
         for (int i = 0; i < 20; i++)
         {
             Pop3Client pop3 = 
-                new Pop3Client("localhost", 110, account.Name, account.Password, false);
+                new Pop3Client("localhost", 110, account.UserName, account.Password, false);
             // устанавливаем соединение с сервером, каждый раз тк данные кешируются
             pop3.Connect();
             pop3.Authenticate();

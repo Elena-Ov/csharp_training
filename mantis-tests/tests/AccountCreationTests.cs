@@ -21,12 +21,14 @@ public class AccountCreationTests : TestBase
    /* [Test]
     public void TestAccountRegistration()
     {
+        List<AccountData> accounts = app.Admin.GetAllAccounts();
         AccountData account = new AccountData()
         {
             Name = "testuser",
             Password = "password",
             Email = "testuser@localhost.localdomain"
         };
+        app.Admin.DeleteAccount(account);
         app.James.Delete(account);
         app.James.Add(account);
         // помощник по созданию

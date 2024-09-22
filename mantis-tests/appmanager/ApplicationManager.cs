@@ -27,7 +27,7 @@ public class ApplicationManager
         driver = new ChromeDriver();
         baseURL = "http://localhost/mantisbt-2.26.3/";
         //передаем ссылку на ApplicationManager
-        loginHelper = new LoginHelper(this);
+        loginHelper = new LoginHelper(this, baseURL);
         navigator = new NavigationHelper(this);
         projectHelper = new ProjectManagementHelper(this);
         
@@ -37,6 +37,7 @@ public class ApplicationManager
         //Ftp = new FtpHelper(this);
         //James = new JamesHelper(this);
         //Mail = new MailHelper(this);
+        Admin = new AdminHelper(this, baseURL);
 
     }
 
@@ -56,7 +57,7 @@ public class ApplicationManager
         if (! app.IsValueCreated)
         {
             ApplicationManager newInstance = new ApplicationManager();
-            newInstance.driver.Url = "http://localhost/mantisbt-2.26.3/login_page.php";
+            newInstance.driver.Url = newInstance.baseURL + "login_page.php";
             app.Value = newInstance;
         }
         return app.Value;
@@ -81,5 +82,6 @@ public class ApplicationManager
     {
         get { return projectHelper; }
     }
+    public AdminHelper Admin { get; set; }
     
 }

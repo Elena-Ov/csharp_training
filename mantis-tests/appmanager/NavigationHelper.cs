@@ -16,6 +16,15 @@ namespace MantisTests
             baseURL = manager.baseURL;
         }
         //переход с помощью Navigate()
+        public NavigationHelper OpenLoginPage()
+        {
+            if (driver.Url == baseURL + "login_page.php")
+            {
+                return this;
+            }
+            driver.Navigate().GoToUrl(baseURL + "login_page.php");
+            return this;
+        }
         public NavigationHelper OpenHomePage()
         {
             if (driver.Url == baseURL + "my_view_page.php")
