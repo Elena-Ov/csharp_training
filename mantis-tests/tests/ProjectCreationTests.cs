@@ -19,7 +19,7 @@ public class ProjectCreationTests : TestBase
         List<ProjectData> oldProjects = ProjectData.GetAll();
         var project = new ProjectData { ProjectName = GenerateRandomString(30) };
         app.Projects.CreateProject(project);
-        Assert.AreEqual(oldProjects.Count + 1, app.Projects.GetProjectsCount(1));
+        Assert.AreEqual(oldProjects.Count + 1, app.Projects.GetProjectsCount());
 
         List<ProjectData> newProjects = ProjectData.GetAll();
 

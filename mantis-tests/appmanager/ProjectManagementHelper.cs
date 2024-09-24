@@ -10,9 +10,9 @@ namespace MantisTests
 {
     public class ProjectManagementHelper : HelperBase
     {
-        //protected string baseURL = "http://localhost/mantisbt-2.26.3/";
+        protected string baseURL = "http://localhost/mantisbt-2.26.3/";
         // в базовый класс передаем тоже ссылку на manager
-        public AccountData account = new AccountData("administrator", "root");
+        //public AccountData account = new AccountData("administrator", "root");
         public ProjectManagementHelper(ApplicationManager manager) : base(manager)
         {
             //добавила
@@ -21,8 +21,6 @@ namespace MantisTests
         }
         public ProjectManagementHelper CreateProject(ProjectData project)
         {
-            //manager.Navigator.OpenLoginPage();
-            //manager.Auth.Login(account);
             manager.Navigator.GoToManagementPage();
             manager.Navigator.GoToProjectManagementPage();
             manager.Navigator.GoToProjectCreationPage();
@@ -70,12 +68,17 @@ namespace MantisTests
             return this;
         }
 
-        public int GetProjectsCount(int index)
+        public int GetProjectsCount()
         {
-            return driver.FindElements(By.XPath("//a[starts-with(@href,'manage_proj_edit_page.php?project_id="+index+"')] ")).Count;
+            return driver.FindElements(By.XPath("//*[@id='main-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/tbody/tr")).Count;
             
         }
-        
+
+        public bool IsProjectFound()
+        {
+            return driver.Url == baseURL + "manage_proj_page.php" &&
+                   IsElementPresent(By.XPath("//*[@id='main-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/tbody/tr"));
+        }
     } 
 }
 
