@@ -1,4 +1,4 @@
-namespace MantisTests;
+namespace mantis_tests;
 
 public class AuthTestBase : TestBase
 {

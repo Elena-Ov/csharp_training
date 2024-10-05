@@ -1,10 +1,11 @@
-namespace MantisTests;
+namespace mantis_tests;
 
 public class AccountData
 {
     private string userName;
     private string password;
     private string email;
+    public AccountData(){}
     public AccountData(string username, string password)
     {
         this.userName = username; 

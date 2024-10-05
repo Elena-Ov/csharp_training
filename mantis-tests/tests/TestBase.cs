@@ -6,7 +6,7 @@ using NUnit.Framework;
 using System.Runtime;
 using NUnit.Framework.Constraints;
 
-namespace MantisTests;
+namespace mantis_tests;
 
 public class TestBase
 {

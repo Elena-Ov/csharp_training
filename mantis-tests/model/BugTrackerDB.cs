@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LinqToDB;
 
-namespace MantisTests
+namespace mantis_tests
 
 {
     // класс для соединения с БД

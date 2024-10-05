@@ -1,7 +1,7 @@
 using System.IO;
 using System.Net.FtpClient;
 
-namespace MantisTests;
+namespace mantis_tests;
 
 public class FtpHelper : HelperBase
 {

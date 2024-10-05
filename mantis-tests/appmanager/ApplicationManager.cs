@@ -8,7 +8,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
-namespace MantisTests;
+namespace mantis_tests;
 
 public class ApplicationManager
 {   
@@ -38,6 +38,7 @@ public class ApplicationManager
         //James = new JamesHelper(this);
         //Mail = new MailHelper(this);
         Admin = new AdminHelper(this, baseURL);
+        API = new APIHelper(this);
 
     }
 
@@ -83,5 +84,6 @@ public class ApplicationManager
         get { return projectHelper; }
     }
     public AdminHelper Admin { get; set; }
+    public APIHelper API { get; set; }
     
 }

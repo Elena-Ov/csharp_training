@@ -1,6 +1,6 @@
 using MinimalisticTelnet;
 
-namespace MantisTests;
+namespace mantis_tests;
 
 public class JamesHelper : HelperBase
 {

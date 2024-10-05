@@ -6,7 +6,7 @@ using LinqToDB.DataProvider.SqlServer;
 using NUnit.Framework;
 using OpenQA.Selenium;
 
-namespace MantisTests
+namespace mantis_tests
 {
     public class ProjectManagementHelper : HelperBase
     {
@@ -34,7 +34,7 @@ namespace MantisTests
         public ProjectManagementHelper FillProjectName(ProjectData project)
         {
             //Type(By.Id("project-name"), project.ProjectName);
-            Type(By.Name("name"), project.ProjectName);
+            Type(By.Name("name"), project.Name);
             return this;
         }
 

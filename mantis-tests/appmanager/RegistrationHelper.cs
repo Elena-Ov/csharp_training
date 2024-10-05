@@ -2,7 +2,7 @@ using OpenQA.Selenium;
 using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 
-namespace MantisTests;
+namespace mantis_tests;
 
 public class RegistrationHelper : HelperBase
 {

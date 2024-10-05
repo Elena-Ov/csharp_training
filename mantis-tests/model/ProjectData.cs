@@ -5,18 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 using LinqToDB.Mapping;
 
-namespace MantisTests
+namespace mantis_tests
 {
     [Table(Name = "mantis_project_table")]
     public class ProjectData : IEquatable<ProjectData>, IComparable<ProjectData>
     {
         public ProjectData() {}
         
-        public ProjectData(string projectName)
+        public ProjectData(string name)
         {
-            ProjectName = projectName;
+            Name = name;
         }
-        
+        public ProjectData(string name, string description)
+        {
+            Name = name;
+            Description = description;
+        }
         
         public bool Equals(ProjectData other)
             // стандартные проверки
@@ -31,19 +35,19 @@ namespace MantisTests
                 return true; 
             }
             
-            return ProjectName == other.ProjectName;
+            return Name == other.Name;
         }
 
         public override int GetHashCode()
         {
             // согласовываем методы Equals и GetHashCode, вычисляются по именам
-            return ProjectName.GetHashCode();
+            return Name.GetHashCode();
         }
 
         // метод должен вернуть строковое представление объектов типа ProjectData
         public override string ToString()
         {
-            return "name = " + ProjectName;
+            return "name = " + Name;
         }
 
         public int CompareTo(ProjectData other)
@@ -55,13 +59,13 @@ namespace MantisTests
             }
 
             // если other != null, то сравнивать с ним можно по смыслу, в нашем случае по именам
-            return ProjectName.CompareTo(other.ProjectName);
+            return Name.CompareTo(other.Name);
         }
         [Column (Name = "id")] 
         public string Id { get; set; }
         
         [Column (Name = "name")] 
-        public string ProjectName { get; set; }
+        public string Name { get; set; }
         
         [Column (Name = "status")] 
         public string ProjectStatus { get; set; }
@@ -75,15 +79,39 @@ namespace MantisTests
         [Column (Name = "access_min")] 
         public string ProjectAccess { get; set; }
         
+        [Column (Name = "description")] 
+        public string Description { get; set; }
+        
         [Column (Name = "inherit_global")] 
         public string ProjectInherit { get; set; }
         
+        // метод для получения списка проектов из БД
         public static List<ProjectData> GetAll()
         {
             using (BugTrackerDB db = new BugTrackerDB())
             {
                 return (from p in db.Projects select p).ToList();
             }
+        }
+        
+        // метод для получения списка проектов через веб сервис
+        public static List<ProjectData> GetProjectsList(AccountData account)
+        {
+            List<ProjectData> projectsList = new List<ProjectData>();
+            
+            MantisConnect.MantisConnectPortTypeClient client = new MantisConnect.MantisConnectPortTypeClient();
+            MantisConnect.ProjectData[] projectsAccessible = client.mc_projects_get_user_accessible(account.UserName, account.Password);
+            foreach (MantisConnect.ProjectData project in projectsAccessible)
+            {
+                projectsList.Add(new ProjectData()
+                {
+                    Name = project.name,
+                    Id = project.id,
+                    Description = project.description
+                });
+            }
+
+            return projectsList;
         }
     }
 }

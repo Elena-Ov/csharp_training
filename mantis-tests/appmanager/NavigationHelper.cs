@@ -5,7 +5,7 @@ using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
 
-namespace MantisTests
+namespace mantis_tests
 
 {
     public class NavigationHelper : HelperBase

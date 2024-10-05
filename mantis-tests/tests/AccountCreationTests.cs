@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using System.IO;
 
-namespace MantisTests;
+namespace mantis_tests;
 
 [TestFixture]
 public class AccountCreationTests : TestBase
@@ -18,16 +18,24 @@ public class AccountCreationTests : TestBase
             app.Ftp.Upload("/config_inc.php", null);
         }
     }
-   /* [Test]
+   [Test]
     public void TestAccountRegistration()
     {
-        List<AccountData> accounts = app.Admin.GetAllAccounts();
         AccountData account = new AccountData()
         {
-            Name = "testuser",
+            UserName = "testuser",
             Password = "password",
             Email = "testuser@localhost.localdomain"
         };
+        List<AccountData> accounts = app.Admin.GetAllAccounts();
+        //в качестве параметра передаем лямбда выражение, которое вернет True или False
+        AccountData existingAccount = accounts.Find(x => x.UserName == account.UserName);
+        
+        if (existingAccount != null)
+        {
+            app.Admin.DeleteAccount(existingAccount);
+        }
+        
         app.Admin.DeleteAccount(account);
         app.James.Delete(account);
         app.James.Add(account);
@@ -41,5 +49,5 @@ public class AccountCreationTests : TestBase
     {
         //восстанавливаем файл припрятанный в начале
         app.Ftp.RestoreBackupFile("/config_inc.php");
-    }*/
+    }
 }
