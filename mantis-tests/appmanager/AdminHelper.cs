@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OpenQA.Selenium;
 using SimpleBrowser.WebDriver;
 using System.Text.RegularExpressions;
+using OpenQA.Selenium.Chrome;
 
 namespace mantis_tests
 {
@@ -52,9 +53,10 @@ namespace mantis_tests
             //driver.FindElement(By.CssSelector("form[id='manage-user-delete-form']")).Click();
             driver.FindElement(By.CssSelector("input[type='submit']")).Click();
         }
+        
         private IWebDriver OpenAppAndLogin()
         {
-            IWebDriver driver = new SimpleBrowserDriver();
+            IWebDriver driver = new ChromeDriver(); //SimpleBrowserDriver();
             driver.Url = baseUrl + "login_page.php";
             driver.FindElement(By.Name("username")).SendKeys("administrator");
             driver.FindElement(By.CssSelector("input[type='submit']")).Click();
@@ -62,7 +64,6 @@ namespace mantis_tests
             driver.FindElement(By.CssSelector("input[type='submit']")).Click();
             return driver;
         }
-
     }
 }
 

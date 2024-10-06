@@ -7,9 +7,12 @@ using LinqToDB.Mapping;
 
 namespace mantis_tests
 {
-    [Table(Name = "mantis_project_table")]
+    //[Table(Name = "mantis_project_table")]
     public class ProjectData : IEquatable<ProjectData>, IComparable<ProjectData>
     {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public ProjectData() {}
         
         public ProjectData(string name)
@@ -61,7 +64,7 @@ namespace mantis_tests
             // если other != null, то сравнивать с ним можно по смыслу, в нашем случае по именам
             return Name.CompareTo(other.Name);
         }
-        [Column (Name = "id")] 
+        /*[Column (Name = "id")] 
         public string Id { get; set; }
         
         [Column (Name = "name")] 
@@ -83,7 +86,7 @@ namespace mantis_tests
         public string Description { get; set; }
         
         [Column (Name = "inherit_global")] 
-        public string ProjectInherit { get; set; }
+        public string ProjectInherit { get; set; }*/
         
         // метод для получения списка проектов из БД
         public static List<ProjectData> GetAll()
@@ -100,7 +103,7 @@ namespace mantis_tests
             List<ProjectData> projectsList = new List<ProjectData>();
             
             MantisConnect.MantisConnectPortTypeClient client = new MantisConnect.MantisConnectPortTypeClient();
-            MantisConnect.ProjectData[] projectsAccessible = client.mc_projects_get_user_accessible(account.UserName, account.Password);
+            MantisConnect.ProjectData[] projectsAccessible = client.mc_projects_get_user_accessibleAsync(account.UserName, account.Password).Result;
             foreach (MantisConnect.ProjectData project in projectsAccessible)
             {
                 projectsList.Add(new ProjectData()
