@@ -5014,7 +5014,7 @@ namespace mantis_tests.MantisConnect
         {
             if ((endpointConfiguration == EndpointConfiguration.MantisConnectPort))
             {
-                return new System.ServiceModel.EndpointAddress("http://www.mantisbt.org/bugs/api/soap/mantisconnect.php");
+                return new System.ServiceModel.EndpointAddress("http://localhost/mantisbt-2.26.3/api/soap/mantisconnect.php?wsdl");
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }

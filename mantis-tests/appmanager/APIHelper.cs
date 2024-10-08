@@ -24,7 +24,7 @@ public class APIHelper : HelperBase
         issue.project = new MantisConnect.ObjectRef();
         issue.project.id = project.Id;
         
-        client.mc_issue_addAsync(account.UserName, account.Password, issue);
+        client.mc_issue_addAsync(account.UserName, account.Password, issue).Wait();
     }
     public void CreateNewProject(AccountData account, ProjectData project)
     
@@ -34,7 +34,7 @@ public class APIHelper : HelperBase
         MantisConnect.ProjectData newProject = new MantisConnect.ProjectData();
         newProject.name = project.Name;
         newProject.description = project.Description;
-        client.mc_project_addAsync(account.UserName, account.Password, newProject);
+        client.mc_project_addAsync(account.UserName, account.Password, newProject).Wait();
     }
     public void RemoveProject(AccountData account, ProjectData project)
     {
@@ -42,6 +42,15 @@ public class APIHelper : HelperBase
         MantisConnect.MantisConnectPortTypeClient client = new MantisConnect.MantisConnectPortTypeClient();
         MantisConnect.ProjectData projectToDelete = new MantisConnect.ProjectData();
         projectToDelete.id = project.Id;
-        client.mc_project_deleteAsync(account.UserName, account.Password, projectToDelete.id);
+        client.mc_project_deleteAsync(account.UserName, account.Password, projectToDelete.id).Wait();
+    }
+
+    public void Login(AccountData account)
+    {
+        MantisConnect.MantisConnectPortTypeClient client = new MantisConnect.MantisConnectPortTypeClient();
+        MantisConnect.AccountData userData = new MantisConnect.AccountData();
+        userData.name = account.UserName;
+        //userData.id = account.Password;
+        client.mc_loginAsync(account.UserName, account.Password).Wait();
     }
 }

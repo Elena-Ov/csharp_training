@@ -15,9 +15,15 @@ public class ProjectCreationTests : TestBase
     [Test]
     public void ProjectCreationTest()
     {
-        //app.Auth.Login(new AccountData("administrator", "root"));
-        AccountData account = new AccountData() { UserName = "administrator", Password = "root" };
         
+       AccountData account = new AccountData()
+        {
+            UserName = "administrator", Password = "root"
+        };
+        app.API.Login(account);
+        
+        //app.Auth.Login(new AccountData("administrator", "root"));
+        //app.Auth.Login(account);
         List<ProjectData> oldProjects = ProjectData.GetProjectsList(account);
         
         ProjectData project = new ProjectData()
