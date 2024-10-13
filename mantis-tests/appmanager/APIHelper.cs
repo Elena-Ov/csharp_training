@@ -45,12 +45,12 @@ public class APIHelper : HelperBase
         client.mc_project_deleteAsync(account.UserName, account.Password, projectToDelete.id).Wait();
     }
 
-    public void Login(AccountData account)
+    /*public void Login(AccountData account)
     {
         MantisConnect.MantisConnectPortTypeClient client = new MantisConnect.MantisConnectPortTypeClient();
         MantisConnect.AccountData userData = new MantisConnect.AccountData();
         userData.name = account.UserName;
         userData.id = account.Password;
         client.mc_loginAsync(account.UserName, account.Password).Wait();
-    }
+    }*/
 }
