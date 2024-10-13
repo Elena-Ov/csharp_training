@@ -59,9 +59,11 @@ namespace mantis_tests
             IWebDriver driver = new ChromeDriver(); //SimpleBrowserDriver();
             driver.Url = baseUrl + "login_page.php";
             driver.FindElement(By.Name("username")).SendKeys("administrator");
-            driver.FindElement(By.CssSelector("input[type='submit']")).Click();
+            driver.FindElement(By.CssSelector("input.width-40.pull-right.btn.btn-success.btn-inverse.bigger-110")).Click();
+            //driver.FindElement(By.CssSelector("input[type='submit']")).Click();
             driver.FindElement(By.Name("password")).SendKeys("root");
-            driver.FindElement(By.CssSelector("input[type='submit']")).Click();
+            driver.FindElement(By.CssSelector("input.width-40.pull-right.btn.btn-success.btn-inverse.bigger-110")).Click();
+            //driver.FindElement(By.CssSelector("input[type='submit']")).Click();
             return driver;
         }
     }

@@ -50,7 +50,7 @@ public class APIHelper : HelperBase
         MantisConnect.MantisConnectPortTypeClient client = new MantisConnect.MantisConnectPortTypeClient();
         MantisConnect.AccountData userData = new MantisConnect.AccountData();
         userData.name = account.UserName;
-        //userData.id = account.Password;
+        userData.id = account.Password;
         client.mc_loginAsync(account.UserName, account.Password).Wait();
     }
 }
